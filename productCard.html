@@ -1,201 +1,106 @@
-<style>
-@import url("https://use.typekit.net/uxw3lja.css");
-@font-face {
-  font-family: brown-pro, sans-serif;
-  font-weight: 200;
-  font-style: normal;
-  font-family: brown-pro, sans-serif;
-  font-weight: 200;
-  font-style: italic;
-  font-family: brown-pro, sans-serif;
-  font-weight: 300;
-  font-style: normal;
-  font-family: brown-pro, sans-serif;
-  font-weight: 300;
-  font-style: italic;
-  font-family: brown-pro, sans-serif;
-  font-weight: 600;
-  font-style: normal;
-  font-family: brown-pro, sans-serif;
-  font-weight: 600;
-  font-style: italic;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>What I Value in a Job</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: #fafafa;
+      color: #222;
+    }
 
-@media (max-width: 1000px) {
-  .wpst-text-container {
-    flex-direction: column !important;
-    gap: 22px !important;
-    padding: 15px 0 10px 0 !important;
-    align-items: stretch !important;
-  }
+    .overlay {
+      padding: 40px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
 
-  .wpst-template {
-    font-family: brown-pro, sans-serif;
-    background: #ffffff;
-  }
+    .header {
+      text-align: center;
+      color: #1e1450;
+      font-weight: 600;
+      font-size: 26px;
+      margin-bottom: 32px;
+      letter-spacing: 0.5px;
+    }
 
-  .close {
-    text-align: right;
-    padding: 15px;
-    color: #1e1450;
-    font-weight: bold;
-  }
+    .card-container {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
 
-  .wpst-header {
-    text-align: center;
-    align-items: center;
-    padding-top: 2px;
-    border: 0 solid;
-    border-color: #1e1450;
-    color: #1e1450; 
-    font-weight: bold;
-    background: #ffffff;
-  }
-  
-  .wpst-product-card {
-    background: linear-gradient(135deg, #fff 80%, #1E145040 100%);
-    border-radius: 18px;
-    box-shadow: 0 4px 18px 0 #1E14501a, 0 1.5px 5px #1E145040;
-    padding: 22px 16px 40px 16px;
-    margin: 0 10px;
-    transform: translateY(18px) scale(0.98);
-    opacity: 0;
-    animation: wpst-fade-in-up 0.7s forwards;
-    animation-delay: calc(var(--wpst-card-index, 0) * 120ms);
-    position: relative;
-    transition: box-shadow 0.18s, transform 0.18s;
-    border-top: 4px solid #1E145080;
-    margin-bottom: 30px;
-  }
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      padding: 26px 22px;
+      transform: translateY(18px) scale(0.98);
+      opacity: 0;
+      animation: fade-in-up 0.7s forwards;
+      animation-delay: calc(var(--card-index, 0) * 120ms);
+      border-top: 4px solid #1E145080;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
 
-  .wpst-product-card:focus-within,
-  .wpst-product-card:active {
-    box-shadow: 0 0 0 10px #1E14501a, 0 4px 24px #1E145040;
-  }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
 
-  .wpst-product-card:active {
-    transform: scale(0.97) translateY(25px);
-    box-shadow: 0 0 0 5px #1E145040, 0 4px 24px #1E14501a;
-  }
+    .card-title {
+      font-size: 20px;
+      color: #1e1450;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
 
-  .wpst-product-card img {
-    width: 80%;
-    max-width: 250px;
-    margin: 0 auto 15px auto;
-    border-radius: 15px;
-    box-shadow: 0 2px 10px #8f5afd22;
-    display: block;
-  }
+    .card-note {
+      font-size: 16px;
+      color: #333;
+      line-height: 1.55;
+      margin: 0;
+    }
 
-  .wpst-paragraph {
-    font-size: 1.1em !important;
-    color: #1e1450 !important;
-  }
-
-  .wpst-paragraph, .wpst-price {
-    text-align: center !important;
-    margin: 0 0 8px 0 !important;
-  }
-  .wpst-price {
-    font-weight: bold;
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 10px 0;
-    font-size: 1.17em !important;
-    color: #1e1450 !important;
-  }
-  .wpst-cta-container .wpst-submit {
-    display: block;
-    background: linear-gradient(68deg, #120C30 5.73%, #5154B6 103.34%);
-    color: #ffffff !important;
-    border-radius: 16px;
-    padding: 12px 0;
-    width: 98%;
-    margin: 0 auto;
-    font-weight: bold;
-    box-shadow: 0 2px 8px #46038022;
-    font-size: 1.08em;
-    transition: background 0.2s, transform 0.2s;
-    text-align: center;
-    letter-spacing: 1.5px;
-    text-decoration: none;
-  }
-  .wpst-cta-container .wpst-submit:active {
-    background: linear-gradient(90deg, #8f5afd 0%, #460380 100%);
-    transform: scale(0.96);
-  }
-}
-
-@keyframes wpst-fade-in-up {
-  0% { opacity: 0; transform: translateY(40px) scale(0.98);}
-  70% { opacity: 1; }
-  100% { opacity: 1; transform: translateY(0) scale(1);}
-}
-
-/* Placeholder desktop/mobile CSS */
-99 - EMS - Placeholder Desktop (do not change)
-99 - EMS - Placeholder Mobile (do not change)
-99 - EMS - Placeholder Mobile L (do not change)
-</style>
-
-<html>
-<head><link rel="stylesheet" href="https://use.typekit.net/uxw3lja.css"></head>
-<div id="wpst-overlay" class="wpst-template-overlay" role="dialog">
-  <div class="wpst-template">
-    <div id="close" class="close ems-inapp-close" aria-labelledby="closebutton" e-editable="buttonClose" me-close>Close</div>
-    <h2 class="wpst-header" e-editable="title">MAY WE SUGGEST</h2>
-    <div class="wpst-text-container">
+    @keyframes fade-in-up {
+      0% { opacity: 0; transform: translateY(40px) scale(0.98);}
+      70% { opacity: 1; }
+      100% { opacity: 1; transform: translateY(0) scale(1);}
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <h2 class="header">What I Value in a Job</h2>
+    <div class="card-container">
       
-      <e-optional name="Product Card 1"><div class="wpst-product-card">
-        <img e-editable="imgA_1" src="https://placehold.co/200x200" width="157" style="margin-bottom:20px;" />
-        <p class="wpst-paragraph" e-editable="subheader_1">Lorem Ipsum</p>
-        <p class="wpst-price" e-editable="price_1"><strong>XX.XX</strong></p>
-        <div class="wpst-cta-container" role="button">
-          <div data-wps-href e-editable="cta_1" data-wps-cta="true">
-            <a href=" " class="wpst-submit" e-editable="cta_1">
-              Show me
-            </a>
-          </div>
-        </div>
+      <!-- Card 1 -->
+      <div class="card" style="--card-index:0;">
+        <div class="card-title">Growth & Learning</div>
+        <p class="card-note">
+          I’m motivated by opportunities to continue learning and developing, while also having my existing skills valued and put to good use.
+        </p>
       </div>
-	</e-optional>
-      <e-optional name="Product Card 2"><div class="wpst-product-card">
-        <img e-editable="imgA_2" src="https://placehold.co/200x200" width="157" style="margin-bottom:20px;" />
-        <p class="wpst-paragraph" e-editable="subheader_2">Lorem Ipsum</p>
-        <p class="wpst-price" e-editable="price_2"><strong>XX.XX</strong></p>
-        <div class="wpst-cta-container" role="button">
-          <div data-wps-href e-editable="cta_2" data-wps-cta="true">
-            <a href="" class="wpst-submit" e-editable="cta_2">
-              Show me
-            </a>
-          </div>
-        </div>
+
+      <!-- Card 2 -->
+      <div class="card" style="--card-index:1;">
+        <div class="card-title">Independence</div>
+        <p class="card-note">
+          I work most efficiently when I have the space to focus independently, while still collaborating effectively when it’s needed.
+        </p>
       </div>
-     </e-optional>
-      <e-optional name="Product Card 3"><div class="wpst-product-card">
-        <img e-editable="imgA_3" src="https://placehold.co/200x200" width="157" style="margin-bottom:20px;" />
-        <p class="wpst-paragraph" e-editable="subheader_3">Lorem Ipsum</p>
-        <p class="wpst-price" e-editable="price_3"><strong>XX.XX</strong></p>
-        <div class="wpst-cta-container" role="button">
-          <div data-wps-href e-editable="cta_3" data-wps-cta="true">
-            <a href=" " class="wpst-submit" e-editable="ctaA_3">
-              Show me
-            </a>
-          </div>
-        </div>
+
+      <!-- Card 3 -->
+      <div class="card" style="--card-index:2;">
+        <div class="card-title">Culture</div>
+        <p class="card-note">
+          I value a culture that’s laid-back and genuine, where people can find their own niche while contributing to a supportive team atmosphere.
+        </p>
       </div>
-      </e-optional>
+
     </div>
   </div>
-</div>
+</body>
 </html>
-
-<script>
-const close = document.getElementById("close");
-const overlay = document.getElementById("wpst-overlay");
-
-
-close.addEventListener('click', () => {
-  overlay.style.display = "none";
-})
-</script>
