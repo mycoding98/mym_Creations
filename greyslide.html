@@ -1,135 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Campaign</title>
-    <style>
-        .sticky-capture {
-            position: fixed;
-            top: 75%;
-            left: 0;
-            transform: translateY(-50%);
-            background-color: #F7C33E;
-            padding: 0;
-            border-radius: 0 5px 5px 5px;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-            width: 70px;
-            z-index: 1000;
-        }
-        .sticky-capture button {
-            color: #1d1d1d;
-            font-weight: bold;
-            background-color: #F7C33E;
-            border: none;
-            padding: 20px;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 0 5px 5px 0;
-        }
-        .sticky-capture button:hover {
-            background-color: #f8cf66;
-        }
-        #wps-container {
-            visibility: hidden;
-            position: fixed;
-            bottom: 0;
-            right: 0;
-            width: 75%;
-            height: 100%;
-            z-index: 25;
-            pointer-events: none;
-            transition: right 0.5s ease;
-        }
-        #wps_popup {
-            background: rgba(0, 0, 0, .7);
-            padding: 20px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-        #custom-content {
-            color: white;
-            text-align: center;
-            font-size: 2em;
-            padding: 40px;
-            max-width: 600px;
-        }
-        #wps-overlay-close-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background: #F7C33E;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2em;
-            font-weight: bold;
-            color: #222;
-            z-index: 10;
-            transition: background 0.2s;
-        }
-        #wps-overlay-close-button:hover {
-            background: #ffe38f;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meet the Kids</title>
+  <style>
+    .sticky-capture {
+      position: fixed;
+      top: 75%;
+      left: 0;
+      transform: translateY(-50%);
+      background-color: #F7C33E;
+      padding: 0;
+      border-radius: 0 5px 5px 5px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+      width: 70px;
+      z-index: 1000;
+    }
+    .sticky-capture button {
+      color: #1d1d1d;
+      font-weight: bold;
+      background-color: #F7C33E;
+      border: none;
+      padding: 20px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 0 5px 5px 0;
+    }
+    .sticky-capture button:hover {
+      background-color: #f8cf66;
+    }
+
+    #wps-container {
+      visibility: hidden;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 25;
+      pointer-events: none;
+      transition: right 0.5s ease;
+    }
+    #wps_popup {
+      background: rgba(0, 0, 0, .85);
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      position: relative;
+      overflow: auto;
+    }
+    #custom-content {
+      color: white;
+      text-align: center;
+      font-size: 1.2em;
+      padding: 20px;
+      max-width: 900px;
+    }
+    #wps-overlay-close-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: #F7C33E;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      font-weight: bold;
+      color: #222;
+      z-index: 10;
+      transition: background 0.2s;
+    }
+    #wps-overlay-close-button:hover {
+      background: #ffe38f;
+    }
+
+    /* Flip card gallery */
+    .cat-gallery {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    .flip-card {
+      background: transparent;
+      width: 250px;
+      height: 300px;
+      perspective: 1000px;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+    .flip-card:hover .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      backface-visibility: hidden;
+      overflow: hidden;
+    }
+    .flip-card-front img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .flip-card-back {
+      background: #222;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      transform: rotateY(180deg);
+      padding: 20px;
+    }
+  </style>
 </head>
 <body>
-    <!-- Sticky Button -->
-    <div class="sticky-capture" id="stickyClick">
-        <button id="clickTo">Click</button>
-    </div>
+  <!-- Sticky Button -->
+  <div class="sticky-capture" id="stickyClick">
+    <button id="clickTo">Click</button>
+  </div>
 
-    <!-- Overlay and Custom Content -->
-    <div id="wps-container">
-        <div id="wps_popup">
-            <div id="custom-content">
-                <h2>Welcome to Our Interactive Campaign!</h2>
-                <p>This is your custom content on the grey slide overlay.<br>
-                Replace this with anything you want: images, text, video, etc.</p>
-                <img src="https://placekitten.com/300/200" alt="Cute Kitten" style="margin-top:20px; border-radius:10px;">
+  <!-- Overlay and Custom Content -->
+  <div id="wps-container">
+    <div id="wps_popup">
+      <div id="custom-content">
+        <h2>You've reached the middle of projects!</h2>
+        <p>Enjoy these images of my wonderful children 🐾</p>
+
+        <div class="cat-gallery">
+          <!-- Moonalisa -->
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <img src="https://i.postimg.cc/6Q5tfpJV/moonie.png" alt="Moonalisa">
+              </div>
+              <div class="flip-card-back">
+                Moonalisa <br>(Moonie)
+              </div>
             </div>
-            <div id="wps-overlay-close-button" tabindex="1" aria-label="close" role="button">&times;</div>
+          </div>
+          <!-- Rena -->
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <img src="https://i.postimg.cc/D04NPtw6/green-Bean.png" alt="Rena">
+              </div>
+              <div class="flip-card-back">
+                Rena <br>(Green Bean)
+              </div>
+            </div>
+          </div>
+          <!-- Evangeline -->
+          <div class="flip-card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <img src="https://i.postimg.cc/tg9LGSBs/evy.png" alt="Evy">
+              </div>
+              <div class="flip-card-back">
+                Evangeline <br>(Evy)
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+      <div id="wps-overlay-close-button" tabindex="1" aria-label="close" role="button">&times;</div>
     </div>
+  </div>
 
-    <script>
-        const wpsContainer = document.getElementById('wps-container');
-        const stickyClick = document.getElementById('stickyClick');
-        const closeBtn = document.getElementById('wps-overlay-close-button');
+  <script>
+    const wpsContainer = document.getElementById('wps-container');
+    const stickyClick = document.getElementById('stickyClick');
+    const closeBtn = document.getElementById('wps-overlay-close-button');
 
-        function hide() {
-            wpsContainer.style.visibility = "hidden";
-            wpsContainer.style.pointerEvents = "none";
-            stickyClick.style.pointerEvents = "auto";
-            stickyClick.style.visibility = "visible";
-            document.body.style.overflowY = "";
-        }
+    function hide() {
+      wpsContainer.style.visibility = "hidden";
+      wpsContainer.style.pointerEvents = "none";
+      stickyClick.style.pointerEvents = "auto";
+      stickyClick.style.visibility = "visible";
+      document.body.style.overflowY = "";
+    }
+    hide();
+
+    document.getElementById('clickTo').addEventListener('click', function() {
+      wpsContainer.style.visibility = "visible";
+      wpsContainer.style.zIndex = "25";
+      wpsContainer.style.pointerEvents = "auto";
+      stickyClick.style.visibility = "hidden";
+      document.body.style.overflowY = "hidden";
+    });
+
+    closeBtn.addEventListener('click', hide);
+
+    // allow pressing ESC to close the overlay
+    document.addEventListener('keydown', function(e) {
+      if (wpsContainer.style.visibility === "visible" && (e.key === "Escape" || e.key === "Esc")) {
         hide();
-
-        document.getElementById('clickTo').addEventListener('click', function() {
-            wpsContainer.style.visibility = "visible";
-            wpsContainer.style.zIndex = "25";
-            wpsContainer.style.pointerEvents = "auto";
-            stickyClick.style.visibility = "hidden";
-            document.body.style.overflowY = "hidden";
-        });
-
-        closeBtn.addEventListener('click', hide);
-        // allow pressing ESC to close the overlay
-        document.addEventListener('keydown', function(e) {
-            if (wpsContainer.style.visibility === "visible" && (e.key === "Escape" || e.key === "Esc")) {
-                hide();
-            }
-        });
-    </script>
+      }
+    });
+  </script>
 </body>
 </html>
