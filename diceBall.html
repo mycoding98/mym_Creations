@@ -1,0 +1,452 @@
+<style>
+@import url("https://use.typekit.net/uxw3lja.css");
+@font-face {
+  font-family: brown-pro, sans-serif;
+  font-weight: 200;
+  font-style: normal;
+  font-family: brown-pro, sans-serif;
+  font-weight: 200;
+  font-style: italic;
+  font-family: brown-pro, sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-family: brown-pro, sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  font-family: brown-pro, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-family: brown-pro, sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.close {
+  position: absolute;
+  top: 5px;
+  right: 16px;
+  z-index: 1000;
+  background: transparent;
+  color: #cccccc;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+.close:hover {
+  background: #1e1450;
+  color: #fff;
+}
+body {
+  background: linear-gradient(to bottom, #117c13, #0b5209);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+  margin: 0;
+  font-family: brown-pro, sans-serif;
+}
+
+.golf-dice-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  z-index: 9999;
+}
+
+.overlay {
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 100vw; 
+  height: 100vh;
+  background-color: #ccc;
+  z-index: 9998;
+}
+
+.tryagain {
+  color: #ffc4c4;
+}
+
+.congrats {
+  color: #d3a239;
+}
+
+.golf-dice {
+  width: 150px;
+  height: 150px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 6px 24px #1e145088;
+  border: 4px solid #1e1450;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  transition: box-shadow 0.2s;
+}
+
+.golf-dice:active {
+  box-shadow: 0 2px 8px #1e145044;
+}
+
+.golf-dice-number {
+  font-size: 3.50rem;
+  font-weight: 900;
+  color: #1e1450;
+  text-shadow: 0 2px 6px #fff8, 0 1px 0 #117c13;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.golf-ball-shadow {
+  position: absolute;
+  bottom: 10px; left: 50%;
+  transform: translateX(-50%);
+  width: 70px; height: 16px;
+  background: radial-gradient(ellipse at center, #1e145033 50%, transparent 100%);
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.roll-instructions {
+  color: #ffffff;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 8px #1e1450;
+}
+
+.golf-flag {
+  position: absolute;
+  right: 14px; top: 12px;
+  width: 38px; height: 38px;
+  z-index: 5;
+  pointer-events: none;
+}
+.golf-flag svg {
+  width: 100%; height: 100%;
+  display: block;
+}
+
+.discount-wrapper {
+  padding: 0 20px;
+}
+
+.claim-discount {
+  display: block;
+  margin: 1rem auto 0;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #d3a239;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease;
+}
+
+.discount-details {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #d3a239;
+  color: #ffffff;
+  font-weight: bold;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 0 12px #c99d4688;
+}
+
+.claim-discount:hover {
+  background-color: #b28f2f;
+}
+
+.bounce-in-top {
+  -webkit-animation: bounce-in-top 1.1s both;
+  animation: bounce-in-top 1.1s both
+}
+
+/**
+ * ----------------------------------------
+ * animation bounce-in-top
+ * ----------------------------------------
+ */
+@-webkit-keyframes bounce-in-top {
+  0% {
+    -webkit-transform: translateY(-500px);
+            transform: translateY(-500px);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+    opacity: 0;
+  }
+  38% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+    opacity: 1;
+  }
+  55% {
+    -webkit-transform: translateY(-65px);
+            transform: translateY(-65px);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  72% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  81% {
+    -webkit-transform: translateY(-28px);
+            transform: translateY(-28px);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  90% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  95% {
+    -webkit-transform: translateY(-8px);
+            transform: translateY(-8px);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+@keyframes bounce-in-top {
+  0% {
+    -webkit-transform: translateY(-500px);
+            transform: translateY(-500px);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+    opacity: 0;
+  }
+  38% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+    opacity: 1;
+  }
+  55% {
+    -webkit-transform: translateY(-65px);
+            transform: translateY(-65px);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  72% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  81% {
+    -webkit-transform: translateY(-28px);
+            transform: translateY(-28px);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  90% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  95% {
+    -webkit-transform: translateY(-8px);
+            transform: translateY(-8px);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+/* 
+.rotate-90-horizontal-fwd {
+      -webkit-animation: rotate-90-horizontal-fwd .4s cubic-bezier(.25,.46,.45,.94) both;
+      animation: rotate-90-horizontal-fwd .4s cubic-bezier(.25,.46,.45,.94) both;
+    }
+    @-webkit-keyframes rotate-90-horizontal-fwd {
+      0% { -webkit-transform: rotateX(0); transform: rotateX(0);}
+      100% { -webkit-transform: rotateX(90deg); transform: rotateX(90deg);}
+    }
+    @keyframes rotate-90-horizontal-fwd {
+      0% { -webkit-transform: rotateX(0); transform: rotateX(0);}
+      100% { -webkit-transform: rotateX(90deg); transform: rotateX(90deg);}
+    } */
+ 
+/* ----------------------------------------------
+     * Generated by Animista on 2025-8-7 17:56:30
+     * Licensed under FreeBSD License.
+     * See http://animista.net/license for more info. 
+     * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+</style>
+
+<html>
+<head> 
+<link rel="stylesheet" href="https://use.typekit.net/uxw3lja.css">
+</head>
+<div id="overlay"><div id="wpst-container" class="golf-dice-container">
+<div id="closegame" class="close ems-inapp-close" aria-labelledby="closebutton" e-editable="buttonClose" me-close e-editable="Close Button">close</div>
+
+<div id="header" class="roll-instructions" e-editable="Headline">Click the golf ball to shoot a hole in one!</div>
+
+<div id="congrats" e-editable="Game Message: Congrats" class="congrats hidden">Way to go! A hole in 1!</div>
+<button id="claimDiscount" e-editable="CTA"class="claim-discount hidden">
+ Claim Your Discount!
+</button>
+  <div class="discount-wrapper">
+<div id="discountDetails" e-editable="Message: Winner" class="discount-details hidden">Congrats! Use code <span style="color:#000"><strong>XXXX20 </strong></span> for <span style="color: #000">20%</span> off your next purchase!</div>
+ </div>   
+  <div class="golf-dice" id="golfDice">
+      <span class="golf-dice-number" id="golfDiceNumber">7</span>
+      <div class="golf-ball-shadow"></div>
+    
+        <!--flag --> 
+     <e-optionl name="Flag">
+        <span class="golf-flag">
+        <svg viewBox="0 0 24 24">
+          <rect x="12" y="11" width="3" height="10" fill="#1e1450"/>
+          <polygon points="12,13 20,10 12,7" fill="#fa709a"/>
+        </svg>
+      </span>
+     </e-optionl>
+    </div>
+  <div id="tryagain" e-editable="Game Message: Try Again " class="tryagain hidden">Nice try! Give it another shot?</div>
+  </div>
+</div>
+</html>
+
+
+<script>
+// Dice game
+// randomize #s up to 10
+// 1 is the lucky number or hole in one
+
+document.addEventListener('DOMContentLoaded', () => {
+  const closeBtn = document.getElementById('closegame');
+  const golfDice = document.getElementById('golfDice');
+  const golfDiceNumber = document.getElementById('golfDiceNumber');
+  const container = document.getElementById('wpst-container');
+  const message = document.getElementById('tryagain');
+  const congrats = document.getElementById('congrats');
+  const claimBtn = document.getElementById('claimDiscount');
+  const discountDetails = document.getElementById('discountDetails');
+  const overlay = document.getElementById('overlay');
+  const header = document.getElementById('header');
+  
+  closeBtn.addEventListener('click', () => {
+    overlay.style.display = 'none';
+    container.style.display = 'none';
+    document.body.style.display = 'none';
+  });
+  
+  let rolling = false;
+  let hasWon = false; // Track if user has already won
+  let tryAgainTimer = null; // Store timeout for "try again" message
+
+  // Dice click handler
+  function handleDiceClick() {
+    if (rolling || hasWon) return; // Block play if rolling or after win
+    rolling = true;
+
+    // Restart animation
+    // golfDice.classList.remove('rotate-90-horizontal-fwd');
+    // void golfDice.offsetWidth; // force reflow
+    // golfDice.classList.add('rotate-90-horizontal-fwd');
+
+    golfDice.classList.remove('bounce-in-top');
+    void golfDice.offsetWidth; // force reflow
+   golfDice.classList.add('bounce-in-top');
+    
+    // Roll 1-10
+    setTimeout(() => {
+      const roll = Math.floor(Math.random() * {variables.maxnum}) + 1;
+      golfDiceNumber.textContent = roll;
+
+      // Hide all messages before showing result
+      message.classList.add('hidden');
+      congrats.classList.add('hidden');
+      claimBtn.classList.add('hidden');
+      discountDetails.classList.add('hidden');
+
+      if (roll === 1) {
+        // on win show congrats
+        // hide header and disable click
+        congrats.classList.remove('hidden');
+        claimBtn.classList.remove('hidden');
+        header.style.display = 'none';
+        hasWon = true;
+        golfDice.removeEventListener('click', handleDiceClick); // Prevent further play
+      } else {
+        // Show "try again" message 
+        message.classList.remove('hidden');
+        if (tryAgainTimer) clearTimeout(tryAgainTimer);
+        tryAgainTimer = setTimeout(() => message.classList.add('hidden'), {variables.tryagains});
+      }
+
+      golfDice.classList.remove('bounce-in-top');
+      rolling = false;
+    }, {variables.flips});
+  }
+
+  // Attach dice click event
+  golfDice.addEventListener('click', handleDiceClick);
+
+  // Claim reward button
+  claimBtn.addEventListener('click', () => {
+    claimBtn.classList.add('hidden');
+    congrats.classList.add('hidden');
+    discountDetails.classList.remove('hidden');
+
+    // Hide all after 5 seconds
+    setTimeout(() => {
+      discountDetails.classList.add('hidden');
+      overlay.style.display = 'none';
+      container.style.display = 'none';
+      document.body.style.display = 'none';
+    }, {variables.wins});
+  });
+});
+</script>

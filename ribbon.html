@@ -1,0 +1,207 @@
+<style>
+@import url("https://use.typekit.net/uxw3lja.css");
+@font-face {
+  font-family: brown-pro, sans-serif;
+  font-weight: 200;
+  font-style: normal;
+  font-family: brown-pro, sans-serif;
+  font-weight: 200;
+  font-style: italic;
+  font-family: brown-pro, sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-family: brown-pro, sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  font-family: brown-pro, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-family: brown-pro, sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+#close {
+  position: absolute; 
+  top: 8px;
+  right: 10px; 
+  background: transparent; 
+  border: none; 
+  color: #ffffff; 
+  font-size: 20px;
+} 
+
+.ribbon {
+  font-family: brown-pro, sans-serif;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 18vh;
+  background: linear-gradient(96deg,rgba(22, 14, 47, 1) 0%, rgba(50, 48, 108, 1) 42%, rgba(56, 52, 131, 1) 100%);
+  backdrop-filter: blur(8px);
+  color: #d4af37;
+  font-weight: 600;
+  font-size: 1.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  border-bottom-left-radius: 24px 24px;
+  border-bottom-right-radius: 24px 24px;
+  box-shadow:
+    0 8px 24px 0 rgba(70, 3, 128, 0.22),
+    0 2px 12px 0 rgba(143, 90, 253, 0.14);
+  border: 1.5px solid rgba(143,90,253, 0.18);
+  user-select: none;
+  touch-action: pan-y;
+  transition: transform 0.5s cubic-bezier(.38,.94,.56,1), opacity 0.4s;
+  overflow: hidden;
+  position: fixed;
+  opacity: 0.96;
+  box-sizing: border-box;
+}
+
+/* Prism sweep effect */
+.ribbon::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -50%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 0%,
+    #b993d6bb 15%,
+    #8ca6dbbb 28%,
+    #f7e8d0bb 47%,
+    #ffdde1bb 65%,
+    rgba(255,255,255,0) 100%
+  );
+  filter: blur(1.5px) brightness(1.25);
+  transform: skewX(-24deg);
+  animation: prismSweep 3.2s cubic-bezier(.38,.94,.56,1) infinite;
+  pointer-events: none;
+  opacity: 0.35;
+  z-index: 2;
+}
+
+/* Ribbon text styles and glow effect */
+.ribbon-content {
+  padding: 0 26px;
+  text-align: center;
+  z-index: 2;
+  animation: textGlow 2.5s infinite;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
+@keyframes textGlow {
+  0%, 100% {
+    color: #d4af37;
+    text-shadow: 0 0 0 transparent;
+  }
+  50% {
+    color: #ffffff;
+    text-shadow: 0 0 24px rgba(143, 90, 253, 0.85), 0 0 6px #FFD70088;
+  }
+}
+
+.ribbon.hidden {
+  transform: translateY(-110%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ribbon-content {
+  padding: 0 20px;
+  text-align: center;
+  z-index: 2;
+  animation: textGlow 3s ease-in-out infinite;
+}
+
+/* Shine effect */
+.ribbon .shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 15%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.05) 30%,
+    rgba(255,255,255,0.6) 50%,
+    rgba(255,255,255,0) 70%
+  );
+  transform: skew(-20deg);
+  animation: sweepShine 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes prismSweep {
+  0%   { left: -40%; }
+  100% { left: 140%; }
+}
+
+@keyframes sweepShine {
+  0% {
+    left: -20%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    left: 120%;
+    opacity: 0;
+  }
+}
+</style>
+
+
+<html>
+<head><link rel="stylesheet" href="https://use.typekit.net/uxw3lja.css"></head>
+
+
+<div id="top-ribbon" class="ribbon">
+  <div class="ribbon-content" e-editable="Ribbon Text">
+    You’ve unlocked <br> a special reward!
+  </div>
+
+<button id="close" onclick="document.getElementById('top-ribbon').classList.add('hidden')">&times;</button>
+</div>
+</html>
+
+
+<script>
+// DOM elements
+// touch/swipe ribbon away
+document.addEventListener("DOMContentLoaded", () => {
+  const ribbon = document.getElementById("top-ribbon");
+
+  let touchStartY = 0;
+  let touchEndY = 0;
+
+  ribbon.addEventListener("touchstart", (e) => {
+    touchStartY = e.changedTouches[0].screenY;
+  });
+
+  ribbon.addEventListener("touchend", (e) => {
+    touchEndY = e.changedTouches[0].screenY;
+
+    if (touchStartY - touchEndY > 50) {
+      // Add shine class
+      ribbon.classList.add("shining");
+
+       setTimeout(() => {
+        ribbon.classList.add("hidden");
+        ribbon.classList.remove("shining");
+      }, 1500);
+    }
+  });
+});
+</script>

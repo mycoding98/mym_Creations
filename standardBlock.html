@@ -1,0 +1,365 @@
+<style>
+@import url("https://use.typekit.net/uxw3lja.css");
+@font-face {
+font-family: brown-pro, sans-serif;
+font-weight: 200;
+font-style: normal;
+font-family: brown-pro, sans-serif;
+font-weight: 200;
+font-style: italic;
+font-family: brown-pro, sans-serif;
+font-weight: 300;
+font-style: normal;
+font-family: brown-pro, sans-serif;
+font-weight: 300;
+font-style: italic;
+font-family: brown-pro, sans-serif;
+font-weight: 600;
+font-style: normal;
+font-family: brown-pro, sans-serif;
+font-weight: 600;
+font-style: italic;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  margin:0;
+  padding:0;
+font-family: {variables.ff};
+}
+
+.overlay {
+  min-height: 100%;
+  position: relative;
+  display: -webkit-flex;
+  display: -webkit-box;
+  display: -moz-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+.close {
+  border-radius: 25px;
+  padding: 4px 7px 5px 7px;
+background: {variables.closeButtonBackground};
+position: absolute;
+top: 10px;
+{variables.closeButtonPosition}: 10px;
+font-size: 15px;
+line-height: 15px;
+text-decoration: none;
+: {variables.closeButtonFont};
+display: {variables.closeButtonDisplay};
+margin-top: env(safe-area-inset-top);
+z-index: 99999;
+}
+
+
+.wrapper {
+  -webkit-flex:1 0 auto;
+  -webkit-box-flex:1 0 auto;
+  -moz-flex:1 0 auto;
+  -moz-box-flex:1 0 auto;
+  -ms-flex:1 0 auto;
+  flex:1 0 auto;
+  width: 100%;
+  text-align:center;
+  vertical-align:middle;
+  display:-webkit-flex;
+  display:-webkit-box;
+  display:-moz-flex;
+  display:-moz-box;
+  display:-ms-flexbox;
+  display:flex-start;
+  -webkit-flex-wrap:wrap;
+  flex-wrap: wrap;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  align-items: center;
+  background-: {variables.bgcontent};
+}
+
+.content {
+  margin:0 auto;
+  width: 100%;
+}
+
+.logo {
+padding-bottom: {variables.logop}px;
+  
+}
+
+@supports (padding: max(0px)) and (padding: env(safe-area-inset-bottom)) {
+  .cta {
+    margin-bottom: max(10px, env(safe-area-inset-bottom));
+  }
+}
+
+
+
+.header-img {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  padding-bottom: {variables.imgpb}px;
+}
+
+.headline {
+  font-family: Arial, sans-serif;
+  font-size: {variables.headlinefs}px;
+  font-weight: {variables.headlinefw};
+  : {variables.headlinec};
+  background-: {variables.headlinebgc};
+  line-height: {variables.headlinelh};
+  text-align: {variables.healdinea};
+  padding-bottom: {variables.headlinep}px;
+}
+
+.bodycopy {
+  font-family: {variables.ff};
+  font-size: {variables.bcfs}px;
+  :{variables.bcfc};
+  background-: {variables.bcbgc};
+  padding: {variables.bcp};
+  line-height: {variables.bclh};
+  margin-top: 5px;
+  text-align: {variables.bca};
+}
+
+.cta {
+  text-align: {variables.ctaa};
+  padding: {variables.ctaps};
+ 
+}
+
+.button {
+  font-family: {variables.ff};
+  font-size: {variables.ctafs}px;
+  font-weight: {variables.ctafw};
+  : {variables.ctafc};
+  background-: {variables.ctabgc};
+  padding: {variables.ctap};
+  border: {variables.ctab};
+  border-radius: {variables.ctabr}px;
+   width: {variables.ctaw}%;
+  cursor: pointer;
+}
+
+
+
+.ems-inapp-button:not([contenteditable]) {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
+.ems-inapp-button--copied-to-clipboard .ems-inapp-button__label:after {
+  white-space: nowrap;
+  content: " ✓"
+}
+
+</style>
+
+<html>
+<head><link rel="stylesheet" href="https://use.typekit.net/uxw3lja.css"></head>
+
+
+<div class="overlay">
+  <div class="wrapper">
+    <div class="close ems-inapp-close" e-editable="buttonClose" me-close>&times;</div>
+    <div class="content">
+      <a href="{variables.link}"> <img src="{variables.logo}" class="logo" /></a>
+
+      <div>
+        <a href="{variables.link}"> <img src="https://placehold.co/600x400" alt="Header" class="header-img imgCurve" /></a>
+
+        <div class="headline" e-editable="headline">Headline</div>
+        <div class="bodycopy" e-editable="bodycopy">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </div>
+        <div class="cta">
+          <button class="button" href="{variables.link}" e-editable="button2" me-close="">CTA</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</html>
+
+
+
+
+
+
+bca
+Body Copy: Alignment
+center
+
+
+bcbgc
+Body Copy: Background 
+#ffffff
+
+
+bcfc
+Body Copy: Font 
+#000000
+
+
+bcfs
+Body Copy: Font Size (px)
+16
+
+
+bclh
+Body Copy: Line Height (px)
+1.5
+
+
+bcp
+Body Copy: Padding Top/Bottom and Left/Right (px)
+0 10px 20px
+String
+
+bgcontent
+Background Content: 
+#ffffff
+
+
+closeButtonBackground
+Close Button: Background 
+#1e1450
+
+
+closeButtonDisplay
+Close Button: Display
+string
+
+
+closeButtonFont
+Close Button: Font 
+#999999
+
+
+closeButtonPosition
+Close Button: Position
+right
+
+
+ctaa
+CTA: Alignment
+center
+
+
+ctab
+CTA: Border
+double
+
+
+ctabgc
+CTA: Background 
+#ffffff
+
+
+ctabr
+CTA: Border Radius (px)
+2
+
+
+ctafc
+CTA: Font 
+#000000
+
+
+ctafs
+CTA: Font Size (px)
+16
+
+
+ctafw
+CTA: Font Weight
+bold
+
+
+ctap
+CTA: Padding
+5px 15px
+String
+
+ctaps
+CTA: Padding (Spacing)
+20px 5px
+String
+
+ctaw
+CTA: Width (%)
+40
+
+
+ff
+Font Family
+brown-pro, sans-serif
+
+
+headlinebgc
+Headline: Background 
+#ffffff
+
+
+headlinec
+Headline: Font 
+#000000
+
+
+headlinefs
+Headline: Font Size (px)
+20
+
+
+headlinefw
+Headline: Font Weight
+bold
+
+
+headlinelh
+Headline: Line Height (px)
+1.5
+
+
+headlinep
+Headline: Padding (px)
+10
+String
+
+healdinea
+Headline: Alignment
+center
+
+
+imgpb
+Image: Padding Bottom (px)
+20
+
+
+link
+Link: Image and CTA
+https://www.europeantour.com/dpworld-tour/
+String
+
+logo
+Logo: Image Path
+https://links.em.rydercupeurope.com/custloads/885528449/md_16864.svg
+Image
+
+logop
+Logo: Padding Bottom
+10
+

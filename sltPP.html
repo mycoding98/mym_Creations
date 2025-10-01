@@ -1,0 +1,856 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700&display=swap" rel="stylesheet">
+<style>
+html {
+  font-family: 'Open Sans', Helvetica, Roboto, Arial, sans-serif;
+}
+[data-wps-namespace-id=ems-wc-ns-tNKrRrH-UJ] { border: none !important; }
+[data-wps-popup-content-body].bordered { border: transparent; background: none; }
+[data-wps-namespace-id=ems-wc-ns-uJo6NeH-JC] .wpst-content { width: 100% !important; }
+[data-wps-popup-close]:before {
+  background-image: url("");
+  height: 24px;
+  width: 24px;
+  background-size: 24px 25px;
+  content: '' !important;
+  box-sizing: border-box;
+}
+[data-wps-popup-close] {
+  z-index: 10;
+  background: transparent;
+  top: 67px;
+  margin-right: 21px;
+  position: relative !important;
+  display: none;
+}
+ [data-wps-popup] {
+   
+    background: rgba(128, 128, 128, 0.7);
+    
+  }  
+.hide { display: none !important; }
+.unhide-popup { display: flex !important; }
+button:not(.primary) { box-shadow: none !important; }
+img{ max-width: none !important; }
+.wpst-fieldset {
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 4px;
+  background: #fff !important;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  border-color: transparent;
+}
+.wpst-fieldset1{
+  flex-wrap: wrap;
+  width: 100%;
+  height: 75%;
+  background: #fff !important;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  border-color: transparent;
+}
+.wpst-fieldset2{
+  display: flex;
+  flex-wrap: wrap;
+  border: none !important;
+  background: none !important;
+  gap: 4px;
+  width: 100%;
+  padding:0;
+}
+.wpst-fieldset3{
+  display: flex;
+  flex-wrap: wrap;
+  border: none !important;
+  background: none !important;
+  gap: 4px;
+  width: 100%;
+  padding:0;
+}
+#wpst-open {
+  position: fixed;
+  right: 3%;
+  bottom: 3%;
+  z-index: 100;
+}
+#wpst-open img {
+  height: auto !important;
+  max-width: none !important;
+}
+#wps-container {
+  border-radius: 16px;
+  z-index: 102;
+  background-color: #fff;
+  margin: auto;
+  width: 100%;
+}
+.wpst-preference-item  {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  margin-bottom: 4px;
+}
+.wpst-preference-item input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: relative;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  vertical-align: middle;
+  border: 1px solid #000 !important;
+  background-color: #fff !important;
+  cursor: pointer;
+  margin: 0;
+  flex-shrink: 0;
+  opacity: 1 !important;
+  -ms-filter: none !important;
+  filter: none !important;
+}
+.wpst-preference-item input[type="checkbox"]:checked {
+  background-color: #000 !important;
+  border-color: #000 !important;
+}
+.wpst-preference-item input[type="checkbox"]:checked::after {
+  color:white;
+  content: "";
+  vertical-align: middle;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  height: 6px;
+  font-weight: 300;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  border-radius: 1px;
+  transform: translate(-50%, -55%) rotate(45deg);
+}
+.wpst-open-button {
+  position: fixed;
+  right: 0;
+  z-index: 103;
+  cursor: pointer;
+  display: flex;
+  vertical-align: middle;
+  left: 87.8%;
+}
+.wpst-closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: block;
+  height: 32px;
+  width: 32px;
+  background-size: 13px;
+  background-repeat: no-repeat;
+  background-image:url('https://link.surlatable.com/custloads/767471653/md_1614181.svg');
+  background-position: center;
+  border-radius: 25px;
+}
+.wpst-closeButton:hover { background-color: #E6E6E6; }
+.dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 480px;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+.wpst-font-color-1 { color: #ffffff; }
+.wpst-font-color-2 { color: #191919; }
+.wpst-font-color-3 { color: #595959; }
+.wpst-font-size-36 { font-size: 36px; }
+.wpst-font-size-32 { font-size: 32px; }
+.wpst-font-size-30 { font-size: 30px; }
+.wpst-font-size-28 { font-size: 28px; }
+.wpst-font-size-24 { font-size: 24px; }
+.wpst-font-size-20 { font-size: 20px; }
+.wpst-font-size-18 { font-size: 18px; }
+.wpst-font-size-16 { font-size: 16px; }
+.wpst-font-size-14 { font-size: 14px; }
+.wpst-font-size-13{ font-size: 13px; }
+.wpst-font-size-12 { font-size: 12px; }
+.wpst-font-size-11 { font-size: 11px; }
+.wpst-font-weight-300{ font-weight: 300; }
+.wpst-font-weight-400{ font-weight: 400; }
+.wpst-font-weight-500{ font-weight: 500; }
+.wpst-font-weight-600{ font-weight: 600; }
+.wpst-font-weight-700{ font-weight: 700; }
+.wpst-text-decoration-underline{ text-decoration: underline; }
+.wpst-text-uppercase{ text-transform: uppercase; }
+.wpst-margin-top-20{ margin-top: 20px; }
+.wpst-margin-top-30{ margin-top: 30px; }
+.wpst-margin-bottom-8{ margin-bottom: 8px; }
+.wpst-margin-bottom-12{ margin-bottom: 12px; }
+.wpst-margin-bottom-16{ margin-bottom: 16px; }
+.wpst-margin-bottom-24{ margin-bottom: 24px; }
+.wpst-margin-bottom-26{ margin-bottom: 26px; }
+.wpst-margin-bottom-27{ margin-bottom: 27px; }
+.wpst-margin-bottom-28{ margin-bottom: 28px; }
+.wpst-margin-bottom-34{ margin-bottom: 34px; }
+.wpst-margin-bottom-120{ margin-bottom: 120px; }
+.wpst-margin-bottom-350{ margin-bottom: 350px; }
+.wpst-margin-right-12{ margin-right: 12px; }
+.wpst-padding-6-3{ padding: 6px 3px; }
+.wpst-content{
+  display: flex;
+
+}
+.wpst-header{
+  width: 288px ;
+  height: 328px;
+  background-size: 100%;
+  background-position: center;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+  object-fit: cover;
+}
+.wpst-popup-content {
+  width: 480px;
+  height: 270px;
+  display: flex;
+  position: relative;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+.wpst-popup-content-2 {
+  width: 480px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  border-top-right-radius: 0px !important;
+}
+.wpst-content-2 {
+  height: 200px;
+  width: 460px;
+  max-width: 530px;
+}
+#wpst-content-2 .wpst-popup-heading { margin-bottom: 12px; }
+#wpst-content-2 { margin-bottom: 90px; }
+.wpst-popup-body { margin-bottom: 20px; }
+#wpst-content-2.wpst-content-container { padding-top: 50px; position: initial; }
+#wpst-header-3 { font-size: 16px; }
+.wpst-content-container {
+  background-color: #FFFFFF;
+  padding: 40px 24px 20px 24px;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+.wpst-popup-heading {
+  line-height: 1.2;
+  font-family: "Open Sans", Helvetica, Roboto, Arial, sans-serif;
+  text-align: left;
+}
+.wpst-popup-body {
+  font-family: "Open Sans", Helvetica, Roboto, Arial, sans-serif;
+  text-decoration: none;
+  text-align: left;
+  left: 5px;
+}
+.wpst-popup-tinytext {
+  color: #A3885A;
+  font-family: "Open Sans", Helvetica, Roboto, Arial, sans-serif;
+  text-align: left;
+  margin-bottom: 6px;
+}
+.wpst-action-buttons {
+  display: flex;
+  gap:8px;
+}
+.wpst-label-container {
+  width: 100%;
+  height: 56px;
+  position: relative;
+  border-color: transparent;
+}
+.wpst-popup-button-background-color button:hover {
+  background-color: #AC0000;
+}
+.wpst-popup-button {
+  padding: 11px 24px;
+  flex-shrink: 0;
+  border-color: transparent;
+  align-items:
+  cursor: pointer;
+  height: auto;
+  align-self: auto;
+  text-align: center;
+  font-family: "Open Sans", Helvetica, Roboto, Arial, sans-serif;
+  line-height: 18px;
+  font-stretch: normal;
+  margin-right:0;
+  text-decoration: none;
+  position: absolute;
+}
+.wpst-popup-buttonI {
+  padding: 11px 24px;
+  flex-shrink: 0;
+  border-color: transparent;
+  align-items:
+  cursor: pointer;
+  height: auto;
+  align-self: auto;
+  text-align: center;
+  font-family: "Open Sans", Helvetica, Roboto, Arial, sans-serif;
+  line-height: 18px;
+  font-stretch: normal;
+  margin-right:0;
+  margin-bottom: 18px;
+  text-decoration: none;
+  position: relative;
+}
+.wpst-popup-button-fullwidth {
+  width: 432px;
+  position: relative;
+}
+.wpst-popup-button-half {
+  width: 48%;
+}
+.wpst-popup-button-background-color {
+  background-color:#414042;
+  color: #FFF;
+}
+.wpst-popup-button-background-color:hover {
+  background-color: #f8cf66;
+  transition: background-color 0.6s ease;
+}
+.wpst-popup-button-close-background-color {
+  background-color:#ffffff;
+  color: #191919;
+}
+.wpst-popup-button-background-color-2 {
+  background-color: #E6E6E6;
+  color: #191919;
+}
+.wpst-popup-button-background-color-2:hover {
+  background-color: #f9f9f9;
+  transition: background-color 0.6s ease;
+}
+.wpst-popup-optin {
+  width: 100%;
+  margin-bottom: 12px;
+  display: flex;
+}
+.wpst-popup-optin label {
+  margin-bottom: 0;
+  display: flex;
+}
+.wpst-popup-terms{
+  color:#757575;
+  font-weight: 400;
+  font-family: "Open Sans", Helvetica, Roboto, Arial, sans-serif;
+}
+.wpst-display-none{ display: none !important; }
+.wpst-popup-radiobutton {
+  width: 100%;
+  display: flex;
+}
+.wpst-popup-radiobutton label {
+  margin-bottom: 0;
+  display: flex;
+  margin-right: 18px;
+}
+.wpst-popup-radiobutton-pref {
+  width:26px;
+  height:26px;
+  background-color: transparent;
+  border: 1px solid #686D74;
+  border-radius:2px;
+  box-sizing:border-box;
+  display: flex;
+  margin-right: 6px;
+}
+.wpst-popup-radiobutton-pref-missing { border: 1px solid #A7361B !important; }
+.wpst-popup-radiobutton-pref-name-missing { color: #A7361B !important; }
+.wpst-popup-radiobutton-pref-name { line-height: 25px; }
+.wpst-preferences-pref-check1,
+.wpst-preferences-pref-check2,
+.wpst-preferences-pref-check3,
+.wpst-preferences-pref-check4,
+.wpst-preferences-pref-check5,
+.wpst-preferences-pref-check6,
+.wpst-preferences-pref-check7,
+.wpst-preferences-pref-check8,
+.wpst-preferences-pref-check9,
+.wpst-preferences-pref-check10,
+.wpst-preferences-pref-check11,
+.wpst-preferences-pref-check12,
+.wpst-preferences-pref-check13,
+.wpst-preferences-pref-check14,
+.wpst-preferences-pref-check15 {
+  display:block;
+  width:100%;
+  background-color:#191919;
+  background-size: 26px 26px;
+}
+#pref1:checked ~ label div.wpst-preferences-pref-check1,
+#pref2:checked ~ label div.wpst-preferences-pref-check2,
+#pref3:checked ~ label div.wpst-preferences-pref-check3,
+#pref4:checked ~ label div.wpst-preferences-pref-check4,
+#pref5:checked ~ label div.wpst-preferences-pref-check5,
+#pref6:checked ~ label div.wpst-preferences-pref-check6,
+#pref7:checked ~ label div.wpst-preferences-pref-check7,
+#pref8:checked ~ label div.wpst-preferences-pref-check8,
+#pref9:checked ~ label div.wpst-preferences-pref-check9,
+#pref10:checked ~ label div.wpst-preferences-pref-check10,
+#pref11:checked ~ label div.wpst-preferences-pref-check11,
+#pref12:checked ~ label div.wpst-preferences-pref-check12,
+#pref13:checked ~ label div.wpst-preferences-pref-check13,
+#pref14:checked ~ label div.wpst-preferences-pref-check14,
+#pref15:checked ~ label div.wpst-preferences-pref-check15 {
+  background-color:#191919;
+  color: #ffffff !important;
+  border:1px solid #191919;
+}
+.label-for-check {
+  background-color:#191919 !important;
+  color: #ffffff !important;
+}
+.wpst-preferences-text{
+  width: 100%;
+  height: 42px;
+  color:#272A36;
+  font-size: 16px;
+  vertical-align: middle;
+  text-align: left;
+  padding: 11px;
+}
+.wpst-preferences-checkbox {
+  width: 16px;
+  height: 22px;
+  margin: 6px 0px;
+}
+.wpst-preferences {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.wpst-preferences label {
+  display: flex;
+  margin-right: 4px;
+}
+.wpst-preferences-pref {
+  width:26px;
+  height:26px;
+  background-color: transparent;
+  border-radius:2px;
+  box-sizing:border-box;
+  display: none;
+}
+.wpst-preferences-pref-name {
+  font-family: "Open Sans", Helvetica, Roboto, Arial, sans-serif;
+  text-align: left;
+  padding: 8px;
+  background-color: #ffffff;
+  color: #191919;
+  line-height: 1.143;
+}
+.wpst-preferences-pref-name:hover {
+  border:none;
+  background-color: transparent;
+}
+input:focus {
+  border: 1px solid #4871F7 !important;
+}
+input:hover {
+  content: "Invalid email";
+  border: 2px solid rgba(39, 42, 54, 1) !important;
+}
+.wpst-popup-title {
+  font-size: 14px;
+  font-family: "Open Sans", Helvetica, Roboto, Arial, sans-serif;
+}
+.wpst-popup-input {
+  width: 100%;
+}
+.wpst-popup-linkcolor {
+  color: #E60000;
+  text-decoration: underline;
+}
+.wpst-error { border:1px solid #A7361B !important; }
+.wpst-error:after {
+  border:1px solid #A7361B !important;
+  content: 'This field is required';
+  color: #A7361B;
+  font-size: 12px;
+}
+.wpst-font-color-red{ color: #EA3323; }
+@media screen and (orientation: landscape) and (min-width: 2561px) {
+  .wpst-open-button { left: 96.87%; }
+  #wps-container { overflow: hidden !important; }
+}
+@media screen and (orientation: landscape) and (min-width: 1921px) and (max-width: 2560px)  {
+  .wpst-open-button { left: 96.5%; }
+  #wps-container { overflow: hidden !important; }
+}
+@media screen and (orientation: landscape) and (min-width: 1441px) and (max-width: 1920px) {
+  .wpst-open-button { left: 88.5%; }
+}
+@media screen and (orientation: landscape) and (min-width: 1280px) and (max-width: 1440px) {
+  .wpst-open-button { left: 82.8% !important; }
+}
+@media only screen and (max-width: 896px) and (max-device-width: 1024px) and (orientation: landscape), screen and (max-device-width: 1279px) and (orientation:landscape) {}
+@media only screen and (max-width: 1024px) and (orientation:portrait) {
+  .wpst-content, .wpst-content-container, .wpst-popup-content {
+    overflow-y: visible;
+    max-height: none !important;
+    height: auto !important;
+  }
+  #wpst-popup-button { padding-top: 50px; }
+  #wps-container {
+    width: 90%;
+    margin: 0 auto;
+    display: block;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 100%;
+  }
+  [data-wps-popup-content] {
+    max-width: 100%;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    box-sizing: content-box;
+    position: relative;
+    top: 0;
+    left: 0;
+    overflow-y: visible;
+  }
+  [data-wps-popup-close] {
+    z-index: 10;
+    background: transparent;
+    top: 70px;
+    margin-right: 20px;
+  }
+  [data-wps-popup-content-body].bordered {
+    background: none;
+    overflow: hidden;
+  }
+  #wps-container { width: 480px; }
+  .wpst-fieldset {
+    width: 100% !important;
+    padding: 4px;
+    background: #fff !important;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    max-height: none;
+    overflow-y: visible ;
+  }
+  .wpst-closeButton {
+    position: absolute;
+    top: -124px;
+    right: 16px;
+    display: block;
+    height: 32px;
+    width: 32px;
+    background-size: 13px;
+    background-repeat: no-repeat;
+    background-image:url('https://link.surlatable.com/custloads/767471653/md_1614181.svg');
+    background-position: center center;
+    z-index: 109;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, .5);
+    border-radius: 25px;
+  }
+  .wpst-content { display: block; }
+  .wpst-popup-content {
+    width: 375px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-top-right-radius: 0px !important;
+  }
+  #wpst-content-2.wpst-content-container { padding-top: 60px; padding-bottom: 30px; }
+  .wpst-header {
+    width: 100%;
+    background-size: 100%;
+    background-position: center center;
+    height: 144px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    background-repeat: no-repeat;
+    border-bottom-left-radius: 0;
+    object-fit: cover;
+  }
+  .wpst-label-container {
+    width: 100%;
+    height: auto;
+    display: block;
+    position: relative;
+    border-color: transparent;
+    margin-bottom: 15px;
+  }
+  .wpst-content-container {
+    padding: 30px 24px 30px 24px !important;
+    border-radius: 16px;
+  }
+  .wpst-popup-content { width: 100%; }
+  .wpst-popup-optin-pref-check1 {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: #191919;
+    background-size: 21px 20px;
+  }
+  .wpst-popup-button-half { width: 100%; }
+  .wpst-action-buttons {
+    display: flex;
+    gap: 12px;
+    flex-direction: column-reverse;
+  }
+}
+@media(max-width: 479px) {}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  .flex-direction-nav-featured a { margin-top: 4%; }
+  ::i-block-chrome,
+  .flex-direction-nav-featured a { margin-top: 5%; }
+}
+@media only screen and (min-width: 1280px) and (-webkit-min-device-pixel-ratio: 2) {
+  :root { --object-height: 650px; }
+}
+#wps-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 101;
+  display: none;
+  transition: opacity 0.3s;
+ 
+}
+</style>
+
+<div id="wps-overlay"></div>
+<div id="wps-container" role="dialog" aria-modal="true" aria-labelledby="wpst-header-2" aria-describedby="wpst-header-2" tabindex="-1">
+  <form id="wpst-form" name="ProfileForm" style="margin:0;"
+    action="https://suite17.emarsys.net/u/register.php" method="get">
+ 
+    <input type="hidden" name="CID" value="767471653">
+    <input type="hidden" name="SID" value="">
+    <input type="hidden" name="UID" value="{{contact.uid}}">
+    <input type="hidden" name="session_id" value="">
+    <input type="hidden" name="f" value="2710">
+    <input type="hidden" name="p" value="2">
+    <input type="hidden" name="a" value="r">
+    <input type="hidden" name="el" value="">
+    <input type="hidden" name="endlink" value="">
+    <input type="hidden" name="llid" value="">
+    <input type="hidden" name="c" value="">
+    <input type="hidden" name="counted" value="">
+    <input type="hidden" name="RID" value="">
+    <input type="hidden" name="mailnow" value="">
+    <input type="hidden" name="optin" value="y">
+    <input type="hidden" name="inp_30551" value="true">
+    <input type="hidden" name="inp_30550" value="emarsys_popup">
+
+    <div class="wpst-content">
+      <div id="wpst-content-header" class="wpst-header" style="background-image: url(https://link.surlatable.com/custloads/767471653/md_1612325.png); display: block;"></div>
+      <div class="wpst-popup-content" style="z-index:102;position:relative;">
+        <div id="wpst-close" class="wpst-closeButton"></div>
+        <div id="wpst-content-1" aria-labelledby="wpst-header-2" class="wpst-content-container">
+          <h1 class="wpst-display-none">When it comes to cooking, I:</h1>
+          <div id="wpst-header-2" class="wpst-popup-heading wpst-font-color-2 wpst-font-weight-700 wpst-font-size-24 wpst-margin-bottom-6">When it comes to cooking, I:</div>
+          <fieldset class="wpst-fieldset" aria-labelledby="wpst-header-2">
+            <div class="wpst-popup-body wpst-font-color-3 wpst-font-weight-400 wpst-font-size-14 wpst-margin-bottom-8"></div>
+            <label for="pref1" class="wpst-preference-item">
+              <input type="checkbox" id="pref1" name="inp_30526[]" value="1">
+              <span class="wpst-preferences-pref-name wpst-font-weight-500 wpst-font-size-14">Think "al dente" is a dance move.</span>
+            </label>
+            <label for="pref2" class="wpst-preference-item">
+              <input type="checkbox" id="pref2" name="inp_30526[]" value="2">
+              <span class="wpst-preferences-pref-name wpst-font-weight-500 wpst-font-size-14">Know my way around the kitchen but want to learn more.</span>
+            </label>
+            <label for="pref3" class="wpst-preference-item">
+              <input type="checkbox" id="pref3" name="inp_30526[]" value="3">
+              <span class="wpst-preferences-pref-name wpst-font-weight-500 wpst-font-size-14">Have James Beard on speed dial.</span>
+            </label>
+          </fieldset>
+          <div id="wpst-error-message" class="wpst-error-message" style="display:none; color:#d32f2f; margin-bottom:12px;">
+            Please select at least one option.
+          </div>
+          <div class="wpst-action-buttons" style="position: relative; margin-top: 24px;">
+            <button id="wpst-step1-next" type="submit" class="wpst-popup-button wpst-popup-button-background-color wpst-popup-button-fullwidth">
+              <span class="wpst-font-weight-400 wpst-font-size-16">SUBMIT</span>
+            </button>
+          </div>
+        </div>
+        <div id="wpst-content-2" aria-labelledby="wpst-header-3" class="wpst-content-container form-step wpst-display-none">
+          <h1 class="wpst-display-none">Thanks for sharing!</h1>
+          <div id="wpst-header-3" class="wpst-popup-heading wpst-font-color-2 wpst-font-weight-700 wpst-font-size-24 wpst-margin-bottom-8">Thanks for sharing!</div>
+          <div class="wpst-popup-body wpst-font-color-3 wpst-font-weight-400 wpst-font-size-14">
+            No matter where you are on your culinary journey—whether you're just getting started or basically a pro—we've got something delicious in store for you. Stay tuned for tips, tricks, and recipes to match your skills!
+          </div>
+          <div class="wpst-action-buttons" style="position: absolute; bottom: 20px; width: 100%; text-align: center;">
+           
+<button type="button" id="wpst-thankyou-close" class="wpst-popup-button wpst-popup-button-background-color wpst-popup-button-fullwidth">
+  <span class="wpst-font-weight-400 wpst-font-size-16">START COOKING</span>
+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<script>
+
+
+// Elements
+const wpstContainer = document.getElementById("wps-container");
+const wpstForm = document.getElementById("wpst-form");
+const wpstStep1 = document.getElementById("wpst-content-1");
+const wpstStep2 = document.getElementById("wpst-content-2");
+const wpstError = document.getElementById("wpst-error-message");
+const wpstClose = document.getElementById("wpst-close");
+const wpstThankYouClose = document.getElementById("wpst-thankyou-close");
+const wpstHeader = document.getElementById("wpst-content-header");
+const overlay = document.getElementById("wps-overlay");
+const popup = document.querySelector("[data-wps-popup]");
+let lastFocusedElement = null;
+
+// Focus Trap 
+function trapFocus(modal) {
+  const focusableEls = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+  if (focusableEls.length === 0) return;
+  const firstFocusableEl = focusableEls[0];
+  const lastFocusableEl = focusableEls[focusableEls.length - 1];
+
+  modal.addEventListener('keydown', function(e) {
+    if (e.key === 'Tab') {
+      if (e.shiftKey) {
+        if (document.activeElement === firstFocusableEl) {
+          e.preventDefault();
+          lastFocusableEl.focus();
+        }
+      } else {
+        if (document.activeElement === lastFocusableEl) {
+          e.preventDefault();
+          firstFocusableEl.focus();
+        }
+      }
+    }
+  });
+}
+
+function setInitialFocus() {
+  const firstInput = wpstStep1.querySelector('input, button, [tabindex]:not([tabindex="-1"])');
+  if (firstInput) firstInput.focus();
+  else if (wpstStep1) wpstStep1.focus();
+}
+
+function CheckInputs() {
+  let ok = true;
+  let errorMsg = "";
+  const selected = document.querySelectorAll("input[name='inp_30526[]']:checked").length;
+  if (selected === 0) {
+    errorMsg = "Please select at least one preference.";
+    ok = false;
+  }
+  if (wpstError) {
+    wpstError.innerHTML = errorMsg;
+    wpstError.style.display = ok ? "none" : "block";
+  }
+  return ok;
+}
+
+const step1NextBtn = document.getElementById("wpst-step1-next");
+if (step1NextBtn) {
+  step1NextBtn.addEventListener("click", function(e) {
+    // Only handle if step 1 is visible
+    if (wpstStep1 && !wpstStep1.classList.contains("wpst-display-none")) {
+      if (!CheckInputs()) {
+        return;
+      }
+      // Show thank you step
+      wpstStep1.classList.add("wpst-display-none");
+      wpstStep2.classList.remove("wpst-display-none");
+      if (wpstHeader) wpstHeader.classList.add("wpst-display-none");
+      if (wpstThankYouClose) wpstThankYouClose.focus();
+
+      // MutationObserver to keep popup visible after submit
+      // Protects against wps_popup being hidden by 3rd-party code
+      const popupDiv = document.getElementById("wps_popup");
+      if (popupDiv) {
+        const observer = new MutationObserver((mutationList) => {
+          for (const mutation of mutationList) {
+            if (mutation.type === "attributes") {
+              // Remove any attempt to hide the popup
+              if (popupDiv.classList.contains("hide-popup")) popupDiv.classList.remove("hide-popup");
+              if (popupDiv.getAttribute("data-wps-popup") === "hidden") popupDiv.setAttribute("data-wps-popup", "");
+              // Added index to ensure
+              popupDiv.style.zIndex = "180000";
+              popupDiv.style.position = "fixed";
+            }
+          }
+        });
+        observer.observe(popupDiv, { attributes: true, attributeFilter: ["class", "data-wps-popup"] });
+      }
+
+      // Submit
+      wpstForm.submit();
+    }
+  });
+}
+
+// Block default form submit
+if (wpstForm) {
+  wpstForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    return false;
+  });
+}
+
+// Close
+function closeModal() {
+  if (overlay) overlay.style.display = "none";
+  if (wpstContainer) {
+    wpstContainer.style.display = "none";
+    wpstContainer.setAttribute("aria-hidden", "true");
+    wpstContainer.removeAttribute("aria-modal");
+  }
+  if (popup) {
+    popup.style.display = "none";
+  }
+  if (lastFocusedElement) lastFocusedElement.focus();
+}
+
+if (overlay) {
+  overlay.addEventListener("click", function(e) {
+    if (e.target === overlay) closeModal();
+  });
+}
+if (wpstClose) wpstClose.addEventListener("click", closeModal);
+if (wpstThankYouClose) wpstThankYouClose.addEventListener("click", closeModal);
+
+window.addEventListener("keydown", function (e) {
+  if (e.key === "Escape" && wpstContainer && wpstContainer.style.display !== "none") {
+    closeModal();
+  }
+});
+
+function showModal() {
+  lastFocusedElement = document.activeElement;
+  if (overlay) overlay.style.display = "block";
+  if (popup) popup.style.display = "block";
+  if (wpstContainer) {
+    wpstContainer.style.display = "block";
+    wpstContainer.setAttribute("aria-modal", "true");
+    wpstContainer.setAttribute("aria-hidden", "false");
+  }
+
+  setInitialFocus();
+  trapFocus(wpstContainer);
+}
+
+document.addEventListener("DOMContentLoaded", showModal);
+
+</script>

@@ -1,0 +1,642 @@
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', Arial, sans-serif;
+  min-height: 100vh;
+  height: 100vh;
+  box-sizing: border-box;
+  transition: background 0.5s;
+}
+
+.calendar-wrapper {
+  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  z-index: 3;
+}
+
+.month-selector {
+  margin: 32px 0 12px 0;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 12px 16px 24px 16px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  width: 100%;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.month-selector::-webkit-scrollbar { display: none; }
+
+.monthBtn {
+  padding: 10px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  outline: none;
+}
+.monthBtn.active {
+  border: 2px solid #222;
+  background: #fff6;
+}
+
+/* Progress bar styles... */
+.calendar-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 auto 14px auto;
+  padding: 8px 22px;
+  background: transparent;
+  border-radius: 16px;
+  width: fit-content;
+  min-width: 200px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ad7f2f;
+  box-shadow: 0 2px 8px -4px #ad7f2f22;
+}
+.month-selector + .advent-calendar .calendar-progress {
+  border-top: 2px solid #e0c48a;
+  margin-top: 0;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 12px -8px #ad7f2f22;
+}
+.calendar-progress .progress-bar {
+  flex: 1;
+  height: 8px;
+  min-width: 120px;
+  background: #fff5da;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.calendar-progress .progress-fill {
+  background: linear-gradient(90deg, #ff9800 0%, #ffd700 100%);
+  height: 100%;
+  border-radius: 4px 0 0 4px;
+  transition: width 0.3s;
+}
+
+/* --- Advent calendar grid --- */
+.advent-calendar {
+  flex: 1;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+.calendar-grid {
+  flex: 1;
+  padding-left: 4vw;
+  padding-right: 4vw;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 10px;
+  height: calc(100vh - 170px);
+  align-content: stretch;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Make doors fill grid cell and scale perfectly */
+.calendar-grid .door {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: 1/1;
+  font-size: 1rem;
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  border: 3px solid #b06422;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 1px 10px rgba(0,0,0,0.08);
+  position: relative;
+  transition: transform 0.2s, background 0.2s, border 0.2s;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Locked/Unlocked/Open states */
+.calendar-grid .door.locked {
+  background: #eee;
+  border: 3px dashed #aaa;
+  color: #bbb;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+.calendar-grid .door.unlocked {
+  background: #fffbe9;
+  border-color: #b06422;
+}
+.calendar-grid .door.unlocked:hover {
+  transform: scale(1.07) rotate(-2deg);
+  background: #ffe7c6;
+  border-color: #d77e22;
+  z-index: 2;
+}
+.calendar-grid .door.open {
+  background: #b06422;
+  color: #fff;
+  border-color: #b06422;
+  filter: none;
+  cursor: pointer;
+}
+.calendar-grid .door .icon {
+  font-size: 2rem;
+  margin-bottom: 2px;
+}
+.door.today {
+  border: 3px solid #ff9800 !important;
+  box-shadow: 0 0 12px 0 #ff9800a0;
+  background: #fffbe6 !important;
+  color: #b06422 !important;
+  transform: scale(1.08);
+}
+
+/* --- Responsive tweaks for mobile and tiny screens --- */
+@media (max-width: 800px) {
+  .calendar-grid {
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 7px;
+    height: calc(100vh - 130px);
+    padding: 0 1vw;
+  }
+  .calendar-grid .door { font-size: 0.85rem; border-radius: 8px; }
+}
+@media (max-width: 600px) {
+  .calendar-grid {
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 4px;
+    height: calc(100vh - 110px);
+     padding-left: 3vw;
+    padding-right: 3vw;
+    height: calc(100vh - 110px);
+    max-width: 100vw;
+  }
+  .calendar-grid .door {
+    font-size: 0.7rem;
+    border-radius: 7px;
+  }
+  .month-selector {
+    gap: 4px;
+    padding: 0 6px 12px 6px;
+    font-size: 15px;
+  }
+}
+@media (max-width: 400px) {
+  .calendar-grid {
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    padding-left: 2vw;
+    padding-right: 2vw;
+    gap: 2px;
+    height: calc(100vh - 70px);
+    max-width: 100vw;
+  }
+  .calendar-grid .door {
+    font-size: 0.60rem;
+    border-radius: 4px;
+  }
+}
+
+/* --- Seasonal backgrounds and color themes --- */
+body.september { background: linear-gradient(to bottom, #ffe6b3 0%, #e2b07f 100%); }
+body.october   { background: linear-gradient(to bottom, #2d1436 5%, #ff6f3c); }
+body.november  { background: linear-gradient(to bottom, #f5e9cb, #b06422); }
+body.december  { background: linear-gradient(to bottom, #b6eaff, #fff); }
+body.january   { background: linear-gradient(to bottom, #e0f7fa, #7b7fe0); }
+body.october .calendar-grid .door { border-color: #ff6f3c; }
+body.october .calendar-grid .door.unlocked {
+  background: #381c4b;
+  color: #f8e1e1;
+}
+body.october .calendar-grid .door.open {
+  background: #ff6f3c;
+  color: #381c4b;
+  border-color: #381c4b;
+}
+body.november .calendar-grid .door { border-color: #b06422; }
+body.november .calendar-grid .door.unlocked {
+  background: #fffbe9;
+  color: #b06422;
+}
+body.november .calendar-grid .door.open {
+  background: #b06422;
+  color: #fffbe9;
+  border-color: #fffbe9;
+}
+body.december .calendar-grid .door { border-color: #7fd1ff; }
+body.december .calendar-grid .door.unlocked {
+  background: #e9f8ff;
+  color: #0077c2;
+}
+body.december .calendar-grid .door.open {
+  background: #7fd1ff;
+  color: #fff;
+  border-color: #e9f8ff;
+}
+
+/* --- Modal styles --- */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.modal-content {
+  background: #fff;
+  padding: 32px 20px 24px 20px;
+  border-radius: 20px;
+  text-align: center;
+  position: relative;
+  width: 90vw;
+  max-width: 380px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.16);
+  animation: fadeIn 0.3s;
+}
+.modal-content .close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: bold;
+  color: #444;
+  background: #fffa;
+  border-radius: 50%;
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border: none;
+  outline: none;
+}
+.modal-content img {
+  max-width: 120px;
+  margin: 10px auto 6px auto;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #0002;
+  background: #f8f8f8;
+}
+.modal-content .discount {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 6px 0 10px 0;
+  color: #d77e22;
+}
+.modal-content .item-name {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+/* --- Falling animation --- */
+.falling-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+}
+.falling-animation div {
+  position: absolute;
+  will-change: transform;
+  pointer-events: none;
+  animation: fall 6s linear infinite;
+}
+@keyframes fall {
+  to {
+    top: 120vh; 
+    opacity: 0.7;
+  }  100% { transform: translateY(100vh) rotate(360deg); opacity: 0.7;}
+}
+</style>
+
+<html>
+<div class="calendar-wrapper">
+  <div class="month-selector">
+    <button class="monthBtn" data-month="september">September 🍂</button>
+    <button class="monthBtn" data-month="october">October 🎃</button>
+    <button class="monthBtn" data-month="november">November 🍁</button>
+    <button class="monthBtn" data-month="december">December ❄️</button>
+    <button class="monthBtn" data-month="january">January 🧊</button>
+  </div>
+  <div class="advent-calendar">
+    <div class="calendar-progress"></div>
+    <div class="calendar-grid"></div>
+  </div>
+</div>
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <button class="close" id="close">&times;</button>
+    <span id="modal-icon" style="font-size:1rem"></span>
+    <img id="modal-img" src="" alt="" style="display:none;">
+    <div class="discount" id="modal-discount"></div>
+    <div class="item-name" id="modal-title"></div>
+    <div id="modal-desc-icon" style="margin: 12px 0; text-align:center;"></div>
+    <p id="modal-description"></p>
+  </div>
+</div>
+</html>
+
+
+<script>
+// --- Discount Data ---
+// Each month contains an array of objects representing the day's item and its discount details
+const discounts = {
+  september: [
+    { item: "Scarf", discount: "15% off", img: "https://cdn.pixabay.com/photo/2016/10/27/22/52/apple-pie-1776641_1280.jpg", icon: "🧣", desc: "Feeling chilly? Bundle up with this cozy scarf!" },
+    { item: "Sunflower Seeds", discount: "10% off", img: "https://cdn.pixabay.com/photo/2017/09/26/13/46/sunflower-2789983_1280.jpg", icon: "🌻", desc: "A healthy crunch for fall days." },
+    { item: "Plaid Blanket", discount: "25% off", img: "https://cdn.pixabay.com/photo/2018/09/19/07/52/blanket-3686817_1280.jpg", icon: "🧣", desc: "Cozy up for chilly evenings." },
+    { item: "Harvest Candle", discount: "20% off", img: "https://cdn.pixabay.com/photo/2016/05/31/17/56/candle-1428367_1280.jpg", icon: "🕯️", desc: "Bring warmth to your home." },
+    { item: "Pumpkin Soap", discount: "18% off", img: "https://cdn.pixabay.com/photo/2014/12/21/23/50/pumpkin-579983_1280.jpg", icon: "🎃", desc: "Celebrate the season in style." },
+    { item: "Scarf", discount: "15% off", img: "https://cdn.pixabay.com/photo/2016/10/27/22/52/apple-pie-1776641_1280.jpg", icon: "🧣", desc: "Feeling chilly? Bundle up with this cozy scarf!" },
+    { item: "Sunflower Seeds", discount: "10% off", img: "https://cdn.pixabay.com/photo/2017/09/26/13/46/sunflower-2789983_1280.jpg", icon: "🌻", desc: "A healthy crunch for fall days." },
+    { item: "Plaid Blanket", discount: "25% off", img: "https://cdn.pixabay.com/photo/2018/09/19/07/52/blanket-3686817_1280.jpg", icon: "🧣", desc: "Cozy up for chilly evenings." },
+    { item: "Harvest Candle", discount: "20% off", img: "https://cdn.pixabay.com/photo/2016/05/31/17/56/candle-1428367_1280.jpg", icon: "🕯️", desc: "Bring warmth to your home." },
+    { item: "Pumpkin Soap", discount: "18% off", img: "https://cdn.pixabay.com/photo/2014/12/21/23/50/pumpkin-579983_1280.jpg", icon: "🎃", desc: "Celebrate the season in style." },
+    { item: "Scarf", discount: "15% off", img: "https://cdn.pixabay.com/photo/2016/10/27/22/52/apple-pie-1776641_1280.jpg", icon: "🧣", desc: "Feeling chilly? Bundle up with this cozy scarf!" },
+    { item: "Sunflower Seeds", discount: "10% off", img: "https://cdn.pixabay.com/photo/2017/09/26/13/46/sunflower-2789983_1280.jpg", icon: "🌻", desc: "A healthy crunch for fall days." },
+    { item: "Plaid Blanket", discount: "25% off", img: "https://cdn.pixabay.com/photo/2018/09/19/07/52/blanket-3686817_1280.jpg", icon: "🧣", desc: "Cozy up for chilly evenings." },
+    { item: "Harvest Candle", discount: "20% off", img: "https://cdn.pixabay.com/photo/2016/05/31/17/56/candle-1428367_1280.jpg", icon: "🕯️", desc: "Bring warmth to your home." },
+    { item: "Pumpkin Soap", discount: "18% off", img: "https://cdn.pixabay.com/photo/2014/12/21/23/50/pumpkin-579983_1280.jpg", icon: "🎃", desc: "Celebrate the season in style." },
+    { item: "Scarf", discount: "15% off", img: "https://cdn.pixabay.com/photo/2016/10/27/22/52/apple-pie-1776641_1280.jpg", icon: "🧣", desc: "Feeling chilly? Bundle up with this cozy scarf!" },
+    { item: "Sunflower Seeds", discount: "10% off", img: "https://cdn.pixabay.com/photo/2017/09/26/13/46/sunflower-2789983_1280.jpg", icon: "🌻", desc: "A healthy crunch for fall days." },
+    { item: "Plaid Blanket", discount: "25% off", img: "https://cdn.pixabay.com/photo/2018/09/19/07/52/blanket-3686817_1280.jpg", icon: "🧣", desc: "Cozy up for chilly evenings." },
+    { item: "Harvest Candle", discount: "20% off", img: "https://cdn.pixabay.com/photo/2016/05/31/17/56/candle-1428367_1280.jpg", icon: "🕯️", desc: "Bring warmth to your home." },
+    { item: "Pumpkin Soap", discount: "18% off", img: "https://cdn.pixabay.com/photo/2014/12/21/23/50/pumpkin-579983_1280.jpg", icon: "🎃", desc: "Celebrate the season in style." },
+    { item: "Scarf", discount: "15% off", img: "https://cdn.pixabay.com/photo/2016/10/27/22/52/apple-pie-1776641_1280.jpg", icon: "🧣", desc: "Feeling chilly? Bundle up with this cozy scarf!" },
+    { item: "Sunflower Seeds", discount: "10% off", img: "https://cdn.pixabay.com/photo/2017/09/26/13/46/sunflower-2789983_1280.jpg", icon: "🌻", desc: "A healthy crunch for fall days." },
+    { item: "Plaid Blanket", discount: "25% off", img: "https://cdn.pixabay.com/photo/2018/09/19/07/52/blanket-3686817_1280.jpg", icon: "🧣", desc: "Cozy up for chilly evenings." },
+    { item: "Harvest Candle", discount: "20% off", img: "https://cdn.pixabay.com/photo/2016/05/31/17/56/candle-1428367_1280.jpg", icon: "🕯️", desc: "Bring warmth to your home." },
+    { item: "Pumpkin Soap", discount: "18% off", img: "https://cdn.pixabay.com/photo/2014/12/21/23/50/pumpkin-579983_1280.jpg", icon: "🎃", desc: "Celebrate the season in style." },
+    { item: "Scarf", discount: "15% off", img: "https://cdn.pixabay.com/photo/2016/10/27/22/52/apple-pie-1776641_1280.jpg", icon: "🧣", desc: "Feeling chilly? Bundle up with this cozy scarf!" },
+    { item: "Sunflower Seeds", discount: "10% off", img: "https://cdn.pixabay.com/photo/2017/09/26/13/46/sunflower-2789983_1280.jpg", icon: "🌻", desc: "A healthy crunch for fall days." },
+    { item: "Plaid Blanket", discount: "25% off", img: "https://cdn.pixabay.com/photo/2018/09/19/07/52/blanket-3686817_1280.jpg", icon: "🧣", desc: "Cozy up for chilly evenings." },
+    { item: "Harvest Candle", discount: "20% off", img: "https://cdn.pixabay.com/photo/2016/05/31/17/56/candle-1428367_1280.jpg", icon: "🕯️", desc: "Bring warmth to your home." },
+    { item: "Pumpkin Soap", discount: "18% off", img: "https://cdn.pixabay.com/photo/2014/12/21/23/50/pumpkin-579983_1280.jpg", icon: "🎃", desc: "Celebrate the season in style." }
+  ],
+  // Other months unchanged for brevity
+  october: [
+    { item: "Pumpkin Candle", discount: "25% off", img: "https://cdn.pixabay.com/photo/2016/09/17/19/15/pumpkin-1672914_1280.jpg", icon: "🎃", desc: "Light up your night with a spooky pumpkin candle!" },
+    { item: "Bat Plushie", discount: "20% off", img: "https://cdn.pixabay.com/photo/2017/02/13/10/47/bat-2067126_1280.png", icon: "🦇", desc: "Cuddle a bat this Halloween!" },
+    { item: "Spider Socks", discount: "30% off", img: "https://cdn.pixabay.com/photo/2013/07/12/12/38/spider-146380_1280.png", icon: "🕷️", desc: "Creep around with cozy spider socks." },
+    { item: "Ghost Mug", discount: "10% off", img: "https://cdn.pixabay.com/photo/2016/11/14/03/16/mug-1825287_1280.jpg", icon: "👻", desc: "Sip your potion in style." },
+    { item: "Witch Hat", discount: "40% off", img: "https://cdn.pixabay.com/photo/2016/03/31/20/32/witch-1294975_1280.png", icon: "🧙‍♀️", desc: "Perfect for Halloween parties!" }
+  ],
+  november: [
+    { item:"Acorn Necklace", discount:"15% off", img:"https://cdn.pixabay.com/photo/2016/11/29/10/07/acorn-1867347_1280.jpg", icon:"🌰", desc:"Wear the forest with you." },
+    { item:"Plaid Scarf", discount:"22% off", img:"https://cdn.pixabay.com/photo/2015/11/06/13/29/scarf-1023856_1280.jpg", icon:"🧣", desc:"Stay warm and fashionable." },
+    { item:"Maple Syrup", discount:"13% off", img:"https://cdn.pixabay.com/photo/2017/03/09/12/31/maple-2127652_1280.jpg", icon:"🍁", desc:"Sweeten your breakfasts!" },
+    { item:"Harvest Basket", discount:"18% off", img:"https://cdn.pixabay.com/photo/2014/09/21/18/24/basket-455357_1280.jpg", icon:"🍂", desc:"Perfect for fall gatherings." },
+    { item:"Cinnamon Candle", discount:"35% off", img:"https://cdn.pixabay.com/photo/2015/12/08/00/32/candle-1081193_1280.jpg", icon:"🕯️", desc:"Cozy up your home." }
+  ],
+  december: [
+    { item:"Snowflake Ornament", discount:"18% off", img:"https://cdn.pixabay.com/photo/2017/12/17/18/21/ornament-3024636_1280.jpg", icon:"❄️", desc:"Decorate with frosty charm." },
+    { item:"Hot Cocoa Mix", discount:"29% off", img:"https://cdn.pixabay.com/photo/2017/05/07/08/56/hot-chocolate-2296041_1280.jpg", icon:"🍫", desc:"Warm up this winter!" },
+    { item:"Wool Mittens", discount:"23% off", img:"https://cdn.pixabay.com/photo/2017/11/02/16/27/knitted-2912954_1280.jpg", icon:"🧤", desc:"Keep your hands toasty." },
+    { item:"LED Fairy Lights", discount:"14% off", img:"https://cdn.pixabay.com/photo/2017/12/28/09/36/christmas-3046447_1280.jpg", icon:"✨", desc:"Brighten up your holidays." },
+    { item:"Santa Hat", discount:"32% off", img:"https://cdn.pixabay.com/photo/2012/04/11/16/48/santa-hat-28626_1280.png", icon:"🎅", desc:"Get festive!" }
+  ],
+  january: [
+    { item: "Snow Boots", discount: "20% off", img: "https://cdn.pixabay.com/photo/2016/11/21/17/07/boot-1844896_1280.jpg", icon: "🥾", desc: "Trek through January snow in style!" },
+    { item: "Hot Tea Set", discount: "16% off", img: "https://cdn.pixabay.com/photo/2015/06/10/21/23/tea-804961_1280.jpg", icon: "☕", desc: "Stay warm with a cozy tea set." },
+    { item: "Ice Skates", discount: "27% off", img: "https://cdn.pixabay.com/photo/2016/11/22/21/42/ice-skates-1852569_1280.jpg", icon: "🧊", desc: "Glide into the new year!" },
+    { item: "Snowflake Scarf", discount: "13% off", img: "https://cdn.pixabay.com/photo/2015/12/08/00/32/scarf-1081193_1280.jpg", icon: "❄️", desc: "Bundle up in snowflake style." },
+    { item: "Winter Candle", discount: "22% off", img: "https://cdn.pixabay.com/photo/2016/05/31/17/56/candle-1428367_1280.jpg", icon: "🕯️", desc: "Brighten cold nights." }
+  ]
+};
+
+// --- Month Config ---
+const monthConfig = {
+  september: { days: 30 },
+  october: { days: 31 },
+  november: { days: 30 },
+  december: { days: 25 },
+  january: { days: 31 }
+};
+
+// --- Month Icons ---
+const monthIcons = {
+  september: ["🍂","🍎","🥧","🧣","🌻"],
+  october: ["🎃","🦇","👻","🕷️","🧙‍♀️","🪦"],
+  november: ["🍁","🌰","🍂","🧣","🕯️","🥧"],
+  december: ["❄️","⛄","✨","🧤","🎅","🎄"],
+  january: ["🥾","☕","❄️","🧊","🌨️"]
+};
+
+// --- DOM Selectors ---
+const calendarGrid = document.querySelector('.calendar-grid');
+const monthBtns = document.querySelectorAll('.monthBtn');
+
+// --- Month Switching Logic ---
+let selectedMonth = null;
+
+monthBtns.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    let month = btn.getAttribute('data-month');
+    if (btn.classList.contains('active')) {
+      btn.classList.remove('active');
+      document.body.className = '';
+      selectedMonth = null;
+      calendarGrid.innerHTML = '';
+      let fallin = document.querySelector('.falling-animation');
+      if (fallin) fallin.remove();
+      return;
+    }
+    monthBtns.forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    document.body.className = month;
+    selectedMonth = month;
+    renderCalendar(selectedMonth);
+  });
+});
+
+// --- Initial Render: activate current month automatically on page load
+let initialMonth = getCurrentMonth();
+let initialBtn = document.querySelector(`.monthBtn[data-month="${initialMonth}"]`);
+if (initialBtn) {
+  initialBtn.classList.add('active');
+  document.body.className = initialMonth;
+  selectedMonth = initialMonth;
+  renderCalendar(initialMonth);
+}
+
+function getCurrentMonth() {
+  let m = new Date().getMonth();
+  if (m === 8) return 'september';
+  if (m === 9) return 'october';
+  if (m === 10) return 'november';
+  if (m === 11) return 'december';
+  if (m === 0) return 'january';
+  return null;
+}
+
+function getMonthNumber(month) {
+  return {
+    'january': 0,
+    'february': 1,
+    'march': 2,
+    'april': 3,
+    'may': 4,
+    'june': 5,
+    'july': 6,
+    'august': 7,
+    'september': 8,
+    'october': 9,
+    'november': 10,
+    'december': 11
+  }[month];
+}
+
+// --- RENDER CALENDAR ---
+function renderCalendar(month) {
+  calendarGrid.innerHTML = '';
+  let days = monthConfig[month].days;
+  let today = new Date();
+  let highlightDay = null;
+  if (today.getMonth() === getMonthNumber(month)) {
+    highlightDay = today.getDate();
+  }
+  let unlockedDays = highlightDay || 0;
+
+  // Progress bar/text
+  let calendarWrapper = document.querySelector('.calendar-wrapper');
+  let adventCalendar = calendarWrapper.querySelector('.advent-calendar');
+  let progressElem = adventCalendar.querySelector('.calendar-progress');
+  if (!progressElem) {
+    progressElem = document.createElement('div');
+    progressElem.className = 'calendar-progress';
+    adventCalendar.insertBefore(progressElem, adventCalendar.querySelector('.calendar-grid'));
+  }
+  let percent = Math.round((unlockedDays / days) * 100);
+  progressElem.innerHTML = `
+    <span>Day: ${unlockedDays} / ${days}</span>
+    <div class="progress-bar"><div class="progress-fill" style="width:${percent}%"></div></div>
+  `;
+
+  for (let i = 1; i <= days; i++) {
+    let door = document.createElement('div');
+    door.className = 'door unlocked';
+    let iconText = monthIcons[month][(i-1) % monthIcons[month].length];
+    door.innerHTML = `<span class="icon">${iconText}</span> ${i}`;
+    if (i === highlightDay) {
+      door.classList.add('today');
+    }
+
+    door.addEventListener('click', function() {
+      let now = new Date();
+      let isCurrentMonth = now.getMonth() === getMonthNumber(month);
+      let currentDay = now.getDate();
+
+      if (isCurrentMonth) {
+        if (i > currentDay) {
+          return;
+        }
+        let discountInfo = discounts[month] && discounts[month][i - 1];
+        if (discountInfo) {
+          showDiscountModal(discountInfo);
+        } else {
+          showDiscountModal({
+            item: "No Discount",
+            discount: "",
+            img: "",
+            icon: "❓",
+            desc: "No discount for this day."
+          });
+        }
+      }
+    });
+
+    calendarGrid.appendChild(door);
+  }
+  createFallingAnimation(month);
+}
+
+// --- Discount Modal ---
+function showDiscountModal(info) {
+  let modal = document.querySelector('.modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `<div class="modal-content"></div>`;
+    document.body.appendChild(modal);
+  }
+  let modalContent = modal.querySelector('.modal-content');
+  modalContent.innerHTML = `
+    <button class="close" onclick="document.querySelector('.modal').style.display='none'">&times;</button>
+    ${info.img ? `<img src="${info.img}" alt="">` : ""}
+    <div class="icon" style="font-size:2rem">${info.icon}</div>
+    ${info.discount ? `<div class="discount">${info.discount}</div>` : ""}
+    <div class="item-name">${info.item}</div>
+    <div>${info.desc}</div>
+  `;
+  modal.style.display = 'flex';
+
+  window.onkeydown = function(e) {
+    if (e.key === "Escape") {
+      modal.style.display = "none";
+    }
+  };
+  modal.onclick = function(e) {
+    if (e.target === modal) modal.style.display = "none";
+  };
+}
+
+// --- Falling animation ---
+function createFallingAnimation(month) {
+  let container = document.querySelector('.falling-animation');
+  if (container) container.remove();
+  container = document.createElement('div');
+  container.className = 'falling-animation';
+  document.body.appendChild(container);
+
+  let shapes = monthIcons[month];
+  for (let i = 0; i < 40; i++) {
+    let particle = document.createElement('div');
+    particle.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+    particle.style.left = Math.random() * 100 + 'vw';
+    particle.style.animation = `fall ${(Math.random() * 7 + 5)}s linear infinite`;
+    particle.style.animationDelay = (Math.random() * 4) + "s";
+    particle.style.fontSize = Math.random() * 22 + 16 + 'px';
+    particle.style.top = (-Math.random() * 600 - 40) + 'px';
+    container.appendChild(particle);
+  }
+}
+
+</script>

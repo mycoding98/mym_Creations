@@ -1,0 +1,203 @@
+<style>
+#wps_popup,
+.data-wps-popup-content-body.bordered,
+.wps-overlay-close-button {
+  display: none !important;
+}
+</style>
+
+<script>
+
+(function() {
+
+  var buttonId = 'universal-cart-popup-btn';
+  var popupId = 'universal-cart-popup';
+  var listId = 'universal-cart-popup-list';
+  var closeId = 'universal-cart-popup-close';
+
+  if (!document.getElementById(buttonId)) {
+    var btn = document.createElement('button');
+    btn.id = buttonId;
+    btn.textContent = 'View Cart Items';
+    btn.style = 'position:fixed;bottom:32px;right:32px;z-index:10000;padding:16px 24px;border-radius:40px;background:#222;color:#fff;border:none;box-shadow:0 2px 10px rgba(0,0,0,0.15);cursor:pointer;display:none;';
+    document.body.appendChild(btn);
+  }
+  
+  if (!document.getElementById(popupId)) {
+    var popup = document.createElement('div');
+    popup.id = popupId;
+    popup.style = 'display:none;position:fixed;bottom:90px;right:32px;z-index:10000;background:#fff;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.2);max-width:350px;width:90vw;padding:24px 16px;';
+    popup.innerHTML =
+      `<span id="${closeId}" style="position:absolute;top:8px;right:12px;cursor:pointer;font-weight:bold;font-size:22px;">&times;</span>
+      <h3 style="margin-top:0;">Your Cart Items</h3>
+      <ul id="${listId}" style="list-style:none;padding:0;margin:0;"></ul>`;
+    document.body.appendChild(popup);
+  }
+
+  // --- MAGENTO ---
+  function extractMagentoMiniCart() {
+    var html = '';
+    var seen = new Set();
+    jQuery('ol.minicart-items li.item.product.product-item').each(function() {
+      var $item = jQuery(this);
+      var name = $item.find('.product-item-name a').first().text().trim();
+      var url = $item.find('.product-item-name a').first().attr('href') || '#';
+      var img = $item.find('.product-image-photo').first().attr('src') || '';
+      var price = $item.find('.minicart-price .price').first().text().trim() || 'N/A';
+      var qty = $item.find('input.item-qty, input.cart-item-qty').first().val() ||
+                $item.find('[data-item-qty]').attr('data-item-qty') ||
+                $item.find('.qty').first().text().trim() || '1';
+      var uniqueKey = url + '|' + name;
+      if (!seen.has(uniqueKey) && name) {
+        html += `<li style="margin:1em 0;border-bottom:1px solid #eee;padding-bottom:1em;">`;
+        if (img) html += `<img src="${img}" alt="${name}" style="width:48px;height:48px;vertical-align:middle;margin-right:1em;border-radius:4px;">`;
+        html += `<strong><a href="${url}" target="_blank" style="color:#333;text-decoration:none;">${name}</a></strong><br>`;
+        html += `Price: ${price}<br>`;
+        html += `Qty: ${qty}<br>`;
+        html += `</li>`;
+        seen.add(uniqueKey);
+      }
+    });
+    return html;
+  }
+
+// --- SFCC ---
+  function extractSFCCCart() {
+    var html = '';
+    var seen = new Set();
+    // Cart page items
+    jQuery('.product-list-item-custom.product-list-item').each(function() {
+      var $item = jQuery(this);
+      var name = $item.find('.name a').text().trim();
+      var url = $item.find('.name a').attr('href') || '#';
+      var img = $item.find('img').attr('src') || '';
+      var alt = $item.find('img').attr('alt') || name;
+      var price = $item.find('.price, .cart-product-price, .mini-bag-product-price').first().text().trim();
+      if (!price) price = $item.find('[class*=price]').first().text().trim();
+      if (!price) price = 'N/A';
+      var qty = $item.find('.quantity, .mini-bag-product-qty, .cart-product-qty').first().text().trim();
+      if (!qty) qty = $item.find('input.qty, input.quantity').val();
+      if (!qty || isNaN(qty)) qty = '1';
+
+      var uniqueKey = url + '|' + name;
+      if (!seen.has(uniqueKey) && name) {
+        html += '<li style="margin:1em 0;border-bottom:1px solid #eee;padding-bottom:1em;">';
+        if (img) html += '<img src="' + img + '" alt="' + alt + '" style="width:48px;height:48px;vertical-align:middle;margin-right:1em;border-radius:4px;">';
+        html += '<strong><a href="' + url + '" target="_blank" style="color:#333;text-decoration:none;">' + name + '</a></strong><br>';
+        html += 'Price: ' + price + '<br>';
+        html += 'Qty: ' + qty + '<br>';
+        html += '</li>';
+        seen.add(uniqueKey);
+      }
+    });
+
+    // MAGENTO Mini-cart items
+    jQuery('.mini-cart-product, .mini-bag-product').each(function() {
+      var $item = jQuery(this);
+      var name = $item.find('.mini-bag-name-value, .mini-cart-name-value').text().trim();
+      var url = $item.find('a').attr('href') || '#';
+      var img = $item.find('img').attr('src') || '';
+      var alt = $item.find('img').attr('alt') || name;
+      var price = $item.find('.mini-bag-product-price, .price, .cart-product-price').first().text().trim();
+      if (!price) price = $item.find('[class*=price]').first().text().trim();
+      if (!price) price = 'N/A';
+      var qty = $item.find('.mini-bag-product-qty, .quantity, .cart-product-qty').first().text().trim();
+      if (!qty) qty = $item.find('input.qty, input.quantity').val();
+      if (!qty || isNaN(qty)) qty = '1';
+
+      var uniqueKey = url + '|' + name;
+      if (!seen.has(uniqueKey) && name) {
+        html += '<li style="margin:1em 0;border-bottom:1px solid #eee;padding-bottom:1em;">';
+        if (img) html += '<img src="' + img + '" alt="' + alt + '" style="width:48px;height:48px;vertical-align:middle;margin-right:1em;border-radius:4px;">';
+        html += '<strong><a href="' + url + '" target="_blank" style="color:#333;text-decoration:none;">' + name + '</a></strong><br>';
+        html += 'Price: ' + price + '<br>';
+        html += 'Qty: ' + qty + '<br>';
+        html += '</li>';
+        seen.add(uniqueKey);
+      }
+    });
+
+    return html;
+  }
+
+  // --- ADDITIONAL SITES ---
+  // ex: function extractShopifyCart() {...}
+
+  // --- Universal Extraction ---
+  function extractCartItemsUniversal() {
+    var html = '';
+    // Try Magento
+    html = extractMagentoMiniCart();
+    if (html) return html;
+    // Try SFCC
+    html = extractSFCCCart();
+    if (html) return html;
+    // ADDITIONAL SITE
+    return '';
+  }
+
+  // --- Show/hide button depending on cart contents ---
+  function updateButtonVisibility() {
+    var btn = document.getElementById(buttonId);
+    var html = extractCartItemsUniversal();
+    if (html) {
+      btn.style.display = 'block';
+    } else {
+      btn.style.display = 'none';
+      var popup = document.getElementById(popupId);
+      if (popup) popup.style.display = 'none';
+    }
+  }
+
+  // --- Mutation observer for live updates ---
+  function observeCartChanges() {
+    // MAGENTO cart observer
+    var magentoMiniCart = document.querySelector('ol.minicart-items');
+    if (magentoMiniCart) {
+      var observer1 = new MutationObserver(updateButtonVisibility);
+      observer1.observe(magentoMiniCart, { childList: true, subtree: true });
+    }
+    // SFCC cart page observer
+    var sfccCartList = document.querySelector('.product-list-item-custom.product-list-item');
+    if (sfccCartList) {
+      var observer2 = new MutationObserver(updateButtonVisibility);
+      observer2.observe(sfccCartList.parentNode, { childList: true, subtree: true });
+    }
+    // SFCC mini cart observer
+    var sfccMiniCart = document.querySelector('.mini-cart-product, .mini-bag-product');
+    if (sfccMiniCart) {
+      var observer3 = new MutationObserver(updateButtonVisibility);
+      observer3.observe(sfccMiniCart.parentNode, { childList: true, subtree: true });
+    }
+    updateButtonVisibility(); // Initial check
+  }
+
+  // --- Popup open/close logic ---
+  document.getElementById(buttonId).onclick = function() {
+    var html = extractCartItemsUniversal();
+    document.getElementById(listId).innerHTML = html || '<li>No cart items found.</li>';
+    document.getElementById(popupId).style.display = 'block';
+  };
+  document.getElementById(closeId).onclick = function() {
+    document.getElementById(popupId).style.display = 'none';
+  };
+  document.addEventListener('mousedown', function(e) {
+    var popup = document.getElementById(popupId);
+    var btn = document.getElementById(buttonId);
+    if (popup.style.display === 'block' && !popup.contains(e.target) && e.target !== btn) {
+      popup.style.display = 'none';
+    }
+  });
+
+  // --- DOM Ready ---
+  if (document.readyState !== 'loading') {
+    observeCartChanges();
+  } else {
+    document.addEventListener('DOMContentLoaded', observeCartChanges);
+  }
+
+  // --- For AJAX navigation, re-run updateButtonVisibility after cart updates.
+  // ex: jQuery(document).on('cartUpdate', updateButtonVisibility);
+})();
+
+</script>

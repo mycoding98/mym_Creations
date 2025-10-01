@@ -1,0 +1,914 @@
+<style>
+ * { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: #f5f5f7;
+  display: grid;
+  place-items: center;
+  font-family: {variables.ff};
+}
+
+/* container */
+
+.wpst-story {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0px;
+  overflow: hidden;
+  background: #000;
+  align-content: center;
+  z-index: 8;
+}
+
+#wpst-close {
+  position: absolute;
+  top: 18px;
+  right: 10px; 
+  z-index: 9999;
+  color: white;
+  background: rgba(0,0,0,0.5);
+  padding: 4px 6px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: normal;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px; 
+  height: 32px;
+}
+
+/* First img */ 
+
+.logo {
+  width:40%;
+  height:48px;
+  margin-top:40px;
+  position:absolute;
+  top:20px;
+  left:0;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.prefinfo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;        
+  max-width: 600px;
+  padding: 0.5rem 1rem;
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+  border-left: none;
+  border-right: none;
+  background: transparent;
+  text-transform: uppercase;
+  z-index: 20;
+}
+
+
+.prefinfoII {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;        
+  max-width: 600px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: normal;
+  color: #333;
+  text-align: center;
+  border-left: none;
+  border-right: none;
+  background: transparent;
+
+  z-index: 2000;
+}
+
+/* hide category on slide1 */
+.wpst-story.intro .wpst-category-container { 
+  display: none; 
+}
+
+/* images stack, flip opacity */
+.wpst-stage { 
+  position: absolute;
+  inset: 0; 
+}
+
+/* Make the intro wrapper behave like a slide */
+.wpst-stage > div:first-child { position: absolute; inset: 0; z-index: 0; }
+.wpst-stage > div:first-child:not(.active) { opacity: 0; pointer-events: none; }
+.wpst-stage > div:first-child.active { opacity: 1; pointer-events: auto; }
+
+/* Ensure the intro background image covers the stage */
+.wpst-stage > div:first-child > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* Images stack above intro when active */
+.wpst-stage > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.wpst-stage > img.active {
+  position: absolute;
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* progress bars */
+
+.wpst-bar {
+  position: absolute;
+  top: 8px;
+  left: 0; right: 0;
+  padding: 0 10px;
+  display: flex;
+  gap: 4px;
+  z-index: 999;
+}
+
+.wpst-bar > span {
+  flex: 1 1 0;
+  height: 2px;
+  background: rgba(255,255,255,.35);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.wpst-bar > span:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,.95);
+  transform: translateX(-100%);
+}
+
+.wpst-bar > span.done:after { 
+  transform: none; 
+}
+
+.wpst-bar > span.active:after {
+  animation: fill 5s linear forwards;
+}
+
+
+/* Category logging value of img */
+
+.wpst-category-container {
+  position: absolute;
+  bottom: 20px;
+  left: 14px;
+  z-index: 1000;
+  width: auto;
+  max-width: 90vw;
+  min-height: 38px;
+  background: rgba(20,20,20,0.47);
+  box-shadow: 0 4px 32px rgba(0,0,0,0.28), 0 1.5px 0 rgba(0,0,0,0.09) inset;
+  border-radius: 22px;
+  border: 1.5px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(9px) saturate(1.8);
+  -webkit-backdrop-filter: blur(9px) saturate(1.8);
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  text-align: center;
+}
+
+
+.wpst-category, .wpst-like {
+  background: none;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+}
+
+.wpst-category {
+ flex: 1;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: left;
+  pointer-events: none;
+  white-space: normal;
+  word-break: break-word; 
+  overflow-wrap: break-word;
+  overflow: hidden;
+  background: none;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+}
+
+/* original shows multi select on scroll */
+.liked-categories {
+  display: none;
+}
+
+@keyframes fill { to { transform: none; } }
+
+/* invisible tap */
+.wpst-tap {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 50%;
+  background: none;
+  border: 0;
+  padding: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.wpst-tap.wpst-prev { left: 0; }
+.wpst-tap.wpst-next { right: 0; }
+
+.wpst-tap.wpst-prev:hover { 
+  /* background: rgba(255,0,0,.1); */ 
+}
+.wpst-tap.wpst-next:hover { 
+  /* background: rgba(0,255,0,.1); */ 
+
+}
+
+/* heart */
+
+.wpst-like {
+ position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+}
+
+
+.wpst-like input { 
+  position: absolute; 
+  opacity: 0; 
+  pointer-events: none; 
+}
+
+.wpst-like label {
+  position: relative;
+  width: 46px; 
+  height: 46px;
+  border-radius: 50%;
+  display: grid; 
+  place-items: center;
+  /* background: rgba(0,0,0,.55); */
+  color: #fff;
+  cursor: pointer;
+  background: none;
+}
+.wpst-like label:before {
+  content: "";
+  position: absolute;
+  width: 44px; 
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #e8d6b6;
+  opacity: 0;
+  transform: scale(.2);
+  
+}
+.wpst-like label svg {
+  width: 26px; 
+  height: 26px;
+  fill: transparent;
+  stroke: #fff;
+  stroke-width: 2;
+  transform-origin: 50% 50%;
+  transition: fill .2s, stroke .2s, transform .2s;
+
+}
+
+/* burst dots */
+.wpst-like label i {
+  position: absolute;
+  width: 6px; 
+  height: 6px;
+  border-radius: 50%;
+  background: #e75151;
+  top: 50%; 
+  left: 50%;
+  margin: -3px 0 0 -3px;
+  opacity: 0;
+  transform: scale(.2);
+}
+
+.wpst-like label i:nth-of-type(1){ transform: translate(-24px,-6px)  scale(.2); }
+.wpst-like label i:nth-of-type(2){ transform: translate(-16px,-22px) scale(.2); }
+.wpst-like label i:nth-of-type(3){ transform: translate(  0px,-26px)  scale(.2); }
+.wpst-like label i:nth-of-type(4){ transform: translate( 16px,-22px) scale(.2); }
+.wpst-like label i:nth-of-type(5){ transform: translate( 24px,-6px)  scale(.2); }
+.wpst-like label i:nth-of-type(6){ transform: translate(  0px, 24px)  scale(.2); }
+
+/* checkbox pop + ring + dots */
+@keyframes pop { 0%{ transform: scale(1) } 40%{ transform: scale(1.25) } 70%{ transform: scale(0.9) } 100%{ transform: scale(1) } }
+@keyframes ring { 0%{ transform: scale(.2); opacity:.9 } 100%{ transform: scale(1.6); opacity:0 } }
+@keyframes dot { 0%{ opacity:0; transform: translate(0,0) scale(.2) } 20%{ opacity:1 } 100%{ opacity:0; transform: translate(0,0) scale(1.1) } }
+
+.wpst-like input:checked + label svg {
+  fill: #e75151;
+  stroke: #e75151;
+  animation: pop .35s ease-out;
+}
+.wpst-like input:checked + label:before { animation: ring .45s ease-out; }
+.wpst-like input:checked + label i { animation: dot .5s ease-out forwards; }
+
+/* uncheck press */
+.wpst-like input:not(:checked) + label svg:active { transform: scale(.92); }
+
+/* Heart pulse on slide change */
+@keyframes heartPulse {
+  0% { transform: scale(1) }
+  25% { transform: scale(1.22) }
+  55% { transform: scale(0.96) }
+  100% { transform: scale(1) }
+}
+.wpst-like label.pulse-heart svg {
+  animation: heartPulse .5s ease-out;
+}
+
+/* black heart on the first slide aka da intro */
+.wpst-story.intro .wpst-like input:not(:checked) + label svg {
+  fill: #000;
+  stroke: #000;
+}
+
+
+/* sources:
+   css-tricks — recreating the twitter heart animation
+   https://css-tricks.com/recreating-the-twitter-heart-animation/
+   álvaro trigo — css checkbox styles
+   https://alvarotrigo.com/blog/css-checkbox-styles/
+*/
+</style>
+
+<html>
+<div class="wpst-story" data-story>
+  <div class="wpst-category-container">
+  <div class="wpst-category"></div></div>
+    <div class="wpst-like">
+    <input id="wpst-heart" type="checkbox" aria-label="like">
+    <label for="wpst-heart">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 1.01 4.5 2.09C13.09 4.01 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+      <i></i><i></i><i></i><i></i><i></i><i></i>
+    </label>
+  </div>
+
+   <div class="wpst-stage">
+    <div class="active" style="position:relative;width:100%;height:100%;">
+      <img src="https://demo.emarsys.net/custloads/211241860/md_100092392.png" alt="Background" />
+      <div >
+        <img src="https://demo.emarsys.net/custloads/211241860/md_100092393.svg" alt="Logo" class="logo" />
+       <div class="prefinfo">Love it? Like it.</div>
+        <div class="prefinfoII">Click the ♡ to update your preferences</div>
+        
+         </div>
+    </div>
+    
+    <img data-form-value="Men" id="Mens" src="https://demo.emarsys.net/custloads/211241860/md_100092379.png" alt="Mens">
+    <img data-form-value="Women" id="Womens" src="https://demo.emarsys.net/custloads/211241860/md_100092373.png" alt="Womens">
+    <img data-form-value="Tops" id="Tops" src="https://demo.emarsys.net/custloads/211241860/md_100092374.png" alt="Tops">
+    <img data-form-value="Bottoms" id="Bottoms" src="https://demo.emarsys.net/custloads/211241860/md_100092378.png" alt="Bottoms">
+    <img data-form-value="Shoes" id="Shoes" src="https://demo.emarsys.net/custloads/211241860/md_100092377.png" alt="Shoes">
+  </div>
+  
+  <div id="wpst-close" class="wps-close ems-inapp-close" aria-label="Close">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M2.66669 3.57756L3.57758 2.66666L8.00002 7.10231L12.4357 2.66666L13.3334 3.57756L8.91091 8L13.3334 12.4356L12.4357 13.3333L8.00002 8.91089L3.57758 13.3333L2.66669 12.4356L7.10233 8L2.66669 3.57756Z" fill="white"></path>
+    </svg>
+     </div>
+  <div class="wpst-bar"></div>
+ 
+  <button class="wpst-tap wpst-prev" aria-label="prev"></button>
+  <button class="wpst-tap wpst-next" aria-label="next"></button>
+  <div class="wpst-value" aria-live="polite"></div>
+  <div class="wpst-liked-values" aria-live="polite"></div>
+  
+</div>
+
+<form name="ProfileForm" action="https://demo.emarsys.net/u/register.php" method=post style="display: none">
+  <label for="liked-categories"></label>
+  <select name="inp_100030792[]" id="liked-categories" multiple>
+    <option value="Mens">Mens</option>
+    <option value="Womens">Womens</option>
+    <option value="Tops">Tops</option>
+    <option value="Bottoms">Bottoms</option>
+    <option value="Shoes">Shoes</option>
+  </select>
+  <button type="submit">Submit</button>
+</form>
+</html>
+
+<script>
+/* Story slider with like button + like capture on id
+   using .story[data-story]
+   split into 2 halves for prev/next
+   Each slide has a corresponding <span> inside .bar (CSS keyframe fills it)
+   Likes tracked per slide w a stable ID (data-id -> in sync id -> src -> generated)
+*/
+
+(() => {
+  // container
+  const root = document.querySelector("[data-story]");
+  if (!root) return;
+
+  // arrow keys if also used for wc
+  // if (!root.hasAttribute("tabindex")) root.tabIndex = 0;
+
+  // DOM elements 
+  const stage = root.querySelector(".wpst-stage");
+  const bar = root.querySelector(".wpst-bar"); 
+  const prev = root.querySelector(".wpst-prev"); 
+  const next = root.querySelector(".wpst-next");
+  const heart = root.querySelector("#wpst-heart");
+  const wpstOverlay = document.querySelector(".wpst-story");
+  const wpstClosePopup = document.getElementById("wpst-close");
+  const categoryEl = root.querySelector('.wpst-category');
+  
+  // Guard required elements to avoid runtime errors
+  if (!stage || !bar || !categoryEl) {
+    console.log("Story: missing .wpst-stage, .wpst-bar, or .wpst-category inside [data-story].");
+    return;
+  }
+
+  // working array from stage
+// FIX: only direct child images (exclude intro's nested imgs)
+  const imgs = Array.from(stage.children).filter((el) => el.tagName === "IMG");
+
+  // intro wrapper first non-IMG child is the intro slide
+  const intro = stage.firstElementChild && stage.firstElementChild.tagName !== "IMG"
+    ? stage.firstElementChild
+    : null;
+  const hasIntro = !!intro;
+
+  // for heart pulse
+  const heartLabel = root.querySelector(".wpst-like label");
+  function pulseHeart() {
+    if (!heartLabel) return;
+    heartLabel.classList.remove("pulse-heart");
+    void heartLabel.offsetWidth; // restart animation
+    heartLabel.classList.add("pulse-heart");
+  }
+
+  // current value and liked values 
+  let valueEl = root.querySelector('.wpst-value');
+  if (!valueEl) {
+    valueEl = document.createElement('div');
+    valueEl.className = 'wpst-value';
+    valueEl.setAttribute('aria-live', 'polite');
+    bar.insertAdjacentElement('afterend', valueEl);
+  }
+
+  let likedWrap = root.querySelector('.wpst-liked-values');
+  if (!likedWrap) {
+    likedWrap = document.createElement('div');
+    likedWrap.className = 'wpst-liked-values';
+    likedWrap.setAttribute('aria-live', 'polite');
+    valueEl.insertAdjacentElement('afterend', likedWrap);
+  }
+
+  // slider state, current index and timer for auto-slide
+  // i is the "story step" .. 0 = intro, 1..N = images
+  let i = 0;
+  const dur = 5000;  
+  let timer;
+
+  // ID for each slide and metadata 
+  //   data-id -> id attribute -> src attribute -> generated
+  const slides = imgs.map((img, idx) => {
+    const id =
+      img.dataset.id ||
+      img.id ||
+      img.getAttribute("src") ||
+      `slide-${idx + 1}`;
+
+    // data-id returns the element, source, alt text, index logging this
+    if (!img.dataset.id) img.dataset.id = id;
+
+    return {
+      id,
+      el: img,
+      src: img.getAttribute("src"),
+      alt: img.getAttribute("alt") || "",
+      index: idx,
+    };
+  });
+
+  //  Like tracking
+  // likedSet: checking by stable ID
+  // likedItems: array of the liked slide objects (id, src, alt, index)
+  const likedSet = new Set();
+  const likedItems = [];
+
+  //get copy of liked items
+  window.wpstGetLikes = function () {
+    return likedItems.slice();
+  };
+
+  // return form values (from data-form-value on <img>, else index+1)
+  // this is what gets sent to emarsys or form
+  window.wpstGetLikedValues = function () {
+    var values = [];
+    likedSet.forEach(function (id) {
+      for (var j = 0; j < slides.length; j++) {
+        var s = slides[j];
+        if (s.id === id) {
+          var v =
+            s.el && s.el.dataset && s.el.dataset.formValue
+              ? s.el.dataset.formValue
+              : String(s.index + 1); // fallback to 1
+          values.push(String(v));
+          break;
+        }
+      }
+    });
+    return values;
+  };
+
+  // visible image slide w null on intro
+  function getActiveImageSlide() {
+    if (hasIntro) {
+      if (i === 0) return null;
+      return slides[i - 1] || null;
+    }
+    return slides[i] || null;
+  }
+
+  // value of the current slide
+  function getCurrentFormValue() {
+    const s = getActiveImageSlide();
+    if (!s) return '';
+    return (s.el && s.el.dataset && s.el.dataset.formValue)
+      ? String(s.el.dataset.formValue)
+      : String(s.index + 1);
+  }
+
+  // display category label
+  function renderCategoryDisplay() {
+    // uses current index, so always correct after showSlide
+    if (!categoryEl) return;
+    const s = getActiveImageSlide();
+    if (!s) { categoryEl.textContent = ""; return; }
+    const val = (s.el.dataset.formValue || String(s.index + 1)).toUpperCase();
+    categoryEl.textContent = `MyPacSun: ${val}`;
+ }
+  
+  // value, liked-values
+  function renderCurrentValue() {
+    if (!valueEl) return;
+    valueEl.textContent = 'Value: ' + (getCurrentFormValue() || '—');
+  }
+
+  function renderLikedValues() {
+    if (!likedWrap) return;
+    const vals = window.wpstGetLikedValues();
+    likedWrap.textContent = vals.length ? ('Liked: ' + vals.join(', ')) : 'Liked: —';
+  }
+
+  // sync likes to a <select name="inp_100030792[]"> in form[name="ProfileForm"]
+  // this function is defined but not automatically called; call it where you need submission-ready values.
+  var form =
+    document.forms.ProfileForm ||
+    document.querySelector('form[name="ProfileForm"]');
+  var likedSelect = form
+    ? form.querySelector('select[name="inp_100030792[]"]')
+    : null;
+
+  function wpstSyncLikedToForm() {
+    if (!likedSelect) return;
+    var opts = likedSelect.options;
+
+    // Clear all liked
+    for (var clicked = 0; clicked < opts.length;  clicked++) opts[clicked].selected = false;
+
+    // Select values that match current likes
+    var vals = window.wpstGetLikedValues();
+    for (var a = 0; a < vals.length; a++) {
+      for (var b = 0; b < opts.length; b++) {
+        if (opts[b].value == vals[a]) {
+          opts[b].selected = true;
+        }
+      }
+    }
+    
+    // console.log('selected', array.prototype.map.call(likedSelect.selectedOptions, function(o){return o.value;}));
+  }
+
+  // continue w liked values locally (not auto-called)
+  function wpstContLikes() {
+    try {
+      localStorage.setItem(
+        "wpst-liked-values",
+        JSON.stringify(window.wpstGetLikedValues())
+      );
+    } catch (e) {
+      // ignore storage errors (private mode, quota, etc.)
+    }
+  }
+
+  // restore likes from localStorage on load
+  function wpstRestoreLikes() {
+    try {
+      const raw = localStorage.getItem("wpst-liked-values");
+      if (!raw) return;
+      const vals = JSON.parse(raw);
+      if (!Array.isArray(vals)) return;
+
+      // for each value match data form value or index 
+      vals.forEach((v) => {
+        const strV = String(v);
+        const s = slides.find(sl =>
+          (sl.el && sl.el.dataset && sl.el.dataset.formValue
+            ? String(sl.el.dataset.formValue) === strV
+            : String(sl.index + 1) === strV)
+        );
+        if (s && !likedSet.has(s.id)) {
+          likedSet.add(s.id);
+          likedItems.push({ id: s.id, src: s.src, alt: s.alt, index: s.index });
+        }
+      });
+
+      // Keep external destinations in sync
+      wpstSyncLikedToForm();
+      renderLikedValues();
+    } catch (e) {
+      // ignore parse errors
+    }
+  }
+
+  // progress bar dots = one <span> per image 
+  bar.innerHTML = "<span></span>".repeat(hasIntro ? imgs.length + 1 : imgs.length);
+  const dots = Array.from(bar.children);
+
+  // next image slide by index
+  function showSlide(n) {
+    const total = hasIntro ? imgs.length + 1 : imgs.length;
+    if (!total) return;
+
+    // Wrap around using modulo (handles negative n too): copilot
+    const prevIndex = i;
+    i = (n + total) % total;
+
+  // Toggle intro and images w element
+    if (hasIntro) {
+      if (intro) intro.classList.toggle("active", i === 0);
+      const activeImgIdx = i - 1;
+      imgs.forEach((el, indx) => el.classList.toggle("active", indx === activeImgIdx));
+    } else {
+      imgs.forEach((el, indx) => el.classList.toggle("active", indx === i));
+    }
+
+    // progress bar active on the current dot.. update
+    // done on dots before the current slide
+    dots.forEach((d, indx) => {
+      d.classList.toggle("active", indx === i);
+      indx < i ? d.classList.add("done") : d.classList.remove("done");
+    });
+
+    // Reflect like state for the current slide in the heart checkbox
+    const activeSlide = getActiveImageSlide();
+    if (heart) heart.checked = !!(activeSlide && likedSet.has(activeSlide.id));
+
+    // mark intro state for CSS (black heart on first slide)
+    root.classList.toggle("intro", hasIntro && i === 0);
+
+    // Render the current real value and category label above image
+    renderCategoryDisplay();
+    renderCurrentValue();
+
+    // Pulse the heart on every slide change
+    pulseHeart();
+
+    console.log("story:show", {
+      from: prevIndex,
+      to: i,
+      id: activeSlide ? activeSlide.id : "intro",
+      liked: heart ? heart.checked : false,
+    });
+
+    // After rendering, schedule automatic advance
+    nextSlide();
+
+    // Prefetch the next image to reduce flicker on advance
+    const nextIdx = (i + 1) % total;
+    let prefetchSrc = null;
+    if (hasIntro) {
+      if (nextIdx > 0) {
+        const nextImg = imgs[nextIdx - 1];
+        prefetchSrc = nextImg ? nextImg.getAttribute("src") : null;
+      } else if (imgs[0]) {
+        // next is intro; optionally prefetch first image anyway
+        prefetchSrc = imgs[0].getAttribute("src");
+      }
+    } else {
+      const nextImg = imgs[nextIdx];
+      prefetchSrc = nextImg ? nextImg.getAttribute("src") : null;
+    }
+    if (prefetchSrc) {
+      const im = new Image();
+      im.src = prefetchSrc;
+    }
+  }
+
+  // next slide timeout (auto-advance)
+  function nextSlide() {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => showSlide(i + 1), dur);
+  }
+
+  // restart for the progress bar & image (restarts current slide's animation)
+  function restart() {
+    if (timer) clearTimeout(timer);
+
+    // Toggle classes off to restart animations
+    if (hasIntro) {
+      if (intro) intro.classList.remove("active");
+      const activeImgIdx = i - 1;
+      const img = imgs[activeImgIdx];
+      if (img) img.classList.remove("active");
+    } else {
+      const img = imgs[i];
+      if (img) img.classList.remove("active");
+    }
+    const dot = dots[i];
+    if (dot) dot.classList.remove("active");
+
+    // Force reflow
+    if (hasIntro && intro) void intro.offsetWidth;
+    if (!hasIntro && imgs[i]) void imgs[i].offsetWidth;
+    if (dot) void dot.offsetWidth;
+
+    // Add active back
+    if (hasIntro) {
+      if (intro && i === 0) intro.classList.add("active");
+      const activeImgIdx = i - 1;
+      const img = imgs[activeImgIdx];
+      if (img) img.classList.add("active");
+    } else {
+      const img = imgs[i];
+      if (img) img.classList.add("active");
+    }
+    if (dot) dot.classList.add("active");
+
+    // Pulse heart again
+    pulseHeart();
+
+    // Continue auto-advance from now
+    nextSlide();
+  }
+
+  const goNext = () => showSlide(i + 1);
+  const goPrev = () => {
+    // restart if at first slide
+    if (i === 0) {
+      restart();
+      return;
+    }
+    showSlide(i - 1);
+  };
+
+  // prev/next buttons
+  next && next.addEventListener("click", goNext);
+  prev && prev.addEventListener("click", goPrev);
+
+  // left/right toggle for prev/next - tap/click anywhere on stage
+  stage.addEventListener("click", (e) => {
+    const r = stage.getBoundingClientRect();
+    e.clientX - r.left < r.width / 2 ? goPrev() : goNext();
+  });
+
+  // clicking on progress bars to select slide
+  bar.addEventListener("click", (e) => {
+    const dotEl = e.target.closest("span");
+    if (!dotEl) return;
+
+    const idx = dots.indexOf ? dots.indexOf(dotEl) : Array.prototype.indexOf.call(dots, dotEl);
+    if (idx === -1) return;
+
+    // restart timer if clicking current slide
+    if (idx === i) restart();
+    else showSlide(idx);
+  });
+
+  // keyboard accessibility for prev/next
+  root.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") goNext();
+    if (e.key === "ArrowLeft") goPrev();
+  });
+
+  // Like toggle for the current slide - tracks heart state and updates liked items
+  function onHeartChange() {
+    const s = getActiveImageSlide();
+    if (!s) {
+      // ignore intro slide for like tracking
+      if (timer) {
+        clearTimeout(timer);
+        timer = setTimeout(() => showSlide(i + 1), dur);
+      }
+      return;
+    }
+
+    if (heart.checked) {
+      // Add to liked if not already there
+      if (!likedSet.has(s.id)) {
+        likedSet.add(s.id);
+        likedItems.push({
+          id: s.id,
+          src: s.src,
+          alt: s.alt,
+          index: s.index,
+        });
+      }
+      console.log("story: liked on", { id: s.id, index: s.index });
+    } else {
+      // Remove from liked sets/arrays
+      likedSet.delete(s.id);
+      const pos = likedItems.findIndex((x) => x.id === s.id);
+      if (pos !== -1) likedItems.splice(pos, 1);
+      console.log("story: unliked", { id: s.id, index: s.index });
+    }
+
+    if (timer) {
+      clearTimeout(timer);
+      timer = setTimeout(() => showSlide(i + 1), dur);
+    }
+
+    // all in sync for UI and form
+    renderLikedValues();
+    wpstSyncLikedToForm();
+    wpstContLikes();
+  }
+
+  // heartbox where my heart used to be
+  heart && heart.addEventListener("change", onHeartChange);
+
+  //  on click hide the overlay 
+  function closeWindow() {
+    if (!wpstOverlay) return;
+
+    // Stop automatic slide 
+    clearTimeout(timer);
+    wpstOverlay.style.display = "none";
+
+    // reset all slides 
+    const imgsAll = wpstOverlay.querySelectorAll(".wpst-stage img");
+    imgsAll.forEach((img) => img.classList.remove("active"));
+    const introEl = wpstOverlay.querySelector(".wpst-stage > div:first-child");
+    if (introEl) introEl.classList.remove("active");
+
+    // reset progress bar segments
+    const dotsEls = wpstOverlay.querySelectorAll(".wpst-bar span");
+    dotsEls.forEach((dot) => dot.classList.remove("active", "done"));
+
+    // Reset heart checkbox 
+    const heartEl = document.getElementById("wpst-heart");
+    if (heartEl) heartEl.checked = false;
+
+    console.log("popup closed");
+  }
+
+  // close button
+  if (wpstClosePopup) {
+    wpstClosePopup.addEventListener("click", closeWindow);
+  }
+
+  // amount of images auto 
+  console.log("story:init slides =", imgs.length);
+
+  // Restore any previous likes, then start first slide
+  wpstRestoreLikes();
+  showSlide(0);
+
+  // window.getLikes = () => likedItems.slice();
+})();
+</script>

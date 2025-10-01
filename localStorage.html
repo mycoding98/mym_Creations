@@ -1,0 +1,25 @@
+<div id="displayElement">aa</div>
+
+
+
+<script>
+  let stores = {
+    "store1": {name: "Indy Store", hours: "9am-9pm"},
+    "store2": {name: "NY Store", hours: "4am-10pm"}
+  };
+
+  let selectedStore = "store1"; 
+
+  // save obj to local storage
+  localStorage.setItem("selectedStore", JSON.stringify(stores[selectedStore]));
+
+ 
+  let storeData = JSON.parse(localStorage.getItem("selectedStore"));
+
+  // Show in the div
+  document.getElementById("displayElement").innerText =
+    "Current store info: " + storeData.name + " (" + storeData.hours + ")";
+
+  console.log("Store data in localStorage:", storeData);
+</script>
+

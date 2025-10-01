@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Campaign</title>
+    <style>
+        /* Your Original Sticky Button Styles */
+        .sticky-capture {
+            position: fixed;
+            top: 75%;
+            left: 0;
+            transform: translateY(-50%);
+            background-color: #F7C33E;
+            padding: 0;
+            border-radius: 0 5px 5px 5px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            width: 70px;
+            z-index: 1000;
+        }
+
+        .sticky-capture button {
+            color: #1d1d1d;
+            font-weight: bold;
+            background-color: #F7C33E;
+            border: thick;
+            padding: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .sticky-capture button:hover {
+            background-color: #f8cf66;
+        }
+
+        /* Original Form and Popup Styles */
+        #wps-container {
+            visibility: hidden;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 75%;
+            height: 100%;
+            z-index: 25;
+            pointer-events: none;
+            transition: right 0.5s ease;
+        }
+
+        #wps_popup {
+            background: rgba(0, 0, 0, .7);
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #wpst-form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 10;
+        }
+
+        .wpst-display-none {
+            display: none;
+        }
+
+        .hide-popup {
+            display: none;
+        }
+
+        /* Wheel Styles */
+        .wheel-container {
+            position: absolute;
+            left: -320px; /* Adjust based on the wheel size */
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 15;
+            transition: left 0.5s ease;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                #FFD700 0% 10%, 
+                #FFA500 10% 20%, 
+                #FFD700 20% 30%, 
+                #FFA500 30% 40%, 
+                #FFD700 40% 50%, 
+                #FFA500 50% 60%, 
+                #FFD700 60% 70%, 
+                #FFA500 70% 80%, 
+                #FFD700 80% 90%, 
+                #FFA500 90% 100%
+            );
+            border: 4px solid black;
+            transition: transform 4s ease-out;
+            transform-origin: center;
+        }
+
+        .wheel-button {
+            position: absolute;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 20;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Button -->
+    <div class="sticky-capture" id="stickyClick">
+        <button id="clickTo">Click</button>
+    </div>
+
+    <!-- Overlay and Form -->
+    <div id="wps-container">
+        <div id="wps_popup">
+            <div id="wpst-popup-content">
+                <form id="wpst-form">
+                    <input type="text" id="wpst-popup-name" placeholder="Name">
+                    <span id="wpst-name-error" class="wpst-display-none"></span>
+                    <input type="email" id="wpst-popup-email" placeholder="Email">
+                    <span id="wpst-email-error" class="wpst-display-none"></span>
+                    <button type="button" id="wpst-step1-next">Next</button>
+                    <button type="button" id="wpst-step2-next">Next</button>
+                    <button type="submit" id="wpst-submit">Submit</button>
+                </form>
+            </div>
+            <div id="wps-overlay-close-button" data-wps-popup-close="" data-wps-popup-close-intent="" tabindex="1" aria-label="close" role="button"></div>
+            <!-- Wheel Container -->
+            <div class="wheel-container" id="wheel-container">
+                <div id="wheel" class="wheel"></div>
+                <button id="spinButton" class="wheel-button">Spin</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Define container
+        const wpsContainer = document.getElementById('wps-container');
+        const popupContainer = document.getElementById("wps-container");
+
+        // Overlay function
+        function wpsoverlayFunction() {
+            popupContainer.scrollTop = 0;
+
+            const overlay = document.getElementById("wps_popup");
+            const form = document.getElementById("wpst-form");
+            const container = document.getElementById("wps-container");
+
+            overlay.style.background = "rgba(0, 0, 0, .7)";
+            overlay.addEventListener("click", keepOverlay);
+
+            function keepOverlay() {
+                overlay.classList.remove("hide-popup");
+                overlay.removeAttribute('data-wps-popup');
+                overlay.style.zIndex = "1000";
+                setTimeout(function() {
+                    overlay.removeAttribute('class');
+                    overlay.setAttribute('data-wps-popup', '');
+                }, 0);
+            }
+
+            document.getElementById('wpst-close').addEventListener("click", closeWindow);
+            document.getElementById('wpst-close-button').addEventListener("click", closeWindow);
+            function closeWindow() {
+                overlay.classList.add("hide-popup");
+                overlay.removeAttribute('style');
+                overlay.removeEventListener("click", keepOverlay);
+            }
+
+            document.getElementById('wpst-step1-next').addEventListener("click", multiStep);
+            function multiStep() {
+                overlay.removeEventListener("click", keepOverlay);
+            }
+
+            container.addEventListener("click", allContainer);
+            function allContainer() {
+                overlay.removeEventListener("click", keepOverlay);
+                setTimeout(function() {
+                    overlay.addEventListener("click", keepOverlay);
+                }, 800);
+            }
+
+            function openOverlay() {
+                container.style.right = "25%";
+                container.style.visibility = "visible";
+                document.getElementById('wpst-close').classList.remove("wpst-display-none");
+                document.getElementById('wpst-open').style.right = "-100%";
+            }
+        }
+
+        function hide() {
+            const overlay = document.getElementById("wps_popup");
+            overlay.style.background = "none";
+            overlay.style.pointerEvents = "none";
+            wpsContainer.style.visibility = "hidden";
+            wpsContainer.style.pointerEvents = "none";
+            stickyClick.style.pointerEvents = "auto";
+        }
+
+        hide();
+
+        document.getElementById('clickTo').addEventListener('click', function() {
+            wpsContainer.style.visibility = "visible";
+            wpsContainer.style.zIndex = "25";
+            wpsContainer.style.pointerEvents = "auto";
+            document.getElementById('wheel-container').style.left = "0"; // Show wheel
+            wpsoverlayFunction();
+            document.body.style.overflowY = "hidden";
+        });
+
+        document.getElementById('clickTo').addEventListener('click', function() {
+            stickyClick.style.visibility = "hidden";
+        });
+
+        // Spin button functionality
+        document.getElementById('spinButton').addEventListener('click', function() {
+            const wheel = document.getElementById('wheel');
+            const spinValue = Math.floor(Math.random() * 360) + 360;
+            wheel.style.transform = `rotate(${spinValue}deg)`;
+        });
+
+        function CheckInputs() {
+            return true; // Placeholder for form validation logic
+        }
+
+        document.getElementById('wpst-step1-next').addEventListener('click', () => {
+            if (CheckInputs() == true) {
+                document.getElementById('wpst-popup-content').classList.add("wpst-display-none");
+                document.getElementById('wpst-popup-content').classList.remove("wpst-display-none");
+                document.getElementById('wpst-content-header').classList.add("wpst-display-none");
+            }
+        });
+
+        function Submit() {
+            var check_ok = true;
+            check_ok = (is_valid('null') && check_ok);
+            check_ok = (is_valid(document.ProfileForm.inp_3.value) && check_ok);
+            if (check_ok == false) {
+                return false;
+            } else {
+                const config = { attributes: true, childList: false, subtree: false };
+                const callback = (mutationList, observer) => {
+                    for (const mutation of mutationList) {
+                        if (mutation.type === "attributes") {
+                            overlay.classList.remove("hide-popup");
+                            overlay.setAttribute('data-wps-popup', "");
+                            overlay.style.zIndex = "1800";
+                            overlay.style.position = "fixed";
+                            observer.disconnect();
+                        }
+                    }
+                };
+                const observer = new MutationObserver(callback);
+                observer.observe(overlay, config);
+                document.getElementById("wpst-form").submit();
+                return;
+            }
+        }
+    </script>
+</body>
+</html>

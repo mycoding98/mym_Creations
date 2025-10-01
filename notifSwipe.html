@@ -1,0 +1,183 @@
+<style>
+  @import url("https://use.typekit.net/uxw3lja.css");
+    @font-face {
+      font-family: brown-pro, sans-serif;
+      font-weight: 200;
+      font-style: normal;
+      font-family: brown-pro, sans-serif;
+      font-weight: 200;
+      font-style: italic;
+      font-family: brown-pro, sans-serif;
+      font-weight: 300;
+      font-style: normal;
+      font-family: brown-pro, sans-serif;
+      font-weight: 300;
+      font-style: italic;
+      font-family: brown-pro, sans-serif;
+      font-weight: 600;
+      font-style: normal;
+      font-family: brown-pro, sans-serif;
+      font-weight: 600;
+      font-style: italic;
+    }
+
+    #notification-container {
+      font-family: brown-pro, sans-serif;
+      position: fixed;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column-reverse; 
+      align-items: center;
+      max-height: 40vh;
+      overflow-y: auto;
+      padding: 10px;
+      z-index: 9999;
+      pointer-events: none;
+      scroll-behavior: smooth;
+    }
+
+    #notification-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .notification {
+      position: relative;
+      width: 90%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 14px 18px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      pointer-events: auto;
+      margin-top: -30px; /* Stacked effect */
+      transition: margin 0.3s ease, transform 0.3s, opacity 0.3s;
+      animation: fadeSlideUp 0.3s ease;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      touch-action: pan-y;
+      user-select: none;
+    }
+
+    .notification.dismissing {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+
+    #notification-container:hover .notification {
+      margin-top: 12px; 
+    }
+
+    .notification strong {
+      font-size: 1rem;
+      display: block;
+      color: #30296c;
+    }
+
+    .notification p {
+      margin: 4px 0 0;
+      font-size: 0.9rem;
+      color: #333333;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+</style>
+
+
+<html>
+<head><link rel="stylesheet" href="https://use.typekit.net/uxw3lja.css"></head>
+<div id="notification-container">
+  <div class="notification">
+    <strong e-editable="Title 4">Title 4</strong>
+    <p e-editable="Paragraph 4">4th notification</p>
+  </div>
+  <div class="notification">
+    <strong e-editable="Title 3">Title 3</strong>
+    <p e-editable="Paragraph 3">3rd notification.</p>
+  </div>
+  <div class="notification">
+    <strong e-editable="Title 2">Title 2</strong>
+    <p e-editable="Paragraph 2">2nd notification.</p>
+  </div>
+   <div class="notification">
+    <strong e-editable="Title 1">Title 1</strong>
+    <p e-editable="Paragraph 1">First notification displayed.</p>
+  </div>
+</div>
+</html>
+
+<script>
+const container = document.getElementById('notification-container');
+
+function addNotification(title, message) {
+  const notification = document.createElement('div');
+  notification.className = 'notification';
+  notification.innerHTML = `<strong>${title}</strong><p>${message}</p>`;
+  container.appendChild(notification);
+
+  // auto-remove after 6 seconds
+  setTimeout(() => {
+    notification.style.opacity = 0;
+    notification.style.transform = 'translateY(20px)';
+    setTimeout(() => notification.remove(), 300);
+  }, 6000);
+}
+
+// Touch 
+  let startX = 0;
+  let currentX = 0;
+  let isDragging = false;
+
+
+
+  const handleTouchStart = (e) => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging) return;
+    currentX = e.touches[0].clientX;
+    const diffX = currentX - startX;
+    notification.style.transform = `translateX(${diffX}px)`;
+  };
+
+  const handleTouchEnd = () => {
+    isDragging = false;
+    const diffX = currentX - startX;
+    
+// manual slide off screen to remove if swipe is big enough
+    if (Math.abs(diffX) > 80) {
+      notification.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+      notification.style.transform = `translateX(${diffX > 0 ? '100%' : '-100%'})`;
+      notification.style.opacity = 0;
+
+      setTimeout(() => {
+        notification.remove();
+      }, 300);
+    } else {
+      // Restore to original position
+      notification.style.transition = 'transform 0.2s ease';
+      notification.style.transform = 'translateX(0)';
+    }
+  };
+
+  notification.addEventListener('touchstart', handleTouchStart);
+  notification.addEventListener('touchmove', handleTouchMove);
+  notification.addEventListener('touchend', handleTouchEnd);
+
+
+// to add another notif
+// addNotification("New Message", "You’ve received a new message.");
+
+</script>

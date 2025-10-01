@@ -1,0 +1,393 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root {
+    --primary-color: #333;
+    --secondary-color: #c70c18;
+    --background-color: #f1faee;
+    --button-background: #c70c18;
+    --button-hover-background: #c70c18;
+    --win-color: #f29c2f;
+    --error-color: #c70c18;
+    --font-family: Arial, sans-serif;
+    --button-text-color: #fff;
+  }
+  [data-wps-popup] {
+    border: transparent;
+   background: none !important;
+    display: none !important;
+  }
+  
+  [data-wps-popup]:after {
+    border: transparent;
+     background: none !important;
+   display: none !important;
+  }
+  
+  [data-wps-popup-close]:before {
+    display: none !important;
+     background: none !important;
+  }
+  [data-wps-popup-close]:after {
+    display: none !important;
+     background: none !important;
+  }
+  
+   
+	[data-wps-namespace-id=“ems-wc-ns-urorD1H-XP”] {
+    display: none !important;
+  }
+	[data-wps-namespace-id=ems-wc-ns-uoDwr7I-Un].wpst-content {
+		display: none !important;
+	}
+	
+    [data-wps-popup-content-body].bordered {
+        border: transparent;
+        background: none !important;
+		
+    }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    overflow: hidden;
+  }
+
+  #wps-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .wpst-slot-machine {
+    position: relative;
+    width: 450px;
+    height: 400px;
+    background: url('https://demo.emarsys.net/custloads/210574935/Gamification/slot-machine.png') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .wpst-title {
+    position: absolute;
+    top: 64px;
+    width: 180px;
+    height: 32px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 2rem;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .wpst-slot-display {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 248px;
+    height: 130px;
+    margin: 107px 0 0 4px; /* Set to 11rem before submit */
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 2px;
+    position: static;
+  }
+
+  .wpst-slot {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wpst-slot img {
+    width: 70px;
+    height: 70px;
+    transition: transform 0.2s ease;
+  }
+
+  .wpst-spin-button,
+  .wpst-submit-button {
+    position: absolute;
+    border: none;
+    border-radius: 4px;
+    color: #fdfdfd;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .wpst-spin-button {
+    display: none;
+    background-color: transparent;
+	  width: 30px;
+	  height: 30px;
+    top: 114px;
+    right: 7px;
+    border-radius: 25px;
+	border-color: #413a83;
+    box-shadow: inset 0 1px 0 0 #fff, inset 0 -1px 0 0 rgba(204, 204, 204, 0.3);
+	
+  }
+
+  .wpst-submit-button {
+    background-color: #a90611;
+    bottom: -14px;
+    right: 26px;
+	padding: 8px;
+  }
+
+  .wpst-spin-button:hover {
+    background-color: #413a83;
+    transform: scale(0.98); /* Button "push in" effect */
+  }
+	.wpst-submit-button:hover {
+		background-color: darkred;
+		transform: scale(0.98); /* Button "push in" effect */
+	}
+
+  .wpst-close-button {
+    position: absolute;
+    padding: 10px 20px;
+    background-color: #a90611;
+    border: none;
+    border-radius: 25px;
+    color: #fdfdfd;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    top: -30px;
+    right: -30px;
+  }
+
+  .wpst-close-button:hover {
+    background-color: darkred;
+  }
+
+  #email-input {
+    margin: 15px 0;
+    padding: 10px;
+    width: 70%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    bottom: -80px;
+    position: relative;
+    right: 18px;
+  }
+
+  .wpst-error-message,
+  .wpst-win-message,
+  .wpst-try-again-message,
+  .wpst-coupon-button,
+  .wpst-copied-message {
+    display: none;
+    text-align: center;
+    color: white;
+    position: relative;
+    padding: 10px;
+	 
+  }
+
+  .wpst-try-again-message {
+    color: #fdfdfd;
+	bottom: 20px;
+  }
+
+  .wpst-win-message {
+    color: #f29c2f;
+	top: 15px;
+	font-size: 2rem;
+	z-index: 999999999999999999;
+  }
+
+  .wpst-coupon-button {
+    background-color: transparent;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1.5rem;
+    padding: 10px;
+    color: #fdfdfd;
+	position: fixed;
+	bottom: 300px;
+  }
+
+  .wpst-copied-message {
+	padding-top: 20px;
+    color: #4caf50;
+  }
+
+  .shake-vertical {
+    animation: shake-vertical 0.5s;
+  }
+
+  @keyframes shake-vertical {
+    0%, 100% { transform: translateY(0); }
+    20%, 60% { transform: translateY(-10px); }
+    40%, 80% { transform: translateY(10px); }
+  }
+
+  @keyframes flash {
+    from { text-shadow: 0 0 20px #FFD700 }
+    to { text-shadow: 0 0 30px #ffeb3b, 0 0 10px #D4AF37; }
+     }
+	
+  .wpst-slot.flash {
+    animation: flash 1s ease-in-out;
+  }
+
+  @keyframes slide-down {
+    0% { transform: translateY(10px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
+  /* Styling for messages below slot machine */
+  .messages-container {
+    position: absolute;
+    top: 760px; /* Display messages (more than 400px) below the slot machine */
+    width: 100%;
+    text-align: center;
+  }
+
+</style>
+
+<div id="wps-container">
+  <div class="wpst-slot-machine">
+    <div class="wpst-title">Spin & Win</div>
+    <div class="wpst-slot-display">
+      <div class="wpst-slot"><img id="slot-1" src="https://demo.emarsys.net/custloads/210574935/md_100087248.png" alt="symbol"></div>
+      <div class="wpst-slot"><img id="slot-2" src="https://demo.emarsys.net/custloads/210574935/md_100087252.png" alt="symbol"></div>
+      <div class="wpst-slot"><img id="slot-3" src="https://demo.emarsys.net/custloads/210574935/md_100087253.png" alt="symbol"></div>
+    </div>
+    <input type="email" id="email-input" placeholder="Enter your email">
+    <button id="submit-btn" class="wpst-submit-button">Submit</button>
+
+    <button id="spin-btn" class="wpst-spin-button">Spin</button>
+  
+    <button id="coupon-btn" class="wpst-coupon-button" onclick="copyCoupon()">SAVE20</button>
+   
+    <button id="close-btn" class="wpst-close-button" onclick="closePopup()">X</button>
+  </div>
+
+  <!-- Messages Container placed below the slot machine -->
+  <div class="messages-container">
+    <div id="error-message" class="wpst-error-message">Please enter a valid email.</div>
+    <div id="win-message" class="wpst-win-message">Congratulations, you win!</div>
+    <div id="try-again-message" class="wpst-try-again-message">Try again!</div>
+    <div id="copied-message" class="wpst-copied-message">Copied!</div>
+  </div>
+</div>
+
+<script>
+  const emailInput = document.getElementById('email-input');
+  const submitBtn = document.getElementById('submit-btn');
+  const spinBtn = document.getElementById('spin-btn');
+ const closeBtn = document.getElementById('close-btn');	
+  const winMessage = document.getElementById('win-message');
+  const tryAgainMessage = document.getElementById('try-again-message');
+  const couponBtn = document.getElementById('coupon-btn');
+  const copiedMessage = document.getElementById('copied-message');
+  const errorMessage = document.getElementById('error-message');
+
+  const slots = [
+    document.getElementById('slot-1'),
+    document.getElementById('slot-2'),
+    document.getElementById('slot-3')
+  ];
+  const slotImages = [
+    'https://demo.emarsys.net/custloads/210574935/md_100087248.png',
+    'https://demo.emarsys.net/custloads/210574935/md_100087252.png',
+    'https://demo.emarsys.net/custloads/210574935/md_100087253.png'
+  ];
+  let attempts = 0;
+
+   function handleSubmit() {
+    const email = emailInput.value;
+    if (validateEmail(email)) {
+      emailInput.style.display = 'none';
+      submitBtn.style.display = 'none';
+      spinBtn.style.display = 'block';
+      errorMessage.style.display = 'none';
+	  document.querySelector('.wpst-slot-display').style.margin = '5rem 1px 0 5px'; // After submit	
+    } else {
+      errorMessage.style.display = 'block';
+      setTimeout(() => {
+        errorMessage.style.display = 'none';
+      }, 2000);
+    }
+  }
+	
+
+  function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  }
+
+  function spinSlots() {
+    attempts++;
+    const isWinningSpin = attempts === 3; // Win on third click
+    slots.forEach((slot, i) => {
+      const img = isWinningSpin ? slotImages[0] : slotImages[Math.floor(Math.random() * slotImages.length)];
+      slot.src = img;
+      if (isWinningSpin) {
+        slot.classList.add('flash');
+        setTimeout(() => {
+          slot.classList.remove('flash');
+        }, 500);
+      }
+      slot.classList.add('shake-vertical');
+      setTimeout(() => {
+        slot.classList.remove('shake-vertical');
+      }, 1000);
+    });
+
+    if (isWinningSpin) {
+      winMessage.style.display = 'block';
+      couponBtn.style.display = 'block';
+      spinBtn.style.display = 'none';
+      document.querySelector('.wpst-slot-display').style.margin = '5rem 1px 0 5px'; // After win
+    } else {
+      tryAgainMessage.style.display = 'block';
+      setTimeout(() => {
+        tryAgainMessage.style.display = 'none';
+      }, 1000);
+    }
+
+    // Hide win message after a few seconds
+    setTimeout(() => {
+      winMessage.style.display = 'none';
+    }, 8000);
+  }
+
+  function copyCoupon() {
+    navigator.clipboard.writeText('SAVE20');
+    copiedMessage.style.display = 'block';
+    setTimeout(() => {
+      copiedMessage.style.display = 'none';
+    }, 2000);
+  }
+
+  submitBtn.addEventListener('click', handleSubmit);
+  spinBtn.addEventListener('click', spinSlots);
+  closeBtn.addEventListener('click', () => {
+    document.getElementById('wps-container').style.display = 'none';
+    
+  });
+</script>

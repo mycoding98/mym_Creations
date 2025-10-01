@@ -1,0 +1,704 @@
+<style>
+* { box-sizing: border-box; }
+
+#helperBtn {
+  background: #fff;
+  border: 1px solid #fff;
+  border-radius: 8px; 
+  color: #000;
+  z-index: 999;
+  bottom: 10px;
+  position: absolute;
+}
+
+body {
+  font-family: '72 Brand', sans-serif !important;
+  background: transparent;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #fff;
+}
+
+#emarsysForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.container {
+  background: #475E75;
+  padding: 2.2em;
+  border-radius: 16px;
+  width: 580px;
+  max-width: 95vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .8em;
+  position: relative;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+  justify-content: center;
+  max-height: 98vh;
+  overflow: hidden;
+}
+
+.wpst-intro {
+  font-size: 20px;
+  text-align: center;
+  padding-bottom: 10px;
+  color: #fff;
+  padding: 10px 0;
+  width: 100%;
+  z-index: 99;
+}
+
+.inputField {
+  width: 60vw;
+  padding: 0.6em;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #2c2c3c;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.submit {
+  padding: 0.8em 2em;
+  border: none;
+  border-radius: 10px;
+  background-color: #c35500;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* Hidden elements at start */
+#counter, #select-difficulty, #winner, #discountDisplay, #playAgain { 
+  display: none; 
+}
+
+#counter {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+
+  text-align: center;
+}
+
+/* Close Button */
+.close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 20px;
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.2s;
+}
+.close:hover { background-color: #e08e00; }
+
+
+.difficultySelect {
+  width: 80%;
+  margin: 0 auto;
+  background: #2c2c3c;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+}
+.difficultySelect .selected {
+  padding: 0.6em 1em;
+  border-radius: 8px;
+  background: #2c2c3c;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.difficultySelect .select-options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #fff;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  background: #2c2c3c;
+  z-index: 10;
+}
+.difficultySelect.open .select-options { display: block; }
+.difficultySelect .select-options li {
+  padding: 0.6em 1em;
+  cursor: pointer;
+  color: #fff;
+  transition: background 0.2s;
+}
+.difficultySelect .select-options li:hover { background: #3a3a3a; }
+.difficultySelect .select-options li.selected { color: #33c674; }
+
+#board {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+  margin: 0 auto 10px;
+  background-color: transparent;
+  border-radius: 12px;
+  padding: 5px;
+  gap: 8px;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.card e-icon { font-size: clamp(2rem, 4vw, 2.5rem); color: #fff !important; }
+.card e-icon, .card e-icon svg { color: #fff !important; }
+
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1 / 1;
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: 12px;
+  background: #475E75;
+  color: #fff;
+  cursor: pointer;
+  font-size: 2rem;
+  padding: 0;
+  margin: 0;
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* empty card faces */
+.card:empty { font-size: 0; line-height: 0; }
+
+/* hide matched cards */
+.card.matched { 
+  visibility: visible; 
+  border: none !important; 
+  box-shadow: none !important; 
+}
+
+/* [do not edit] */
+.card:disabled {
+  opacity: 1;
+  cursor: default;
+  background-color: #666;
+  color: #bbb;
+}
+.card.revealed { 
+  font-size: clamp(2rem, 4vw, 2.5rem); 
+}
+
+/* all messages besides win */
+.message {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  max-width: 40vw;
+  font-size: 14px;
+  margin-top: 12px;
+  line-height: 2.5;
+}
+.message.show { opacity: 1; }
+
+
+#winner {
+  display: none;
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
+  background: #2c2c3c;
+  padding: 1em 2em;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+#winner:active {
+  transform: scale(0.97);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+#playAgain {
+  padding: 0.8em 1.8em;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #444;
+  color: #fff;
+  border: none;
+  transition: background 0.3s;
+  margin-bottom: 10px;
+}
+
+#playAgain:hover { 
+  background-color: #666; 
+}
+
+</style>
+
+<html>
+<link rel="stylesheet" href="https://client-version.cf.emarsys.net/ui/latest/css/app.css">
+<script src="https://client-version.cf.emarsys.net/ui/latest/js/app.js"></script>
+
+<div class="container">
+
+   <button id="closeBtn" class="close">×</button>
+  
+  <div class="wpst-intro">Enter your email for a special discount</div>
+
+ <form id="emarsysForm" name="ProfileForm" onsubmit="return CheckInputs();" action="https://demo.emarsys.net/u/register.php" method=get>
+  <input type=hidden name="CID" value="211241860">
+  <input type=hidden name="SID" value="">
+  <input type=hidden name="UID" value="">
+  <input type=hidden name="f" value="100006381">
+  <input type=hidden name="p" value="2">
+  <input type=hidden name="a" value="r">
+  <input type=hidden name="el" value="">
+  <input type=hidden name="llid" value="">
+  <input type=hidden name="c" value="">
+  <input type=hidden name="counted" value="">
+  <input type=hidden name="RID" value="">
+  <input type=hidden name="mailnow" value="">
+  <input type="text" maxlength="255" name="inp_3" value="" class="inputField" placeholder="Email: "><br>
+  <input aria-label='Register' tabindex='993' type="button" name="submit1" class="submit" value="Register">
+</form>
+
+  <div id="counter" class="counter hidden">Tries: 0</div>
+
+<div id="select-difficulty" class="difficultySelect hidden">
+  <div class="selected">Easy</div>
+  <ul class="select-options">
+    <li data-value="easy">Easy</li>
+    <li data-value="medium">Medium</li>
+    <li data-value="hard">Hard</li>
+  </ul>
+</div>
+
+  
+  <div id="winner" class="hidden" style="font-size: 18px; text-align: center; cursor: pointer;">
+  Congratulations! <br>
+  Enjoy 15% off your next order with 
+  <span class="winClick" style="font-size: 20px; color:#fff3b8">Emarsys15</span>
+</div>
+
+      <div id="board" class="board"></div>
+<div id="message" class="message hidden"></div>
+ <body data-helper-mode="{variables.helper}">
+  <button id="helperBtn" style="display: none;">Skip to Win</button>
+  <button id="playAgain" class="hidden">Play again</button>
+
+
+  <!-- <div id="discountDisplay" class="hidden">Discount Remaining: 100%</div> -->
+</div>
+
+</html>
+
+
+<script>
+// Grab references to DOM elements 
+const board = document.getElementById("board");
+const playAgainBtn = document.getElementById("playAgain");
+const messageDisplayed = document.getElementById("message");
+const winnerEl = document.getElementById("winner");
+const counterEl = document.getElementById("counter");
+const emarsysForm = document.getElementById("emarsysForm");
+const emailInput = emarsysForm.querySelector('input[name="inp_3"]');
+const registerBtn = emarsysForm.querySelector('input[name="submit1"]');
+const introText = document.querySelector(".wpst-intro");
+const selectDifficultyDiv = document.getElementById("select-difficulty");
+const discountDisplay = document.getElementById("discountDisplay");
+const container = document.querySelector(".container");
+
+
+// Get elements inside the custom dropdown 
+const difficultyDropdown = document.querySelector(".difficultySelect");
+const selectedDiv = difficultyDropdown.querySelector(".selected");
+const optionsList = difficultyDropdown.querySelector(".select-options");
+const options = optionsList.querySelectorAll("li");
+
+
+// cap to prevent Easy/Medium from getting too wide
+// ??? unsure of size
+const maxBoard = 520;
+
+// Dropdown open/close logic 
+selectedDiv.addEventListener("click", function () {
+  difficultyDropdown.classList.toggle("open");
+});
+options.forEach(function (option) {
+  option.addEventListener("click", function () {
+    selectedDiv.textContent = option.textContent;
+    options.forEach(function (o) { o.classList.remove("selected"); });
+    option.classList.add("selected");
+    difficultyDropdown.dataset.value = option.getAttribute("data-value");
+    difficultyDropdown.classList.remove("open");
+    if (emailSubmitted) startGame();
+  });
+});
+document.addEventListener("click", function (e) {
+  if (!difficultyDropdown.contains(e.target)) difficultyDropdown.classList.remove("open");
+});
+
+
+// win message
+winnerEl.addEventListener("click", function () {
+  const spanEl = winnerEl.querySelector("span");
+  const coupon = spanEl ? spanEl.textContent : "";
+  
+  if (coupon && navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+    navigator.clipboard.writeText(coupon);
+  }
+});
+
+// Close 
+const closeBtn = document.getElementById("closeBtn");
+if (closeBtn) {
+  closeBtn.addEventListener("click", function () {
+    container.style.display = "none";
+  });
+}
+
+// Game state variables
+let cards = [];
+let first = null;
+let second = null;
+let tries = 0;
+let emailSubmitted = false;
+
+// Difficulty maps
+const difficultyMap = { easy: 12, medium: 16, hard: 24 };
+const gridMap = { easy: { cols: 4, rows: 3 }, medium: { cols: 4, rows: 4 }, hard: { cols: 4, rows: 6 } };
+
+function getCardColor() {
+  const colors = ['#049F9A', '#FA4F96', '#F31DED'];
+  return colors[Math.floor(Math.random() * colors.length)];
+}
+
+// Card faces emarsys icons
+const iconValues = [
+  '<e-icon icon="accessibility" color="white"></e-icon>',
+  '<e-icon icon="batch" color="white"></e-icon>',
+  '<e-icon icon="rocket" color="white"></e-icon>',
+  '<e-icon icon="revenue" color="white"></e-icon>',
+  '<e-icon icon="tag" color="white"></e-icon>',
+  '<e-icon icon="wishlist" color="white"></e-icon>',
+  '<e-icon icon="bell" color="white"></e-icon>',
+  '<e-icon icon="api" color="white"></e-icon>',
+  '<e-icon icon="campaign-selector" color="white"></e-icon>',
+  '<e-icon icon="joule" color="white"></e-icon>',
+  '<e-icon icon="cart" color="white"></e-icon>',
+  '<e-icon icon="celebrate" color="white"></e-icon>',
+  '<e-icon icon="communication-network" color="white"></e-icon>',
+  '<e-icon icon="company" color="white"></e-icon>',
+  '<e-icon icon="email-preview" color="white"></e-icon>',
+  '<e-icon icon="externalevent" color="white"></e-icon>',
+  '<e-icon icon="feedback" color="white"></e-icon>',
+  '<e-icon icon="interactions" color="white"></e-icon>',
+  '<e-icon icon="logo-sap" color="white"></e-icon>',
+  '<e-icon icon="nav-channels" color="white"></e-icon>',
+  '<e-icon icon="purchase" color="white"></e-icon>',
+  '<e-icon icon="productcatalog" color="white"></e-icon>',
+  '<e-icon icon="trophy" color="white"></e-icon>',
+  '<e-icon icon="ac-sms" color="white"></e-icon>'
+];
+
+// Shuffle array
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const t = array[i];
+    array[i] = array[j];
+    array[j] = t;
+  }
+  return array;
+}
+
+// Show message
+let messageTimer = null;
+function showMessage(text, duration = 1000) {
+  if (messageTimer) {
+    clearTimeout(messageTimer);
+    messageTimer = null;
+  }
+  messageDisplayed.innerHTML = text;
+  messageDisplayed.style.opacity = 1;
+  if (duration > 0) {
+    messageTimer = setTimeout(function () {
+      messageDisplayed.style.opacity = 0;
+      messageTimer = null;
+    }, duration);
+  }
+}
+
+// emarsys brand colors
+const cardColors = [
+  "#049F9A", // teal
+  "#36A41D", // green
+  "#E76500", // mango
+  "#FA4F96", // raspberry
+  "#7858FF"  // indigo
+];
+
+
+// card pairs
+function getDeck(count) {
+  const shuffledIcons = shuffle(iconValues.slice());
+  const icons = shuffledIcons.slice(0, count / 2);
+
+  const deck = [];
+  let colorIndex = 0;
+
+  for (let i = 0; i < icons.length; i++) {
+    const icon = icons[i];
+    const color = cardColors[colorIndex % cardColors.length];
+    colorIndex++;
+
+    // match icon pair by color
+    deck.push({ value: icon, revealed: false, matched: false, color: color });
+    deck.push({ value: icon, revealed: false, matched: false, color: color });
+  }
+
+  return shuffle(deck);
+}
+
+// Get difficulty
+function getDifficultyValue() {
+	return difficultyDropdown.dataset.value || "easy"; 
+}
+
+// Generate board
+function generateBoard() {
+  const difficulty = getDifficultyValue();
+  const cols = gridMap[difficulty].cols;
+  const rows = gridMap[difficulty].rows;
+  const gap = 8;
+
+  // Width cap so Easy/Medium don't stretch too wide
+  const boardMaxWidth = Math.min(container.clientWidth, maxBoard) - 32; // 
+  const cardSize = Math.floor((boardMaxWidth - gap * (cols - 1)) / cols);
+
+  board.style.gridTemplateColumns = "repeat(" + cols + ", " + cardSize + "px)";
+  board.style.gridTemplateRows = "repeat(" + rows + ", " + cardSize + "px)";
+  board.style.gap = gap + "px";
+  board.innerHTML = "";
+
+  cards.forEach(function (card, index) {
+    const btn = document.createElement("button");
+    btn.className = "card";
+    btn.style.width = cardSize + "px";
+    btn.style.height = cardSize + "px";
+    btn.style.fontSize = Math.floor(cardSize / 2) + "px";
+
+    // Apply color if revealed
+    if (card.revealed || card.matched) {
+      btn.innerHTML = card.value;
+      btn.style.backgroundColor = card.color || getCardColor();
+      btn.classList.add("revealed");
+    } else {
+      btn.innerHTML = "";
+      btn.style.backgroundColor = "#555"; 
+      btn.classList.remove("revealed");
+    }
+
+    if (card.matched) btn.classList.add("matched");
+    else btn.classList.remove("matched");
+
+    btn.disabled = !emailSubmitted || card.matched;
+    btn.addEventListener("click", function () {
+      if (btn.disabled) return;
+      handleCardClick(index);
+    });
+
+    board.appendChild(btn);
+  });
+
+  if (window.Emarsys && window.Emarsys.UI && typeof window.Emarsys.UI.init === "function") {
+    window.Emarsys.UI.init(board);
+  }
+}
+
+
+
+// Start game
+function startGame() {
+  if (!emailSubmitted) return;
+  const count = difficultyMap[getDifficultyValue()];
+  cards = getDeck(count);
+  first = null;
+  second = null;
+  tries = 0;
+
+  board.style.display = "grid";
+  counterEl.style.display = "block";  
+  playAgainBtn.style.display = "none";
+  winnerEl.style.display = "none";
+  if (discountDisplay) discountDisplay.style.display = "none";
+  messageDisplayed.style.opacity = 0;
+
+  generateBoard();
+  updateCounter();
+}
+
+// Handle card click
+function handleCardClick(index) {
+  if (first === null) {
+    cards[index].revealed = true;
+    first = index;
+  } else if (second === null && index !== first) {
+    cards[index].revealed = true;
+    second = index;
+    tries++;
+    updateCounter();
+
+    const matched = cards[first].value === cards[second].value;
+    if (matched) {
+      showMessage("Match!", 1000);
+      setTimeout(function () {
+        cards[first].matched = true;
+        cards[second].matched = true;
+        resetTurn();
+      }, 500);
+    } else {
+      showMessage("Try again", 1000);
+      setTimeout(function () {
+        cards[first].revealed = false;
+        cards[second].revealed = false;
+        resetTurn();
+      }, 900);
+    }
+  }
+  generateBoard();
+}
+
+// Reset game 
+function resetTurn() {
+  first = null;
+  second = null;
+  generateBoard();
+  checkWin();
+}
+
+// Update counter
+function updateCounter() { counterEl.textContent = "Tries: " + tries; }
+
+// Check win
+function checkWin() {
+  if (cards.every(function (c) { return c.matched; })) {
+    winnerEl.style.display = "block";
+    playAgainBtn.style.display = "block";
+    if (discountDisplay) discountDisplay.style.display = "block";
+
+    // hide board on hard level after win
+    if (getDifficultyValue() === "hard") {
+      board.style.display = "none";
+    }
+  }
+}
+
+// Handle email submit
+function handleEmailSubmit(e) {
+  e.preventDefault();
+  const email = emailInput.value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showMessage("Enter a valid email.", 2000);
+    return false;
+  }
+
+  emailSubmitted = true;
+  emarsysForm.style.display = "none";
+  introText.style.display = "none";  
+  selectDifficultyDiv.style.display = "flex"; 
+  counterEl.style.display = "block"; 
+  updateCounter();            
+
+  startGame();
+}
+
+// Event listeners
+playAgainBtn.addEventListener("click", startGame);
+registerBtn.addEventListener("click", handleEmailSubmit);
+
+// DOMContentLoaded
+window.addEventListener("DOMContentLoaded", function () {
+  introText.style.display = "block";
+  selectDifficultyDiv.style.display = "none"; 
+  board.style.display = "grid";
+  winnerEl.style.display = "none";
+  playAgainBtn.style.display = "none";
+  if (discountDisplay) discountDisplay.style.display = "none";
+
+  difficultyDropdown.dataset.value = "easy";
+
+  // generate initial board
+  cards = getDeck(difficultyMap[getDifficultyValue()]);
+  generateBoard();
+});
+
+
+
+
+const helperBtn = document.getElementById("helperBtn");
+let helperMode = document.body.getAttribute('data-helper-mode') === "true";
+
+function updateCounter() { 
+  counterEl.textContent = "Tries: " + tries; 
+
+  // show helper if helperMode is true and enough tries
+  if (helperMode && tries >= {variables.helperAmt}) {
+    helperBtn.style.display = "inline-block";
+  } else {
+    helperBtn.style.display = "none";
+  }
+}
+
+// when helper button is clicked skip to win
+helperBtn.addEventListener("click", function() {
+  helperEnabled = true;
+  winGame();    
+  helperBtn.style.display = "none"; 
+});
+
+// win game helper
+function winGame() {
+  cards.forEach(card => card.matched = true);
+  checkWin();
+}
+</script>

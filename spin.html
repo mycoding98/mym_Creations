@@ -1,0 +1,1643 @@
+
+<style>
+	
+  /*Hardcoded elements
+  Hardcoded elements are class and id which comes from the webextend implentation. Some of them we need to override. Please set them on the very top of your style sheet
+  */
+
+  [data-wps-popup]::before {
+    display: flex;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    justify-content: center;
+    align-items: center;
+    background: rgba(128, 128, 128, 0.5);
+    flex-direction: column;
+    box-sizing: content-box;
+    z-index: 2147483647 !important;
+  }
+
+  [data-wps-namespace-id="ems-wc-ns-tNKrRrH-UJ"] {
+    border: none !important;
+  }
+  [data-wps-popup-content-body].bordered {
+    border: transparent;
+    background: none;
+  }
+
+  [data-wps-popup-close] {
+    z-index: 10;
+    background: transparent;
+    top: 67px;
+    margin-right: 21px;
+    position: relative !important;
+    display: none;
+  }
+
+  [data-wps-popup-content] {
+    max-width: 100%;
+    max-height: 90%;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hide {
+    display: none !important;
+  }
+  .unhide-popup {
+    display: flex !important;
+  }
+
+  label {
+    margin: 0 !important;
+  }
+
+  /*Structure elements
+  Structure elements are typical classes or id, for operational thing. Opening, or closing, overall container of the overlay or embeded.
+  */
+  #wpst-open {
+    position: fixed;
+    right: 3%;
+    bottom: 3%;
+    z-index: 100;
+  }
+
+  #wpst-open img {
+    height: auto !important;
+    max-width: none !important;
+  }
+  [data-wps-popup-close-intent] {
+    display: none;
+  }
+  #wps-container {
+    transition: all .04s;
+    z-index: 102;
+    height: auto;
+    overflow-y: hidden;
+    line-height: 1.2 !important ;
+    align-content: space-around;
+    width: 380px;
+  }
+	
+  #wps-items {
+ 
+    z-index: 102;
+    height: auto;
+    overflow-y: hidden;
+    line-height: 1.2 !important ;
+    align-content: space-around;
+    width: 380px;
+  }
+	
+	@media (max-width:844px){
+		.mobile-height {
+			height: 600px;
+		}
+	}
+	
+  #wps-container.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+	
+	
+	@media (max-width:844px){
+		.mobile-height {
+			height: 600px;
+		}
+	}
+	
+ 
+  .wpst-close-button {
+    position: absolute;
+    bottom: 320px;
+    left: 300px;
+    display: block;
+    height: 32px;
+    width: 32px;
+    background-size: 13px;
+    background-repeat: no-repeat;
+    background-image: url("https://suite0.emarsys.net/custloads/4408/kasun/bestrun/close.svg");
+    background-position: center center;
+    z-index: 109;
+    cursor: pointer;
+    border-radius: 25px;
+  }
+
+  .wpst-close-button:hover {
+    background-color: #e6e6e6;
+  }
+	
+  .wpst-close-popup {
+		  color: black;
+		  text-decoration: none;
+		  cursor: pointer;
+	  	  font-size: 14px;
+	      border: none;
+	      background-color: transparent;
+	  	  font-weight: 200;
+	      box-shadow: none;
+	  }
+	  
+	  .wpst-close-popup:hover {
+		  text-decoration: underline;
+	  } 
+	
+  /*Default class elements
+  Every class that defines the look/design, please set here. Dont delete the classes even if not in use!
+  */
+  /*Define the font-sizes here*/
+  .font-size: 20px;{
+    line-height: 1.2;
+    font-family: "Work Sans", Helvetica, Roboto, Arial, sans-serif;
+    text-align: left;
+  }
+
+  .wpst-popup-body {
+    font-family: "Work Sans", Helvetica, Roboto, Arial, sans-serif;
+    text-decoration: none;
+    text-align: left;
+  }
+
+  .wpst-popup-body-light {
+    font-family: "Work Sans", Helvetica, Roboto, Arial, sans-serif;
+    text-decoration: none;
+    text-align: left;
+    line-height: normal;
+  }
+
+  .wpst-popup-tinytext {
+    color: #a3885a;
+    font-family: "Work Sans", Helvetica, Roboto, Arial, sans-serif;
+    text-align: left;
+    margin-bottom: 6px;
+  }
+
+  .wpst-popup-terms {
+    color: #757575;
+    font-weight: 400;
+    font-family: "Work Sans", Helvetica, Roboto, Arial, sans-serif;
+  }
+
+  /*Define the font-sizes here*/
+  .wpst-font-color-1 {
+    color: #ffffff;
+  }
+
+  .wpst-font-color-2 {
+    color: #191919;
+  }
+
+  .wpst-font-color-3 {
+    color: #999999;
+  }
+
+  .wpst-font-size-36 {
+    font-size: 32px;
+  }
+
+  .wpst-font-size-32 {
+    font-size: 36px;
+  }
+
+  .wpst-font-size-28 {
+    font-size: 28px;
+  }
+
+  .wpst-font-size-20 {
+    font-size: 20px;
+  }
+
+  .wpst-font-size-18 {
+    font-size: 18px;
+  }
+
+  .wpst-font-size-16 {
+    font-size: 16px;
+  }
+
+  .wpst-font-size-14 {
+    font-size: 14px;
+  }
+
+  .wpst-font-size-13 {
+    font-size: 13px;
+  }
+
+  .wpst-font-size-12 {
+    font-size: 12px;
+  }
+
+  .wpst-font-size-11 {
+    font-size: 11px;
+  }
+
+  /*Define the font-weights here*/
+
+  .wpst-font-weight-400 {
+    font-weight: 400;
+  }
+
+  .wpst-font-weight-500 {
+    font-weight: 500;
+  }
+
+  .wpst-font-weight-600 {
+    font-weight: 600;
+  }
+
+  .wpst-font-weight-700 {
+    font-weight: 700;
+  }
+
+  .wpst-text-decoration-underline {
+    text-decoration: underline;
+  }
+
+  .wpst-text-uppercase {
+    text-transform: uppercase;
+  }
+  /*Define the margings here*/
+
+  .wpst-margin-top-10 {
+    margin-top: 10px;
+  }
+
+  .wpst-margin-top-20 {
+    margin-top: 20px;
+  }
+
+  .wpst-margin-top-30 {
+    margin-top: 30px;
+  }
+
+  .wpst-margin-bottom-2 {
+    margin-bottom: 2px;
+  }
+
+  .wpst-margin-bottom-8 {
+    margin-bottom: 8px;
+  }
+
+  .wpst-margin-bottom-12 {
+    margin-bottom: 12px;
+  }
+
+  .wpst-margin-bottom-16 {
+    margin-bottom: 16px;
+  }
+
+  .wpst-margin-bottom-20 {
+    margin-bottom: 20px;
+  }
+
+  .wpst-margin-bottom-24 {
+    margin-bottom: 24px;
+  }
+
+  .wpst-margin-bottom-26 {
+    margin-bottom: 26px;
+  }
+
+  .wpst-margin-bottom-27 {
+    margin-bottom: 27px;
+  }
+
+  .wpst-margin-bottom-28 {
+    margin-bottom: 28px;
+  }
+
+  .wpst-margin-bottom-34 {
+    margin-bottom: 34px;
+  }
+
+  .wpst-margin-bottom-120 {
+    margin-bottom: 120px;
+  }
+
+  .wpst-margin-bottom-350 {
+    margin-bottom: 350px;
+  }
+
+  .wpst-margin-right-12 {
+    margin-right: 12px;
+  }
+
+  .wpst-margin-right-8 {
+    margin-right: 8px;
+  }
+
+  .wpst-margin-left-12 {
+    margin-right: 12px;
+  }
+
+  .wpst-padding-6-3 {
+    padding: 6px 3px;
+  }
+
+  .wpst-padding-leftright-16 {
+    padding: 0 16px;
+  }
+
+  .wpst-popup-optin-item-check1 {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: #191919;
+    background-size: 22px 21px;
+  }
+
+  #optin:checked ~ label div.wpst-popup-optin-item-check1 {
+    display: block !important;
+    background-image: url(https://suite0.emarsys.net/custloads/4408/kasun/bestrun/checkmark.svg);
+  }
+
+  .wpst-popup-content {
+    width: 480px;
+    height: fit-content;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+  }
+
+  .wpst-content {
+    display: flex;
+  }
+
+  .wpst-header {
+    width: 288px;
+    background-size: 233.2%;
+    background-position: center;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+  }
+
+  .wpst-content-container,
+  .wpst-content-container2 {
+    background-color: transparent;
+    padding: 10px 10px 10px 0px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+
+  .wpst-popup-form {
+    width: 100%;
+    display: flex;
+    position: relative;
+    flex-shrink: 0;
+    border-color: transparent;
+    flex-direction: column;
+    align-content: center;
+  }
+
+  .wpst-label-container {
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-color: transparent;
+  }
+
+  input:focus {
+    /*border: 1px solid #4871F7!important; */
+    border: 1px solid rgb(208, 51, 31) !important;
+    outline: none !important;
+  }
+  input:hover {
+    content: "Invalid email";
+    border: 2px solid rgba(39, 42, 54, 1) !important;
+  }
+
+  .wpst-label-container > input::placeholder {
+    font-size: 14px;
+    color: #686d74;
+  }
+
+  .wpst-popup-input-email,
+  .wpst-popup-input-name {
+    width: 100%;
+/*    height: 44px;*/
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    padding: 17px 10px;
+  }
+
+  .wpst-label-container > input:hover {
+    border: 1px solid #191919 !important;
+  }
+
+  .wpst-label-container > input:focus {
+    border: 2px solid #191919 !important;
+    color: #686d74;
+  }
+
+  .wpst-popup-title {
+    font-size: 14px;
+    font-family: "Work Sans", Helvetica, Roboto, Arial, sans-serif;
+  }
+
+  .wpst-preference {
+    width: 100%;
+    display: flex;
+    position: relative;
+    border-color: transparent;
+    flex-direction: column;
+  }
+
+  .wpst-popup-optin {
+    width: 100%;
+    margin-bottom: 12px;
+    display: flex;
+    background-color: #fcf4de;
+    padding: 12px 16px;
+    border-radius: 10px;
+  }
+
+  .wpst-popup-optin-box {
+    display: flex;
+  }
+
+  .wpst-popup-optin-item {
+    width: 24px;
+    height: 24px;
+    background-color: transparent;
+    border: 1px solid #191919;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  .wpst-popup-optin {
+    color: #676d77;
+    width: 100%;
+    height: auto;
+    text-decoration: none;
+    display: flex;
+    margin-bottom: 16px;
+  }
+
+  .wpst-action-buttons {
+    width: 100%;
+    text-align: center;
+    gap: 8px;
+    display: flex;
+  }
+
+  .wpst-popup-button-background-color button:hover {
+    background-color: #4E4D4D;
+  }
+
+  .wpst-popup-button {
+    padding: 11px 24px;
+    flex-shrink: 0;
+    border-color: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+
+    height: auto;
+    align-self: auto;
+    text-align: center;
+    font-family: "Work Sans", Helvetica, Roboto, Arial, sans-serif;
+    line-height: 18px;
+    font-stretch: normal;
+    margin-right: 0;
+    margin-bottom: 0;
+    text-decoration: none;
+  }
+
+  .wpst-popup-button-fw {
+    width: 100%;
+  }
+
+  .wpst-popup-button-half {
+    width: 49%;
+  }
+
+  .wpst-popup-button-background-color {
+    background-color: #f7c33e;
+    color: #191919;
+  }
+
+  .wpst-popup-button-background-color:hover {
+    background-color: #f8cf66;
+    transition: background-color 0.6s ease;
+	  
+  }
+
+  .wpst-popup-button-close-background-color {
+    background-color: #ffffff;
+    color: #191919;
+  }
+
+  .wpst-popup-button-background-color-2 {
+    background-color: #e6e6e6;
+    color: #191919;
+  }
+
+  .wpst-popup-button-background-color-2:hover {
+    background-color: #f9f9f9;
+    transition: background-color 0.6s ease;
+  }
+
+  /*Custom class elements
+Every class thats need to be created for individual campaigns, please set here. Remove the classes which are NOT in use!
+*/
+
+  /*
+The first block of CSS rules defines styles for checkboxes with classes .wpst-preference-item-check1 to .wpst-preference-item-check15. 
+These styles include display, width, background color, and background size.
+
+The second block of CSS rules defines styles for checkboxes with IDs #item1 to #item15 based on their checked state. When a checkbox is checked, its corresponding label's background color is changed to #191919 and the text color to white (#ffffff). The !important declaration is used to ensure these styles override any other existing styles.
+*/
+
+  
+
+  /*Multi Step classes */
+
+  .wpst-display-none {
+    display: none !important;
+  }
+
+  /* Error classes */
+  .wpst-error {
+    border: 1px solid #a7361b !important;
+  }
+
+  .wpst-email-error,
+  .wpst-name-error {
+    color: #a7361b;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+   .show-error {
+	
+	display: block;
+	transition: transform 0.5s ease, opacity 0.5s ease; 
+	bottom: -100px;
+	margin: 0;
+	padding: 0;      
+	}
+	
+   .show-error:after {
+    color: #a7361b;   
+	content: "Fill out form before spinning!";
+    font-size: 12px;
+
+	transition: transform 0.5s ease, opacity 0.5s ease;  
+	bottom: 5px;
+	   
+	}
+	
+  .wpst-error-optin {
+    border: 1px solid #b62906 !important;
+  }
+
+  .wpst-error-optin-text {
+    color: #b62906;
+  }
+
+  .wpst-error-optin-text a {
+    color: #b62906;
+  }
+
+  .wpst-error:after {
+    border: 1px solid #a7361b !important;
+    content: "This field is required";
+    color: #a7361b;
+    font-size: 12px;
+  }
+
+  .wpst-font-color-red {
+    color: #ea3323;
+  }
+
+	
+  /*
+The given media queries are used to apply different styles based on various characteristics of the user's device or viewport. 
+They allow developers to create responsive designs that adapt to different screen sizes, resolutions, orientations, and other factors. 
+
+Each media query defines specific conditions under which the enclosed CSS rules will apply. 
+When the device or viewport matches the criteria specified in a media query, the corresponding styles within that media query block will be applied, 
+allowing for more flexible and adaptable designs.
+
+@media screen and (orientation: landscape) and (min-width: 1921px) and (max-width: 2560px): 
+This media query targets devices with a landscape orientation and a width between 1921px and 2560px. 
+It adjusts the styles for the .wpst-open-button and #wps-container elements.
+*/
+
+  @media only screen and (max-width: 896px) and (max-device-width: 1024px) and (orientation: landscape),
+    screen and (max-device-width: 1279px) and (orientation: landscape) {
+		
+		
+		
+		@media (max-width:896px){
+		.mobile-height {
+			height: 600px;
+		}
+	}
+		
+		/* Styles for the wheel */
+	
+  .wheel {
+    width: 205px;
+    height: 205px;
+    border-radius: 50%;
+    background: conic-gradient(
+      #ffd700 0% 10%,
+      /* Darker yellow */ #ffa500 10% 20%,
+      /* Lighter yellow */ #ffd700 20% 30%,
+      /* Darker yellow */ #ffa500 30% 40%,
+      /* Lighter yellow */ #ffd700 40% 50%,
+      /* Darker yellow */ #ffa500 50% 60%,
+      /* Lighter yellow */ #ffd700 60% 70%,
+      /* Darker yellow */ #ffa500 70% 80%,
+      /* Lighter yellow */ #ffd700 80% 90%,
+      /* Darker yellow */ #ffa500 90% 100% 
+    );
+    border: 10px ridge #ffa500;
+    transition: transform 4s ease-out;
+    transform-origin: center;
+  }
+
+  /* Styles for the spin button */
+  .wheel-button {
+    position: absolute;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    font-weight: bold;
+	box-shadow: none;  
+	 
+  } 
+
+  }
+
+
+  /*
+@media screen and (orientation: portrait) and (min-width: 1081px) and (max-width: 1440px): 
+Targets portrait-oriented devices with a width between 1081px and 1440px. 
+Adjusts the style for the .wpst-open-button element.
+*/
+
+  @media only screen and (max-width: 1024px) and (orientation: portrait) {
+	  
+
+    [data-wps-popup-content] {
+      max-width: 100%;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      box-sizing: content-box;
+      position: relative;
+      top: 0;
+      left: 0;
+    }
+
+    .wpst-close-button {
+      position: absolute;
+      top: -390px;
+      right: -160px;
+      display: block;
+      height: 32px;
+      width: 32px;
+      background-size: 13px;
+      background-repeat: no-repeat;
+      background-image: url("https://suite0.emarsys.net/custloads/4408/kasun/bestrun/close.svg");
+      background-position: center center;
+      z-index: 109;
+      cursor: pointer;
+      background-color: #ffffff;
+      border-radius: 25px;
+    }
+	  .wpst-close-button2 {
+      position: absolute;
+      bottom: 300px;
+      left: 650px;
+      display: block;
+      height: 32px;
+      width: 32px;
+      background-size: 13px;
+      background-repeat: no-repeat;
+      background-image: url("https://suite0.emarsys.net/custloads/4408/kasun/bestrun/close.svg");
+      background-position: center center;
+      z-index: 109;
+      cursor: pointer;
+      background-color: #ffffff;
+      border-radius: 25px;
+    }
+
+	  .wpst-close-popup {
+		  color: black;
+		  text-decoration: none;
+		  cursor: pointer;
+		  font-size: 16px;
+	  }
+	  
+	  .wpst-close-popup:hover {
+		  text-decoration: underline;
+	  }
+
+    .wpst-content {
+      display: block;
+	 	
+    }
+    .wpst-popup-content {
+      width: 375px;
+    }
+
+    /* Ensure popup container is properly positioned and styled */
+    #wps-container {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.8); /* Darker grey background */
+      width: 60% !important; 
+ 	  height: 600px !important;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;  
+	  padding: 20px 0 20px 0;
+	  overflow-y: auto;	
+    }
+   #wps-items {
+    position: fixed;
+      bottom: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.8); /* Darker grey background */
+      width: 320px !important; 
+ 	    height: 200px !important;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;  
+	  padding: 5px 0 5px 0;
+	 	
+   }
+	
+ #discountCode {
+  cursor: pointer;
+  margin-top: 10px;
+ }
+
+   /* Styles for the wheel container */
+  .wheel-container {
+    position: relative;
+    width: 200px;
+    height: 230px !important; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px; /* Space between the wheel and form */
+
+/*    padding: 130px 40px 10px 40px;*/
+    border-radius: 8px;
+  }
+	.wpst-popup-heading {
+		font-size: 18px;
+		color: #333;
+		margin-bottom: 8px;
+	  }
+	  
+	.wpst-popup-form {
+    width: 100%;
+/*    height: ;*/
+    position: relative;
+    flex-shrink: 0;
+    border-color: transparent;
+    flex-direction: column;
+    align-content: center;
+  }
+  /* Styles for the wheel */
+  .wheel {
+   width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: conic-gradient(
+      #ffd700 0% 10%,
+      /* Darker yellow */ #ffa500 10% 20%,
+      /* Lighter yellow */ #ffd700 20% 30%,
+      /* Darker yellow */ #ffa500 30% 40%,
+      /* Lighter yellow */ #ffd700 40% 50%,
+      /* Darker yellow */ #ffa500 50% 60%,
+      /* Lighter yellow */ #ffd700 60% 70%,
+      /* Darker yellow */ #ffa500 70% 80%,
+      /* Lighter yellow */ #ffd700 80% 90%,
+      /* Darker yellow */ #ffa500 90% 100% /* Lighter yellow */
+    );
+    border: 10px ridge #ffa500; 
+    transition: transform 4s ease-out;
+    transform-origin: center;
+  }
+
+  /* Styles for the spin button */
+  .wheel-button {
+    position: absolute;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 16px;
+    font-weight: bold;
+	box-shadow: none;  
+  }
+	  [data-wps-namespace-id=ems-wc-ns-unICsye-mC].wpst-content {
+		  padding: 25px 40px 90px 20px;
+		  border-radius: 8px;
+	  }
+    /* Form container styles */
+    #wpst-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+		justify-content: space-between;
+/*      width: 100%;  Ensure form takes full width of container */
+    }
+
+    /* Form styles */
+    #wpst-form label {
+      margin: 10px 0 5px;
+      color: #fff; /* White text color for labels */
+    }
+
+    #wpst-form input {
+      margin-bottom: 15px;
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+      width: 100%; /* Full width input */
+	  display: flex;
+	justify-content: space-between;
+    }
+
+    #wpst-form button {
+      
+      border: none;
+      border-radius: 5px;
+      background-color: none; 
+      color: #101010;
+      cursor: pointer;
+    }
+
+    #wpst-form button:hover {
+      text-decoration: underline;
+    }
+
+    #wpst-email-error {
+      color: #ff0000; /* Red error text */
+      margin-bottom: 10px;
+    }
+	  #spin_error {
+      color: #ff0000; /* Red error text */
+    
+	  transform: translateX(100%); /* Start off-screen to the right */
+	  opacity: 0; /* Initially hidden */
+	  transition: transform 0.5s ease, opacity 0.5s ease;  
+	  bottom: 20px;
+    }
+    .show-error {
+		
+		opacity: 1; 
+	}
+    .wpst-header {
+      width: 100%;
+      background-size: 103%;
+      background-position: center center;
+      height: 211px;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      background-repeat: no-repeat;
+      border-bottom-left-radius: 0;
+    }
+    .wpst-label-container {
+      width: 100%;
+      height: auto;
+      display: block;
+      position: relative;
+      border-color: transparent;
+      margin-bottom: 15px;
+    }
+
+    .wpst-content-container {
+      padding: 0px 24px 32px 24px !important;
+      border-radius: 16px;
+    }
+.wpst-content-container2 {
+      padding: 0px 24px 32px 24px !important;
+      border-radius: 16px;
+    }
+    .wpst-popup-content {
+      width: 100%;
+    }
+
+    .wpst-popup-optin-item-check1 {
+      display: none;
+      width: 100%;
+      height: 100%;
+      background-color: #191919;
+      background-size: 21px 20px;
+    }
+
+    .wpst-popup-button-half {
+      width: 100%;
+    }
+	
+    .wpst-action-buttons {
+      display: flex;
+      gap: 12px;
+      flex-direction: column-reverse;
+    }
+  }
+
+	
+	
+  @media screen and (-webkit-min-device-pixel-ratio: 0) {
+    /* Safari and Chrome */
+    .flex-direction-nav-featured a {
+      margin-top: 4%;
+    }
+    /* Safari only override */
+    ::i-block-chrome,
+    .flex-direction-nav-featured a {
+      margin-top: 5%;
+    }
+  }
+  @media only screen and (min-width: 1280px) and (-webkit-min-device-pixel-ratio: 2) {
+    :root {
+      --object-height: 650px;
+    }
+  }
+	
+  /* Overlay for darkening the screen */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    display: none; /* Initially hidden */
+    z-index: 20;
+  }
+
+  /* Styles for the wheel container */
+  .wheel-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px; /* Space between the wheel and form */
+    border-radius: 8px;
+  }
+
+  /* Styles for the wheel */
+  .wheel {
+    width: 205px;
+    height: 205px;
+    border-radius: 50%;
+    background: conic-gradient(
+      #ffd700 0% 10%,
+      /* Darker yellow */ #ffa500 10% 20%,
+      /* Lighter yellow */ #ffd700 20% 30%,
+      /* Darker yellow */ #ffa500 30% 40%,
+      /* Lighter yellow */ #ffd700 40% 50%,
+      /* Darker yellow */ #ffa500 50% 60%,
+      /* Lighter yellow */ #ffd700 60% 70%,
+      /* Darker yellow */ #ffa500 70% 80%,
+      /* Lighter yellow */ #ffd700 80% 90%,
+      /* Darker yellow */ #ffa500 90% 100% /* Lighter yellow */
+    );
+    border: 10px ridge #ffa500; 
+    transition: transform 4s ease-out;
+    transform-origin: center;
+	
+  }
+
+  /* Styles for the spin button */
+  .wheel-button {
+    position: absolute;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 16px;
+    font-weight: bold;
+	box-shadow: none;  
+  }
+	
+  /* Styles for the form container */
+  #wps-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    visibility: hidden;
+    z-index: 25;
+    width: 700px;
+    max-width: 800px;
+    display: flex;
+    align-items: center;
+    padding: 20px 0 20px 0;
+
+    background-color: #f5f5f5;
+    border-radius: 8px;
+  }
+	
+  #wps-items {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    visibility: hidden;
+    z-index: 25;
+    width: 500px;
+    max-width: 800px;
+    display: flex;
+    align-items: center;
+  
+    background-color: #f5f5f5;
+    border-radius: 8px;
+  }
+  .wpst-content {
+    padding: 10px 35px 20px 35px;
+    border-radius: 8px;
+
+    position: relative;
+  }
+  #discountCode {
+    cursor: pointer;
+    margin-top: 10px;
+
+   }
+  /* Updated Sticky button styles */
+	   .sticky-capture {
+		position: fixed;
+		top: 60%;
+		left: 0;
+		transform: rotate(-90deg);
+		background-color: #F7C33E;
+		padding: 0px;
+		border-radius: 0 0 5px 5px;
+		
+		width: 50px;
+	}
+	
+
+	.sticky-capture button {
+        left: 0;
+		color: #1d1d1d;
+		font-weight:bold;
+		background-color: #F7C33E;
+		border:thick;
+		padding: 18px;
+		cursor: pointer;
+		font-size: 14px;
+		border-radius: 0 0 5px 5px;
+		box-shadow: 0px 2px 10px rgba(0,0,0,0.2);
+	}
+
+        .sticky-capture button:hover {
+            background-color: #f8cf66;
+        }
+  /* Styles for hiding the form */
+  .wpst-display-none {
+    display: none;
+  }
+
+  /* Styles for the popup close button */
+  .wpst-close-button img {
+    width: 12px;
+    cursor: pointer;
+  }
+	
+	
+
+  .wpst-popup-terms {
+    font-size: 12px;
+    color: #666;
+  }
+
+  .wpst-popup-title {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .wpst-popup-heading {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 8px;
+  }
+
+  .wpst-popup-body {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 28px;
+  }
+
+  .wpst-popup-input-name,
+  .wpst-popup-input-email {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    margin-bottom: 8px;
+  }
+
+  .wpst-popup-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #101010;
+    font-weight: 600;
+	box-shadow: none; 
+  }
+
+  .wpst-popup-button-background-color {
+    background-color: #F7C33E;
+  }
+
+ 
+
+  .wpst-error {
+    border-color: red;
+  }
+
+
+</style>
+<!-- Overlay for darkening the screen -->
+<div class="overlay" id="overlay"></div>
+
+<!-- Sticky button -->
+<div class="sticky-capture" id="stickyClick">
+        <button type="button" id="clickTo"><font class="wpst-font-size-11"></font><em>DON'T&nbsp;MISS&nbsp;OUT</em></button>
+</div>
+<!-- Popup form container -->
+<div id="wps-container">
+	
+  <div class="wheel-container mobile-height">
+    <!-- Wheel -->
+    <div id="wheel" class="wheel"></div>
+    <!-- Spin Button -->
+    <button id="spinButton" class="wheel-button">Spin</button>
+	 
+  </div>
+
+  <form
+    id="wpst-form"
+    name="ProfileForm"
+    onsubmit="return CheckInputs();"
+    action="https://suite0.emarsys.net/u/register.php"
+    method="get"
+    class="form wpst-content"
+  >
+	  
+	  
+    <input type="hidden" name="CID" value="4871" />
+    <input type="hidden" name="SID" value="" />
+    <input type="hidden" name="UID" value="" />
+    <input type="hidden" name="f" value="896" />
+    <input type="hidden" name="p" value="2" />
+    <input type="hidden" name="a" value="r" />
+    <input type="hidden" name="el" value="" />
+    <input type="hidden" name="llid" value="" />
+    <input type="hidden" name="c" value="" />
+    <input type="hidden" name="counted" value="" />
+    <input type="hidden" name="RID" value="" />
+    <input type="hidden" name="mailnow" value="" />
+    <input type="hidden" name="optin" value="y" />
+    <input type="hidden" name="inp_145735" value="true" />
+    <input type="hidden" name="inp_145734" value="emarsys_popup" />
+	  
+    <div id="wpst-popup-content" class="wpst-popup-content wpst-header">
+      <div id="wpst-close" class="wpst-close-button" onclick="closePopup()">
+        <img
+          src="https://suite0.emarsys.net/custloads/4408/kasun/bestrun/trans.gif"
+          width="12"
+          style="display: block"
+        />
+      </div>
+      <div id="wpst-content-1" class="wpst-content-container">
+        <div class="wpst-popup-heading">Sign up to spin for a prize</div>
+		 <div id="spin_error"  class="show-error wpst-display-none"></div> 
+        <div class="wpst-popup-body">
+          You won't want to miss our exclusive offers and latest news.
+        </div>
+
+        <div class="wpst-popup-form">
+          <div
+            id="wpst-labelforName"
+            class="wpst-label-container wpst-margin-bottom-8"
+          >
+            <div class="wpst-popup-title">Name</div>
+            <input
+              id="wpst-popup-name"
+              name="inp_1"
+              type="text"
+              value=""
+              class="wpst-popup-input-name"
+            />
+            <div
+              id="wpst-name-error"
+              class="wpst-name-error wpst-display-none"
+            ></div>
+          </div>
+          <div
+            id="wpst-labelforEmail"
+            class="wpst-label-container wpst-margin-bottom-24"
+          >
+            <div class="wpst-popup-title">
+              Email <span style="color: #ff0000">*</span>
+            </div>
+            <input
+              id="wpst-popup-email"
+              name="inp_3"
+              type="text"
+              value=""
+              class="wpst-popup-input-email"
+              pattern="[^ @]*@[^ @]*"
+              required
+            />
+            <div
+              id="wpst-email-error"
+              class="wpst-email-error wpst-display-none"
+            ></div>
+          </div>
+
+          <button
+            type="submit"
+            class="wpst-popup-button wpst-popup-button-background-color" style="text-decoration: none;">
+          
+            Spin To Win!
+          </button>
+          <button
+            type="button"
+            class="wpst-close-popup"
+            onclick="closePopup()"
+          >
+            No thanks, I'll shop at full price.
+          </button>
+			
+			<div class="winning-slice wpst-display-none"> Congratulations!<br> Enjoy 20% Off Your Next Purchase</div>
+        </div>
+      </div>
+    </div>
+	</form>
+	<!-- In a follow up step, re-name it to wpst-content-3, but use the same class as in wpst-content-1 (wpst-content-container) -->
+            
+</div>
+	<div id = "wps-items" class="wpst-popup-content wpst-display-none">
+  <div id = "wpst-close2" class="wpst-close-button2" onclick="closePopup()">
+        <img
+          src="https://suite0.emarsys.net/custloads/4408/kasun/bestrun/trans.gif"
+          width="12"
+          style="display: block"
+        />
+      </div>
+              <div class="wpst-popup-heading wpst-font-color-2 wpst-font-weight-700 wpst-margin-top-10 wpst-margin-bottom-8 wpst-font-size-20">Congratulations!</div><br>
+              <div class="wpst-popup-body wpst-font-color-2 wpst-font-weight-400 wpst-font-size-14">Enjoy 20% off your next purchase with code<br></div>
+              <div id="discountCode" class="wpst-margin-bottom-8">EMARSYS20</div><br><br>
+              <button
+              type = "button"
+              class = "wpst-close-popup wpst-font-weight-400 wpst-margin-bottom-12"
+              onclick = "closePopup()"> Start Shopping
+            </button>
+		       
+    </div>
+<script>
+
+  // Define container
+  const wpsContainer = document.getElementById("wps-container");	
+  const closeButton = document.getElementById("wpst-close");
+  const closeButton2 = document.getElementById("wpst-close2");	
+  const closeSubmit = document.getElementById("wpst-close-popup");
+//  const overlay = document.getElementById("overlay");
+  const stickyButton = document.getElementById("wpst-open");
+  const items = document.getElementById("wps-items");
+  
+  //Overlay function
+  function wpsoverlayFunction() {
+    //Start from the top
+    wpsContainer.scrollTop = 0;
+
+    // Get references to DOM elements
+    const overlay = document.getElementById("wps_popup");
+    const form = document.getElementById("wpst-form");
+    const container = document.getElementById("wps-container");
+
+    const childContainer1 = document.getElementById("wpst-content-1");
+    const childContainer2 = document.getElementById("wpst-content-2");
+    const childContainer3 = document.getElementById("wpst-content-3");
+
+    overlay.style.background = "rgba(0, 0, 0, .7)";
+    //document.getElementById('wps_popup').style.border = "0px solid #000";
+
+    //Keep the campaign alive, while accidently clicking on the outer area
+    overlay.addEventListener("click", keepOverlay);
+    //document.getElementById('wps_popup').addEventListener("click", animation);
+    
+    function keepOverlay() {
+      overlay.classList.remove("hide-popup");
+      overlay.removeAttribute("data-wps-popup");
+      overlay.style.zIndex = "1000";
+
+      //reset attributes back to the division, mandatory!
+      setTimeout(function () {
+        //document.getElementById('wps_popup').removeAttribute('style');
+        overlay.removeAttribute("class");
+        overlay.setAttribute("data-wps-popup", "");
+      }, 0);
+    }
+
+   
+
+ document.getElementById('wpst-close').addEventListener("click", closeWindow);
+document.getElementById('wpst-close2').addEventListener("click", closeWindow);	  
+/* document.getElementById('wpst-close-popup').addEventListener("click", closeWindow); */
+    function closeWindow() {
+      overlay.classList.add("hide-popup");
+      overlay.removeAttribute("style");
+      overlay.removeEventListener("click", keepOverlay);
+	
+    }
+
+
+function setupIntersectionObserver(elementSelector) {
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.body.style.overflowY = 'hidden';
+        observer.disconnect(); // Stop observing after the element is visible
+      }
+    });
+  });
+  const targetElement = document.querySelector(elementSelector);
+  observer.observe(targetElement);
+}
+//0 for any element, .5 for 50%
+setupIntersectionObserver('#wps-container', 0);
+	
+
+    //Function to open the overlay
+    function openOverlay() {
+      // Set the position of the overlay container
+      container.style.bottom = "0%";
+      container.style.right = "0%";
+      // Remove the class to unhide the close button
+      document.getElementById("wpst-close");
+      document.classList.remove("wpst-display-none");
+      // Move the open button off screen to the right
+      document.getElementById("wpst-open").style.right = "-100%";
+    }
+  }
+  /* Hide function: hiding overlay and allowing pointer events until overlay is loaded	
+ sticky will remain with */
+  function hide() {
+    const overlay = document.getElementById("wps_popup");
+    overlay.style.background = "none";
+    overlay.style.pointerEvents = "none";
+    wpsContainer.style.visibility = "hidden";
+    wpsContainer.style.pointerEvents = "none";
+    stickyClick.style.pointerEvents = "auto";
+  }
+
+  hide();
+
+  document.getElementById("clickTo").addEventListener("click", function () {
+    wpsContainer.style.visibility = "visible";
+    wpsContainer.style.zIndex = "25";
+    wpsContainer.style.pointerEvents = "auto";
+
+    wpsoverlayFunction();
+
+    //Disable html + body scrolling
+    document.body.style.overflowY = "hidden";
+  });
+
+  document.getElementById("clickTo").addEventListener("click", function () {
+    stickyClick.style.visibility = "hidden";
+  });
+</script>
+
+
+
+<script>
+  
+  const spinButton = document.getElementById("spinButton");
+  const wheel = document.getElementById("wheel");
+  const formContainer = document.getElementById("wps-container");
+ 
+  const winningSlice = document.getElementById("winning-slice");
+  const submitBtn = document.getElementById("submitBtn");
+   container = document.getElementById("wps-container");
+	
+	
+  let canSpin = false;
+  let formSubmitted = false;
+  let spinCompleted = false;
+
+
+  function wpsoverlayFunction() {
+    // Start from the top
+    wpsContainer.scrollTop = 0;
+
+    // Overlay configuration
+    overlay.style.background = "rgba(0, 0, 0, .7)";
+    overlay.addEventListener("click", keepOverlay);
+
+    function keepOverlay() {
+      overlay.classList.remove("hide-popup");
+      overlay.removeAttribute("data-wps-popup");
+      overlay.style.zIndex = "1000";
+
+      // Reset attributes back to the division
+      setTimeout(function () {
+        overlay.removeAttribute("class");
+        overlay.setAttribute("data-wps-popup", "");
+      }, 0);
+    }
+ document.getElementById("stickyClick").addEventListener("click", openPopup);
+   
+
+    // Handle multi-step functionality
+    document.getElementById("wpst-step1-next")
+      document.addEventListener("click", multiStep);
+    function multiStep() {
+      overlay.removeEventListener("click", keepOverlay);
+    }
+
+    // Disable the keep overlay from the container inside wps-popup
+    wpsContainer.addEventListener("click", allContainer);
+    function allContainer() {
+      overlay.removeEventListener("click", keepOverlay);
+
+		
+      setTimeout(function () {
+        overlay.addEventListener("click", keepOverlay);
+      }, 800);
+    }
+
+    // Function to open the overlay
+    function openOverlay() {
+      wpsContainer.style.bottom = "0%";
+      wpsContainer.style.right = "0%";
+      closeButton.classList.remove("wpst-display-none");
+//      stickyButton.style.right = "-100%";
+    }
+  }
+
+  function hide() {
+    overlay.style.background = "none";
+    overlay.style.pointerEvents = "none";
+    wpsContainer.style.visibility = "hidden";
+    wpsContainer.style.pointerEvents = "none";
+//    stickyButton.style.pointerEvents = "auto";
+  }
+
+  hide();
+
+
+  function show() {
+    overlay.style.background = "visible";
+    overlay.style.pointerEvents = "none"
+    wpsContainer.style.visibility = "visible";
+    wpsContainer.style.pointerEvents = "auto";
+    items.style.visibility = "visible";
+    items.style.pointerEvents = "auto";
+
+  }
+
+
+  // Function to check if the popup is open
+  function isPopupOpen() {
+    return wpsContainer.style.visibility === "visible";
+  }
+
+  // Function to disable page scrolling
+  function disableScrolling() {
+    document.body.style.overflow = "hidden";
+  }
+
+  // Function to enable page scrolling
+  function enableScrolling() {
+    document.body.style.overflow = "";
+  }
+
+  function openPopup() {
+    formContainer.style.visibility = "visible";
+    overlay.style.display = "block"; // Show the overlay
+    overlay.style.background = "rgba(0, 0, 0, 0.8)"; // Darker grey background
+//    stickyButton.style.display = "none"; // Hide the sticky button
+    disableScrolling(); // Disable page scrolling
+    canSpin = false;
+  }
+
+  spinButton.addEventListener("click", function () {
+	  console.log(formSubmitted, canSpin);
+    if (formSubmitted) {
+      if (canSpin) {
+        const randomDeg = Math.floor(Math.random() * 360) + 3600; // Speed of wheel
+        wheel.style.transform = `rotate(${randomDeg}deg)`; // Use backticks
+        spinCompleted = true; // Mark spin as completed
+        canSpin = false; // Prevent spinning again until form is submitted
+      
+	   setTimeout(() => {
+        wpsContainer.classList.add("wpst-display-none");
+        show();  
+		}, 5000);
+
+    setTimeout(() => {
+      
+      items.classList.remove("wpst-display-none");
+      show();  
+  }, 5000);
+		  
+		
+	  } 
+    } else {
+     spin_error.classList.remove("wpst-display-none");
+    }
+	  
+  });
+
+
+	
+document.getElementById("discountCode").addEventListener('click', () => {
+  const discountCode = document.getElementById('discountCode');
+  const range = document.createRange();
+  range.selectNode(discountCode);
+  window.getSelection().addRange(range);
+
+  navigator.clipboard.writeText(discountCode.textContent).then(() => {
+    alert('Discount code copied to clipboard!');
+  });
+});
+
+  function CheckInputs() {
+    const emailInput = document.getElementById("wpst-popup-email");
+    const emailError = document.getElementById("wpst-email-error");
+	  const spinError = document.getElementById("spin_error");  
+
+    let valid = true;
+    emailError.classList.add("wpst-display-none");
+
+    if (!emailInput.value.trim()) {
+      emailError.innerText = "Email is required";
+      emailError.classList.remove("wpst-display-none");
+      valid = false;
+    } else if (!emailInput.checkValidity()) {
+      emailError.innerText = "Invalid email address";
+      emailError.classList.remove("wpst-display-none");
+      valid = false;
+    }
+
+    formSubmitted = true; // Set this flag to true when the form is valid and submitted
+    canSpin = true; // Allow wheel to spin after form is submitted
+
+    return false; // Prevent form from submitting normally
+	
+	
+	if (!formSubmitted) {
+    spinError.classList.remove("wpst-display-none");
+    spinError.classList.add("show-error"); // Add the show class
+    //  remove the class after animation
+    setTimeout(() => {
+        spinError.classList.remove("show-error"); // Reset class
+    }, 800);
+}}
+	
+ 
+	
+function closePopup() {
+      formContainer.style.visibility = "hidden";
+      overlay.style.display = "none"; // Hide the overlay
+      overlay.style.background = "none"; 
+	  spinCompleted = true; // Reset background
+    items.style.display = "none";
+      enableScrolling(); // Enable page scrolling
+	
+    }
+  
+	 closeButton.addEventListener("click", function () {
+    closePopup();
+  });
+ 
+
+  
+</script>
+
+

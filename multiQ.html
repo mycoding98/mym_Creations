@@ -1,0 +1,511 @@
+<style>
+@font-face {
+font-family:"agenda";
+src:url("https://use.typekit.net/af/2d6d3a/00000000000000003b9ae38e/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n1&v=3") format("woff2"),url("https://use.typekit.net/af/2d6d3a/00000000000000003b9ae38e/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n1&v=3") format("woff"),url("https://use.typekit.net/af/2d6d3a/00000000000000003b9ae38e/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n1&v=3") format("opentype");
+font-display:auto;font-style:normal;font-weight:100;font-stretch:normal;
+}
+
+@font-face {
+font-family:"agenda";
+src:url("https://use.typekit.net/af/2439e4/00000000000000003b9ae391/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3") format("woff2"),url("https://use.typekit.net/af/2439e4/00000000000000003b9ae391/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3") format("woff"),url("https://use.typekit.net/af/2439e4/00000000000000003b9ae391/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3") format("opentype");
+font-display:auto;font-style:normal;font-weight:300;font-stretch:normal;
+}
+
+@font-face {
+font-family:"agenda";
+src:url("https://use.typekit.net/af/0c0905/00000000000000003b9ae392/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("woff2"),url("https://use.typekit.net/af/0c0905/00000000000000003b9ae392/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("woff"),url("https://use.typekit.net/af/0c0905/00000000000000003b9ae392/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("opentype");
+font-display:auto;font-style:normal;font-weight:400;font-stretch:normal;
+}
+
+@font-face {
+font-family:"agenda";
+src:url("https://use.typekit.net/af/3ccb81/00000000000000003b9ae394/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n5&v=3") format("woff2"),url("https://use.typekit.net/af/3ccb81/00000000000000003b9ae394/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n5&v=3") format("woff"),url("https://use.typekit.net/af/3ccb81/00000000000000003b9ae394/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n5&v=3") format("opentype");
+font-display:auto;font-style:normal;font-weight:500;font-stretch:normal;
+}
+
+@font-face {
+font-family:"agenda";
+src:url("https://use.typekit.net/af/5be660/00000000000000003b9ae397/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n6&v=3") format("woff2"),url("https://use.typekit.net/af/5be660/00000000000000003b9ae397/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n6&v=3") format("woff"),url("https://use.typekit.net/af/5be660/00000000000000003b9ae397/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n6&v=3") format("opentype");
+font-display:auto;font-style:normal;font-weight:600;font-stretch:normal;
+}
+
+.tk-agenda { font-family: "agenda",sans-serif; }
+
+
+/* Overlay */
+.wpst-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* Wrapper */
+.wpst-wrapper {
+  background: {variables.bgcolor};
+  width: {variables.bgwidth}%;
+  font-family: {variables.ff};
+  font-size: {variables.fs};
+  max-width: 400px;
+  padding: 1rem;
+  border-radius: {variables.bgbr}px;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: {variables.contenta};
+}
+
+/* Close Button */
+.wpst-close-button {
+  position: absolute;
+  top: 1px;
+  {variables.cbposition}: 12px;
+  background: none;
+  border: none;
+  font-size: {variables.closes}rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: {variables.closefc};
+  text-decoration:none;
+}
+
+.wpst-close-button:hover {
+  color: {variables.closefch};
+}
+
+/* Question Container */
+.wpst-question {
+  display: {variables.displayQ};
+}
+
+.wpst-question.wpst-active {
+  display: block;
+}
+
+/* Question Text */
+.wpst-question-text {
+  color: {variables.hfc};
+  font-size: {variables.hfs}px;
+  font-weight: bold;
+  margin-bottom: 1rem; 
+}
+
+/* Radio Buttons */
+.wpst-question label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.wpst-question input[type="radio"] {
+  margin-right: 0.5rem;
+}
+
+/* CTA Buttons */
+.wpst-cta {
+  margin-top: 1rem;
+}
+
+.wpst-cta button {
+  border: {variables.ctab};
+  border-radius: {variables.ctabr}px;
+  padding: 0.5rem 1rem;
+  font-size: {variables.ctafs};
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.wpst-next-button {
+   background: {variables.ctab};
+  color: {variables.ctafc};
+}
+
+.wpst-cta button:hover {
+  background: {variables.ctabh};
+}
+
+.wpst-prev-button {
+  background: {variables.ctaprevc};
+  margin-right: 0.5rem;
+  color: {variables.ctapfc};
+}
+
+.wpst-prev-button:hover {
+  background: {variables.ctaprevch};
+    color: {variables.ctafc};
+}
+
+/* Results Container */
+.wpst-results-container {
+  display: none;
+}
+
+.wpst-results-message {
+  font-size: {variables.resultsfs};
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: {variables.resultsc};
+   padding: 20px;
+}
+
+/* Find a Salon Button */
+.wpst-go-to {
+  background: {variables.gotoc};
+ bottom:10px;
+}
+
+.wpst-go-to:hover {
+  background: {variables.gotohoverc};
+}
+
+/* Progress Bar */
+.wpst-progress-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: {variables.progressw}%;
+  height: {variables.progressch}px;
+  background: {variables.progressbgc};
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+}
+
+.wpst-progress {
+  height: {variables.progressh}%;
+  background: {variables.progressc};
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+.ems-inapp-button:not([contenteditable]) {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
+.ems-inapp-button--copied-to-clipboard .ems-inapp-button__label:after {
+  white-space: nowrap;
+  content: " ✓"
+}
+</style>
+
+<html>
+<div class="wpst-overlay">
+  <div class="wpst-wrapper">
+    <!-- Close Button -->
+   <a href="" class="wpst-close-button ems-inapp-close" me-close>
+     <div me-close e-editable="buttonClose">&times;</div>
+   </a>
+    <!-- First Question -->
+    <div class="wpst-question wpst-active">
+      <p class="wpst-question-text" e-editable="QuestionI">Are you an existing member?</p>
+      <label e-editable="QuestionI-AnswerI">
+        <input type="radio" name="wpst-question1" value="Yes" > Yes
+      </label>
+      <label e-editable="QuestionI-AnswerII">
+        <input type="radio" name="wpst-question1" value="Not Yet" > Not Yet
+      </label>
+      <label e-editable="QuestionI-AnswerIII">
+        <input type="radio" name="wpst-question1" value="Exploring Options" > Exploring Options
+      </label>
+      <div class="wpst-cta" e-editable="CTA">
+        <button class="wpst-next-button" >Next</button>
+      </div>
+    </div>
+
+    <!-- Second Question -->
+<div class="wpst-question">
+  <p class="wpst-question-text" e-editable="QuestionII">How frequently do you tan?</p>
+  <label e-editable="QuestionII-AnswerI">
+    <input type="radio" name="wpst-question2" value="Rarely" > Rarely
+  </label>
+  <label e-editable="QuestionII-AnswerII">
+    <input type="radio" name="wpst-question2" value="Occasionally" > Occasionally
+  </label>
+  <label e-editable="QuestionII-AnswerIII">
+    <input type="radio" name="wpst-question2" value="Frequently" > Frequently
+  </label>
+  <div class="wpst-cta">
+    <!-- Added e-editable to buttons -->
+    <button e-editable="QuestionII-prev" class="wpst-prev-button">Previous</button>
+    <button e-editable="QuestionII-next" class="wpst-next-button">Next</button>
+  </div>
+</div>
+<!-- Third Question -->
+<div class="wpst-question">
+  <p class="wpst-question-text" e-editable="QuestionIII">What is your preferred method of tanning?</p>
+  <label e-editable="QuestionIII-AnswerI">
+    <input type="radio" name="wpst-question3" value="Sun Tanning"> Sun Tanning
+  </label>
+  <label e-editable="QuestionIII-AnswerII">
+    <input type="radio" name="wpst-question3" value="Tanning Beds"> Tanning Beds
+  </label>
+  <label e-editable="QuestionIII-AnswerIII">
+    <input type="radio" name="wpst-question3" value="Spray Tan"> Spray Tan
+  </label>
+  <div class="wpst-cta">
+    <!-- Added e-editable to buttons -->
+    <button e-editable="QuestionIII-prev" class="wpst-prev-button">Previous</button>
+    <button e-editable="QuestionIII-next" class="wpst-next-button">Next</button>
+  </div>
+</div>
+    <!-- Results Container -->
+    <div class="wpst-results-container" style="display: none;">
+      <div class="wpst-results-message" e-editable="Results"><br>
+        Enjoy FIVE tans for only $19.99
+      </div>
+      <div class="wpst-cta">
+        <button class="wpst-go-to ems-inapp-button" onclick="wpstGoToSalon()" e-editable="Results CTA">Find a Salon</button>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="wpst-progress-container">
+      <div class="wpst-progress"></div>
+    </div>
+  </div>
+</div>
+</html>
+
+<script>
+const wpstNextButtons = document.querySelectorAll('.wpst-next-button');
+const wpstPrevButtons = document.querySelectorAll('.wpst-prev-button');
+const wpstQuestions = document.querySelectorAll('.wpst-question');
+const wpstResultsContainer = document.querySelector('.wpst-results-container');
+const wpstProgressBar = document.querySelector('.wpst-progress');
+const wpstOverlay = document.querySelector('.wpst-overlay');
+let wpstCurrentQuestionIndex = 0;
+
+// Next question
+function wpstShowNextQuestion() {
+  const selectedAnswer = wpstQuestions[wpstCurrentQuestionIndex].querySelector('input[type="radio"]:checked');
+
+  if (!selectedAnswer) {
+    alert('Please select an answer before proceeding.');
+    return;
+  }
+
+  wpstQuestions[wpstCurrentQuestionIndex].classList.remove('wpst-active');
+  wpstCurrentQuestionIndex++;
+
+  if (wpstCurrentQuestionIndex < wpstQuestions.length) {
+    wpstQuestions[wpstCurrentQuestionIndex].classList.add('wpst-active');
+  } else {
+    wpstResultsContainer.style.display = 'block';
+  }
+
+  wpstUpdateProgressBar();
+}
+
+// Previous question
+function wpstShowPrevQuestion() {
+  wpstQuestions[wpstCurrentQuestionIndex].classList.remove('wpst-active');
+  wpstCurrentQuestionIndex--;
+
+  if (wpstCurrentQuestionIndex >= 0) {
+    wpstQuestions[wpstCurrentQuestionIndex].classList.add('wpst-active');
+  }
+
+  wpstUpdateProgressBar();
+}
+
+// Update the progress bar
+function wpstUpdateProgressBar() {
+  const progress = ((wpstCurrentQuestionIndex + 1) / (wpstQuestions.length + 1)) * 100;
+  wpstProgressBar.style.width = `${progress}%`;
+}
+
+// Close the overlay
+function wpstCloseOverlay() {
+  wpstOverlay.style.display = 'none';
+}
+
+// Redirect to "Find a Salon" page
+function wpstGoToSalon() {
+  window.location.href = 'https://www.suntancity.com/find-a-salon';
+}
+
+// Event Listeners
+wpstNextButtons.forEach((button) => {
+  button.addEventListener('click', wpstShowNextQuestion);
+});
+
+wpstPrevButtons.forEach((button) => {
+  button.addEventListener('click', wpstShowPrevQuestion);
+});
+
+// Initialize by showing the first question
+wpstQuestions.forEach((question, index) => {
+  if (index !== 0) {
+    question.classList.remove('wpst-active');
+  }
+});
+
+wpstUpdateProgressBar();
+
+
+</script>
+
+
+
+
+
+
+
+
+
+bgbr
+01.d | BACKGROUND - Border Radius (px)
+8
+Number - Integer
+
+bgcolor
+01.b | BACKGROUND - Color
+#ffffff
+Color
+
+bgwidth
+01.c | BACKGROUND - Width (%)
+76
+Number - Integer
+
+cbposition
+99.d | CLOSE BUTTON - (L or R)
+right
+Selectable
+
+closefc
+99.b | CLOSE BUTTON - Color
+#e03e52
+Color
+
+closefch
+99.b | CLOSE BUTTON - Hover Color
+#ef6079
+Color
+
+closes
+99.c | CLOSE BUTTON - Size (rem)
+1.4
+Number - Decimal
+
+contenta
+02.c | CONTENT - Alignment
+center
+Selectable
+
+ctab
+05.d | CTA Next - Background Color
+#e03e52
+Color
+
+ctabh
+05.d | CTA Next - Hover Background Color
+#ef6079
+Color
+
+ctabr
+05.e | CTA - Border Radius
+4
+Number - Integer
+
+ctafc
+05.c | CTA Next - Font Color
+#ffffff
+Color
+
+ctafs
+05.b | CTA - Font Size
+14
+Number - Integer
+
+ctapfc
+05.e | CTA - Previous Font Color
+#ffffff
+Color
+
+ctaprevc
+05.f | CTA - Previous Background Color
+#67823a
+Color
+
+ctaprevch
+05.f | CTA - Previous Hover Background Color
+#789d4a
+Color
+
+displayQ
+02.d | CONTENT - Questions Display
+none
+Selectable
+
+ff
+02.a | CONTENT - Font Family
+agenda, sans-serif
+Selectable
+
+fs
+02.b | CONTENT - Font Size
+18
+Number - Integer
+
+gotoc
+07.b | CTA - Go To
+#a39161
+Color
+
+gotohoverc
+07.c | CTA - Go To Hover Color
+#ceb888
+Color
+
+hfc
+03.b | CONTENT - Font Color
+#000000
+Color
+
+hfs
+03.d | CONTENT - Font Size
+20
+Number - Integer
+
+progressbgc
+08.b | PROGRESS BAR - Color
+#f4f4f4
+Color
+
+progressc
+08.b | PROGRESS BAR - Background Color
+#e03e52
+Color
+
+progressch
+08.c | PROGRESS BAR - Container Height (px)
+8
+Number - Integer
+
+progressh
+08.c | PROGRESS BAR - Container Height (%)
+100
+Number - Decimal
+
+progressw
+08.b | PROGRESS BAR - Width
+100
+Number - Decimal
+
+resultsc
+06.c | CONTENT - Results Font Color
+#e03e52
+Color
+
+resultsfs
+06.b | CONTENT - Results Font Size
+16

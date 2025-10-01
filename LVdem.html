@@ -1,0 +1,557 @@
+<style>
+ body {
+      background: #f4f4f8;
+      margin: 0;
+      font-family: "Futura", sans-serif;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .site-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 120vh;
+      object-fit: fit;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      max-width: 100vw;
+      margin: 0 auto;
+      padding: 20px 0 16px;
+      background: #fff;
+      border-radius: 0;
+      box-shadow: 0 6px 32px rgba(32,36,48,0.09);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 80vh;
+      box-sizing: border-box;
+      overflow: hidden;
+      z-index: 999;
+      /* transition: transform 0.5s cubic-bezier(.4,1.6,.38,.98);
+      transform: translateY(100%);
+      will-change: transform; */
+    }
+    .container.visible {
+      transform: translateY(0);
+    }
+
+    .close {
+      font-size: 1.4rem;
+      font-weight: 300;
+      position: absolute;
+      top: 10px;
+      right: 18px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #000;
+      transition: color 0.2s;
+      z-index: 10;
+    }
+    .close:hover { color: #222; }
+
+    .title {
+      font-size: 18px;
+      font-weight: 200;
+      margin-top: 0;
+      text-align: center;
+      color: #000;
+      letter-spacing: 0.02em;
+    }
+
+    .carousel {
+      position: relative;
+      width: 100%;
+      max-width: 100vw;
+      aspect-ratio: 16/9;
+      margin-bottom: 20px;
+      border-radius: 0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      overflow: hidden;  
+      background: #fff;
+      min-height: 100px;
+      height: 40vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-track {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      position: relative;
+    }
+
+    .carousel-slide {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.36s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 1;
+    }
+    .carousel-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0 !important;
+      overflow: visible;
+      margin: 0;   
+      padding: 0;
+      position: relative;
+      display: block;
+    }
+
+    /* Heart SVG in top right of image (keep it inside .carousel) */
+    .carousel-heart {
+      position: absolute;
+      top: 28px;
+      right: 20px;
+      z-index: 12;
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.2s;
+      color: #fff;
+    }
+    .carousel-heart svg path { stroke: #fff; }
+    .carousel-slide:not(.active) .carousel-heart {
+      opacity: 0;
+    }
+
+    .carousel-overlay {
+      position: absolute;
+      left: 0;
+      right: auto;
+      bottom: auto;
+      top: 50px;
+      padding: 40px 25px 0px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      pointer-events: none;
+      max-width: 360px;
+      width: 100%;
+    }
+    .carousel-title {
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: #fff;
+      margin: 0 0 10px 10px;
+      text-align: left;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.23);
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+      max-width: 100%;
+    }
+    .slidebc {
+      font-size: .95rem;
+      font-weight: 300;
+      color: #fff;
+      margin: 0 0 12px 10px;
+      text-align: left;
+      text-shadow: 0 1px 6px rgba(32,32,32,0.18);
+      letter-spacing: 0.01em;
+      line-height: 1.3;
+      max-width: 70%;
+    }
+
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;     
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      font-size: 1.9rem;
+      width: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 2;
+      color: #fff;
+      transition: background 0.14s, color 0.14s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 0 solid #fff;
+      top: 350px;  
+    }
+    .carousel-arrow.left { left: 14px; }
+    .carousel-arrow.right { right: 14px; }
+    .carousel-arrow:active { background:none; }
+
+    .carousel-arrow-text {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 18px;  
+      text-align: center;
+      font-size: 1.4rem;
+      color: #fff;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      pointer-events: none;
+      z-index: 15;
+      font-family: inherit;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.23);
+    }
+
+    .toggle-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 48px;
+      width: 90%;
+      padding: 20px 0 0 60px; 
+      align-items: start;
+      justify-content: center;
+    }
+
+    /* both grid columns */
+    .toggle-col-left,
+    .toggle-col-right {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      min-width: 0;
+      width: 100%;
+      margin: 0;  
+    }
+
+    .toggle {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1rem;
+      width: 100%;
+      min-height: 24px;
+      box-sizing: border-box;
+    }
+
+    .toggle-label {
+      color: #252525;
+      flex: 1 1 auto;
+      word-break: break-word;
+      line-height: 1.2;
+      font-size: 1rem;
+      letter-spacing: 0.01em;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .toggle input[type="checkbox"] {
+      display: none;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background: #e4e4e4;
+      border-radius: 13px;
+      transition: background 0.17s, border-color 0.17s;
+      box-sizing: border-box;
+      flex-shrink: 0;
+      border: 1px solid #d0d0d0;
+      overflow: hidden;
+    }
+
+    /* knob always visible as white circle */
+    .toggle-switch::after {
+      content: "";
+      position: absolute;
+      left: 1px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.09);
+      transition: left 0.17s cubic-bezier(.68,-0.55,.27,1.55), background-size 0.2s;
+    }
+
+    /* when checked, toggle bar is black and knob shows/spins image */
+    .toggle input[type="checkbox"]:checked + .toggle-switch {
+      background: #000;
+      border-color: #000;
+    }
+
+    .toggle input[type="checkbox"]:checked + .toggle-switch::after {
+      left: calc(100% - 20px - 1px);
+      background: #fff url("https://demo.emarsys.net/custloads/211241860/MM/LV/Flower.svg") center center / 18px 18px no-repeat;
+      animation: knob-spin 0.45s cubic-bezier(.68,-0.55,.27,1.55) 1;
+    }
+
+    @keyframes knob-spin {
+      from { transform: translateY(-50%) rotate(0deg); }
+      to   { transform: translateY(-50%) rotate(360deg); }
+    }
+
+    .cta {
+      margin-top: 32px;
+      width: 90%;
+      max-width: 500px;
+      height: 50px;
+      background: #242628;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      font-size: 1.05rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+      transition: background 0.13s;
+      margin-bottom: 10px;
+    }
+
+    .carousel-arrow:focus {
+      outline: 2px solid #252525;
+      outline-offset: 2px;
+    }
+ 
+
+</style>
+<html>
+ <img src="https://demo.emarsys.net/custloads/211241860/MM/LV_Demo/LVsc.png" alt="Site Background" class="site-bg" />
+
+ <div class="container">
+   <button class="close" title="Close Panel" type="button" aria-label="Close Panel">&times;</button>
+
+   <h1 e-editable="Title" class="title">Personalize Your Experience</h1>
+
+   <form name="ProfileForm" action="https://demo.emarsys.net/u/register.php" method="post" style="display: none">
+     <label for="liked-categories"></label>
+     <select name="inp_100031118[]" id="liked-categories" multiple>
+       <option value="NewArrivals">New Arrivals</option>
+       <option value="Bags">Bags and Wallets</option>
+       <option value="PerfumesBeauty">Perfumes and Beauty</option>
+       <option value="TrunksTravelHome">Trunks, Travel and Home</option>
+       <option value="Women">Women</option>
+       <option value="Men">Men</option>
+       <option value="Jewelry">Jewelry</option>
+       <option value="Watches">Watches</option>
+     </select>
+     <button type="submit">Submit</button>
+   </form>
+
+   <div class="carousel">
+     <!-- Heart overlay lives inside the carousel -->
+     <span class="carousel-heart" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
+          <path d="M16 28s-7.333-6.167-11-10c-2.667-2.833-2.667-7.5 0-10.333C7.333 4.833 13.167 5 16 10.333 18.833 5 24.667 4.833 27 7.667c2.667 2.833 2.667 7.5 0 10.333-3.667 3.833-11 10-11 10z" fill="transparent" stroke="#fff" stroke-width="2"/>
+        </svg>
+      </span>
+
+     <img src="https://demo.emarsys.net/custloads/211241860/MM/LV/left.png" class="carousel-arrow left" alt="Previous" aria-label="Previous">
+     <div class="carousel-track">
+       <!-- Slide 0 -->
+       <div class="carousel-slide active">
+         <img src="https://demo.emarsys.net/custloads/211241860/MM/LV/iconic.png" alt="Iconic" class="carousel-image">
+         <div class="carousel-overlay">
+           <h2 e-editable="Slide Title-1" class="carousel-title">Iconic</h2>
+           <p e-editable="Slide Body Copy-1" class="slidebc">
+             Rooted in Louis Vuitton's emblematic style codes, a signature selection highlights the House's bold aesthetic in material, proportion, and color.
+           </p>
+         </div>
+       </div>
+       <!-- Slide 1 -->
+       <div class="carousel-slide">
+         <img src="https://demo.emarsys.net/custloads/211241860/MM/LV/timeless.png" alt="Bags and Wallets" class="carousel-image">
+         <div class="carousel-overlay">
+           <h2 e-editable="Slide Title-2" class="carousel-title">Bags and Wallets</h2>
+           <p e-editable="Slide Body Copy-2" class="slidebc">
+             Discover timeless bags and wallets for every occasion, crafted with the finest materials and iconic LV design.
+           </p>
+         </div>
+       </div>
+       <!-- Slide 2 -->
+       <div class="carousel-slide">
+         <img src="https://demo.emarsys.net/custloads/211241860/MM/LV/sophisticated.png" alt="Sophisticated" class="carousel-image">
+         <div class="carousel-overlay">
+           <h2 e-editable="Slide Title-3" class="carousel-title">Sophisticated</h2>
+           <p e-editable="Slide Body Copy-3" class="slidebc">
+             Discover timeless bags and wallets for every occasion, crafted with the finest materials and iconic LV design.
+           </p>
+         </div>
+       </div>
+       <!-- Slide 3 -->
+       <div class="carousel-slide">
+         <img src="https://demo.emarsys.net/custloads/211241860/MM/LV/minimalist.png" alt="Minimalist" class="carousel-image">
+         <div class="carousel-overlay">
+           <h2 e-editable="Slide Title-4" class="carousel-title">Minimalist</h2>
+           <p e-editable="Slide Body Copy-4" class="slidebc">
+             Discover timeless bags and wallets for every occasion, crafted with the finest materials and iconic LV design.
+           </p>
+         </div>
+       </div>
+     </div>
+     <img src="https://demo.emarsys.net/custloads/211241860/MM/LV/right.png" class="carousel-arrow right" alt="Next" aria-label="Next">
+
+     <!-- Bottom overlay text lives inside the carousel -->
+     <div class="carousel-arrow-text">CURATE YOUR STYLE</div>
+   </div>
+
+   <div class="toggle-section">
+     <div class="toggle-col-left">
+       <label class="toggle">
+         <input type="checkbox" value="NewArrivals">
+         <span class="toggle-switch"></span>
+         <span class="toggle-label">New Arrivals</span>
+       </label>
+       <label class="toggle">
+         <input type="checkbox" value="Bags">
+         <span class="toggle-switch"></span>
+         <span class="toggle-label">Bags and Wallets</span>
+       </label>
+       <label class="toggle">
+         <input type="checkbox" value="PerfumesBeauty">
+         <span class="toggle-switch"></span>
+         <span class="toggle-label">Perfumes and Beauty</span>
+       </label>
+       <label class="toggle">
+         <input type="checkbox" value="TrunksTravelHome">
+         <span class="toggle-switch"></span>
+         <span class="toggle-label">Trunks, Travel and Home</span>
+       </label>
+     </div>
+     <div class="toggle-col-right">
+       <label class="toggle">
+         <input type="checkbox" value="Women">
+         <span class="toggle-switch"></span>
+         <span class="toggle-label">Women</span>
+       </label>
+       <label class="toggle">
+         <input type="checkbox" value="Men">
+         <span class="toggle-switch"></span>
+         <span class="toggle-label">Men</span>
+       </label>
+       <label class="toggle">
+         <input type="checkbox" value="Jewelry">
+         <span class="toggle-switch"></span>
+         <span class="toggle-label">Jewelry</span>
+       </label>
+       <label class="toggle">
+         <input type="checkbox" value="Watches">
+         <span class="toggle-switch"></span>
+         <span class="toggle-label">Watches</span>
+       </label>
+     </div>
+   </div>
+
+   <button class="cta" type="button">Save Your Information</button>
+ </div>
+
+</html>
+
+<script>
+
+    // Carousel navigation logic
+    const track = document.querySelector('.carousel-track');
+    const slides = Array.from(track.querySelectorAll('.carousel-slide'));
+    const leftBtn = document.querySelector('.carousel-arrow.left');
+    const rightBtn = document.querySelector('.carousel-arrow.right');
+
+    // Track the current slide index
+    let current = slides.findIndex(slide => slide.classList.contains('active'));
+    if (current < 0) current = 0;
+
+    showSlide(current);
+
+    function showSlide(idx) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === idx);
+      });
+      current = idx;
+    }
+
+    // Carousel navigation events
+    leftBtn.addEventListener('click', () => {
+      showSlide((current - 1 + slides.length) % slides.length);
+    });
+    rightBtn.addEventListener('click', () => {
+      showSlide((current + 1) % slides.length);
+    });
+
+    // track toggles by value
+    const toggledCategories = {};
+    document.querySelectorAll('.toggle input[type="checkbox"]').forEach((tog, idx) => {
+      const value = tog.value || `toggle-${idx}`; // temp literal, prevent duplicates
+      toggledCategories[value] = tog.checked;
+      tog.addEventListener('change', function() {
+        toggledCategories[value] = this.checked;
+      });
+    });
+
+    // Get content from e-editable elements
+    function getEditedContent() {
+      const content = {};
+      document.querySelectorAll('[e-editable]').forEach(el => {
+        const name = el.getAttribute('name') || el.getAttribute('e-editable') || el.className;
+        content[name] = el.textContent.trim();
+      });
+      return content;
+    }
+
+    // CTA button event
+    document.querySelector('.cta').addEventListener('click', function() {
+      const edits = getEditedContent();
+      console.log({
+        toggles: toggledCategories,
+        edits
+      });
+      alert('Selections logged in console!');
+    });
+
+    // Collect checked toggle values & submit profile form
+    document.querySelector('.cta').addEventListener('click', function() {
+      // Collect checked toggle values
+      const checked = Array.from(document.querySelectorAll('.toggle input[type="checkbox"]:checked'))
+        .map(cb => cb.value);
+
+      const select = document.getElementById('liked-categories');
+      Array.from(select.options).forEach(opt => opt.selected = false); // Clear previous
+      checked.forEach(val => {
+        const opt = Array.from(select.options).find(o => o.value === val);
+        if (opt) opt.selected = true;
+      });
+
+      document.forms.ProfileForm.submit();
+
+      // Slide down and hide after submit
+      const container = document.querySelector('.container');
+      container.classList.remove('visible');
+      setTimeout(() => container.style.display = 'none', 500);
+    });
+
+    // Close button event
+    document.querySelector('.close').addEventListener('click', function() {
+      const container = document.querySelector('.container');
+      container.classList.remove('visible');
+      setTimeout(() => container.style.display = 'none', 500);
+    });
+
+    // Slide up into the screen on page load
+    window.addEventListener('DOMContentLoaded', function() {
+      const container = document.querySelector('.container');
+      container.classList.add('visible');
+      container.style.display = '';
+    });
+
+</script>

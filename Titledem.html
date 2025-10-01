@@ -1,0 +1,316 @@
+<style>
+body {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  background: #f5f5f5;
+  
+}
+
+.container {
+  position: relative;
+  width: 96%;
+  max-width: 360px;
+  margin:  auto;
+  padding: 0 0.5rem;
+  padding-top: 46px;
+}
+
+.upload1 {
+  background-color: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.upload1 h2 {
+  font-size: 1.2rem;  
+  text-transform: uppercase;
+   font-family: ProximaNovaExtraCondensed, sans-serif;
+}
+
+.upload1 p {
+  font-size: 1rem;  
+  color: #000000;
+  font-weight: 500;
+font-family: ProximaNovaCondensed, sans-serif;
+}
+
+
+h1 { 
+  text-align: center;
+  color: #232323;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  font-size: 1.8rem;
+  position: relative;
+  background: none;
+  margin-bottom: 0.6em;
+  padding-bottom: 0.35em;
+  font-family: ProximaNovaExtraCondensed, sans-serif;
+  
+}
+h1::after {
+  content: "";
+  display: block;
+  width: 38px;
+  height: 3px;
+  background: #e30b17;
+  margin: 0.3em auto 0 auto;
+  border-radius: 2px;
+  opacity: 0.85px;
+}
+
+
+ul {
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+  max-width: 340px;
+  list-style: none;
+  font-family: ProximaNovaCondensed, sans-serif;
+}
+
+li {
+  margin: 0.3rem 0;
+  padding: 0.2rem 0;
+  background: #fafafa;
+  border-radius: 5px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  text-align: left;
+  border: 1.5px solid #eaeaea;
+  animation: popIn 0.7s cubic-bezier(.52,.58,.1,1.16);
+}
+
+li.stepDone {
+opacity: .4; background: #aaadae; color: #eee;
+
+}
+
+li.stepNext {
+  border-bottom: 4px solid #e30b17;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(227,11,23,0.09);
+  opacity: 1;
+  color: 1.07;
+}
+
+li.stepPending {
+  opacity: 0.6;
+  background: #fafafa;
+  color: 1.07;
+}
+
+.hov:hover {
+  transform: scale(1.1);
+  filter: brightness(120%);
+  box-shadow: 0 0 15px rgba(227,11,23,0.08);
+  z-index: 99;
+}
+
+li:active,
+li:focus-within {
+  transform: scale(1.07);
+  box-shadow: 0 0 18px rgba(227,11,23,0.11);
+  background: #fff;
+  z-index: 999;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.3rem 0.1rem;
+  margin-bottom: 0;  
+  margin-left: 8px;
+
+}
+
+/* OG */
+.checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.checkbox .custom {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #e30b17;
+  border-radius: 50%;
+  background: #fff;
+  position: relative;
+  margin-right: 0.7em;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(227,11,23,0.07);
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.checkbox input[type="checkbox"]:checked + .custom {
+  border-color: #2ecc40;
+  box-shadow: 0 0 6px #2ecc4033;
+}
+
+.checkbox input[type="checkbox"]:not(:checked) + .custom {
+  border-color: #e30b17;
+}
+
+.checkbox .custom::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 6px;
+  bottom: 4px;
+  width: 4px;
+  height: 12px;
+  border-right: 3px solid #2ecc40;
+  border-bottom: 3px solid #2ecc40;
+  transform: scale(0) rotate(45deg);
+  transition: transform 0.2s;
+}
+
+.checkbox input[type="checkbox"]:checked + .custom::after {
+  transform: scale(1) rotate(45deg);
+}
+
+.checkbox-label {
+  /* color: 1.07; */
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  font-size: listfs}rem;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0; 
+  padding: 0; 
+  line-height: 2;
+}
+
+
+/* DARK MODE */
+
+@media (prefers-color-scheme: dark) {
+  
+  body {
+    background: #1a1a1a;
+  }
+  
+  .container {
+    background: #232323;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  }
+  
+  h1 {
+    color: #fff;
+  }
+  
+  ul {
+    background: none;
+  }
+  
+  li {
+    background: #232323;
+    border: 1.5px solid #252525;
+    box-shadow: 0 2px 10px rgba(227,11,23,0.06);
+  }
+
+  li.stepDone {
+    opacity: 0.46;
+    background: #232323;
+    color: #f2f2f2;
+  }
+  
+  li.stepNext {
+    border: 2px solid #e30b17;
+    background: #232323;
+    box-shadow: 0 2px 16px rgba(227,11,23,0.13);
+    opacity: 1;
+  }
+  
+  li.stepPending {
+    opacity: 0.78;
+    background: #1a1a1a;
+  }
+
+  .checkbox .custom {
+    background: #151515;
+    border-color: #e30b17;
+    box-shadow: 0 1px 6px rgba(227,11,23,0.12);
+  }
+
+  .checkbox input[type="checkbox"]:checked + .custom {
+    border-color: #2ecc40;
+    box-shadow: 0 0 6px #2ecc4033;
+    background: #232323;
+  }
+  
+  .checkbox input[type="checkbox"]:not(:checked) + .custom {
+    border-color: #e30b17;
+  }
+  
+  .checkbox-label {
+    color: #fff;
+  }
+}
+
+/* Animation */
+
+/* @keyframes popIn {
+  0% { transform: scale(0.98); opacity: 0.7; }
+  70% { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+} */
+
+</style>
+<html>
+<div class="container">
+  
+  <h1 class="h1">Your Titleist<br> Swing Assessment</h1>
+  
+  <div class="upload1">
+    <h2>Upload Complete</h2>
+    <p>Thanks for submitting your swing video. You’re on your way to playing your best. <br>Our Titleist team is reviewing your upload and will provide personalized feedback soon.</p>
+  </div>
+
+  <ul>
+    <li class="stepDone">
+      <label class="checkbox">
+        <input type="checkbox" checked disabled/>
+        <span class="custom"></span>
+        <span class="checkbox-label">Swing Video 1 (uploaded)</span>
+      </label>
+    </li>
+    
+    <li class="stepNext hov">
+      <label class="checkbox">
+        <input type="checkbox"  disabled />
+        <span class="custom"></span>
+        <span class="checkbox-label">Swing Video 2</span>
+      </label>
+    </li>
+    
+    <li class="stepPending">
+      <label class="checkbox">
+        <input type="checkbox" disabled/>
+        <span class="custom"></span>
+        <span class="checkbox-label">Swing Video 3</span>
+      </label>
+    </li>
+    
+    <li class="stepPending">
+      <label class="checkbox">
+        <input type="checkbox" disabled/>
+        <span class="custom"></span>
+        <span class="checkbox-label">Swing Video 4</span>
+      </label>
+    </li>   
+  </ul>
+  
+</div>
+</html>

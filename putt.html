@@ -1,0 +1,299 @@
+<style>
+@import url("https://use.typekit.net/uxw3lja.css");
+@font-face {
+font-family: brown-pro, sans-serif;
+font-weight: 200;
+font-style: normal;
+font-family: brown-pro, sans-serif;
+font-weight: 200;
+font-style: italic;
+font-family: brown-pro, sans-serif;
+font-weight: 300;
+font-style: normal;
+font-family: brown-pro, sans-serif;
+font-weight: 300;
+font-style: italic;
+font-family: brown-pro, sans-serif;
+font-weight: 600;
+font-style: normal;
+font-family: brown-pro, sans-serif;
+font-weight: 600;
+font-style: italic;
+}
+
+
+  #putt-wrapper {
+     position: fixed;
+    top: 0; 
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: transparent; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+  body {
+    color: #1e1450;
+      background: #fff;
+      min-height: 100vh; 
+      margin: 0; 
+      padding: 0;
+      display: flex; 
+     align-items: center; 
+     justify-content: center;
+      font-family: brown-pro, sans-serif
+    } 
+
+    .golf-putt {
+      width: 320px; 
+      max-width: 96vw; 
+      margin: auto; 
+      padding: 18px;
+      background: #fff; 
+      border-radius: 20px; 
+      box-shadow: 0 8px 32px #1e145033;
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+      position: relative;
+    }
+
+    .golf-course {
+      width: 90%; 
+      min-width: 200px; 
+      max-width: 400px; 
+      height: 180px; 
+      position: relative; 
+      margin-bottom: 20px;
+      background: linear-gradient(#52a15c 86%, #fff0 100%);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 2px solid #1e1450;
+      touch-action: manipulation;
+    }
+
+
+    .hole {
+      width: 38px;
+      height: 18px;
+      background: #1e1450;
+      border-radius: 50%;
+      position: absolute; 
+      top: 44px;
+      left: 0;
+      transition: left 0.13s linear;
+      z-index: 2;
+    }
+
+
+.golf-ball img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      user-select: none;
+      pointer-events: none;
+    }    
+
+
+.golf-ball {
+      width: 34px; 
+      height: 34px;
+      position: absolute;
+      bottom: 6px; 
+      left: calc(50% - 17px);
+      z-index: 3;
+      opacity: 1;
+      transition: left 0.45s cubic-bezier(.5,1.4,.5,1), bottom 0.4s cubic-bezier(.44,1.3,.5,1), opacity 0.4s;
+      pointer-events: none;
+    }
+
+    .golf-ball.shooting {
+      transition: left 0.45s cubic-bezier(.5,1.4,.5,1), bottom 0.4s cubic-bezier(.44,1.3,.5,1), opacity 0.4s;
+    }
+
+    .golf-ball.success {
+      animation: putt-in 0.6s;
+    }
+
+    .golf-ball.fail {
+      animation: putt-miss 0.7s;
+    }
+
+
+    .putt-instructions {
+      color: #1e1450;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .score {
+      margin-top: 14px; 
+      color: #1e1450; 
+      font-size: 1.1rem;
+      font-weight: normal;
+    }
+
+  #closegame {
+    color: #000000;
+    font-weight: bold;
+    transform: rotate(90deg);
+    transform-origin: center;
+    display: inline-block;
+    position: absolute;
+    top: 45%;
+    right: 1px;
+    cursor: pointer;
+  }
+
+
+ @keyframes putt-in {
+      0% { opacity: 1;}
+      80% { opacity: 1;}
+      100% { opacity: .3;}
+    }
+
+
+    @keyframes putt-miss {
+      0% { opacity: 1;}
+      80% { opacity: 1;}
+      100% { opacity: .1;}
+   }
+</style>
+
+<html>
+<head>
+  <link rel="stylesheet" href="https://use.typekit.net/uxw3lja.css">
+</head>
+<div id="putt-wrapper">
+  <div id="golf-putt-game" class="golf-putt">
+    <div e-editable="Header" class="putt-instructions">Tap on the course to aim your putt!</div>
+    <div id="closegame" class=" close ems-inapp-close" aria-labelledby="closebutton" e-editable="Close Button" >close</div>
+    <div class="golf-course" id="golfCourse">
+      <div class="hole" id="hole"></div>
+      <div class="golf-ball" id="golfBall">
+        <img src="https://links.em.rydercupeurope.com/custloads/885528449/MobileEngage/golfball.png
+" alt="Golf Ball">
+      </div>
+    </div>
+    <div class="score" id="score">Score: 0</div>
+  </div>
+</div>
+
+</html>
+
+<script>
+// golf putt minigame
+// hole moves L/R, player clicks course to shoot ball
+// hit = +score, miss = ball bounce
+
+const hole = document.getElementById('hole');
+const ball = document.getElementById('golfBall');
+const course = document.getElementById('golfCourse');
+const scoreDiv = document.getElementById('score');
+const closeBtn = document.getElementById('closegame');
+const wrapper = document.getElementById('putt-wrapper');
+
+
+// start from 0px left move horizontal
+let holePos = 0;
+let dir = 1;
+let score = 0;
+let putting = false;
+
+closeBtn.addEventListener('click', () => {
+  wrapper.style.display = 'none';
+});
+
+// hole left/right 
+setInterval(() => {
+  const courseW = course.offsetWidth;
+  holePos += dir * 7;
+
+  
+  if (holePos < 0) { 
+    holePos = 0; dir = 1;  // right
+  }
+  if (holePos > courseW - 38) { 
+    holePos = courseW - 38;     
+    dir = -1;  //left
+                              
+}
+  // smoother 
+  hole.style.left = holePos + 'px';
+}, 60);
+
+// from css
+function getHoleY() {
+  return parseInt(getComputedStyle(hole).top, 10) || 70;
+}
+
+// center bottom position
+function resetBall() {
+  // half of ball width: 34px -17px (half)
+  ball.style.left = 'calc(50% - 17px)'; 
+  ball.style.bottom = '8px';
+  ball.style.opacity = 1;
+  ball.style.display = 'block';
+  ball.classList.remove('success', 'fail', 'shooting');
+}
+
+course.addEventListener('click', function(e) {
+  if (putting) return;
+  putting = true;
+
+  const rect = course.getBoundingClientRect();
+  let tapX = e.touches ? e.touches[0].clientX : e.clientX;
+  tapX = tapX - rect.left;
+  tapX = Math.max(0, Math.min(tapX, course.offsetWidth - 34));
+
+  const holeY = getHoleY();
+  const targetBottom = (course.offsetHeight - holeY - 9 - 17);
+
+  // css transitions
+  ball.classList.add('shooting');
+  ball.style.left = tapX + "px";
+  ball.style.bottom = targetBottom + "px";
+
+  setTimeout(() => {
+    // Ball center X
+    const ballCenter = tapX + 17;
+    // Hole center X
+    const holeCenter = holePos + 19;
+    // Both vertical center
+    const ballVert = holeY + 9;
+    const holeVert = holeY + 9;
+    const dist = Math.sqrt(Math.pow(ballCenter - holeCenter, 2) + Math.pow(ballVert - holeVert, 2));
+    if (dist < 19) {
+      ball.classList.add('success');
+      score++;
+
+    // animate move ball to center of hole
+      // hide ball
+      ball.style.left = (holePos + 19 - 17) + "px";
+      ball.style.bottom = targetBottom + "px";
+      setTimeout(() => {
+        console.log('scored:image is in center of hole')
+        ball.style.display = "none";
+      }, 220);
+    } else {
+      ball.classList.add('fail');
+    }
+    scoreDiv.textContent = "Score: " + score;
+    setTimeout(() => {
+      resetBall();
+      putting = false;
+    }, 600);
+  }, 460);
+});
+
+resetBall();
+window.addEventListener('resize', resetBall);    
+</script>
+
+

@@ -1,0 +1,464 @@
+<style>
+@import url("https://use.typekit.net/uxw3lja.css");
+@font-face {
+  font-family: brown-pro, sans-serif;
+  font-weight: 200;
+  font-style: normal;
+  font-family: brown-pro, sans-serif;
+  font-weight: 200;
+  font-style: italic;
+  font-family: brown-pro, sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-family: brown-pro, sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  font-family: brown-pro, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-family: brown-pro, sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* temporary css */
+99 - EMS - Placeholder Desktop (do not change);
+
+.wpst-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.close {
+  text-decoration: none;
+  color: #ffffff;
+  position: absolute;
+  line-height: 1rem;
+  top: 14rem;
+  right: 1rem;
+  display: block;
+  left: auto;
+  font-size: 20px;
+}
+
+/* Container */
+.wpst-container {
+  padding: 1.5rem;
+  font-family: brown-pro, sans-serif;
+  background: #1d1d1d;
+  color: #fff;  
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 1000;
+}
+
+/* Header */
+.wpst-header h1 {
+  font-size: 30px;
+  color: #fbf8f2;
+  text-align: center;
+}
+
+.wpst-header p {
+  font-size: 20px;
+  color: #fbf8f2;
+  margin: 0.5rem 0;
+  text-align: center;
+}
+
+/* Accordion */
+.wpst-accordion {
+  margin-top: 2rem;
+}
+
+.wpst-accordion-button, .wpst-accordion-buttonI, .wpst-accordion-buttonII, .wpst-accordion-buttonIII {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.wpst-accordion-buttonI {
+  display: block;
+  color: #fbf8f2;
+  background: #424242;
+  border: none;
+  text-align: left;
+  border-radius: 5px;
+}
+
+.wpst-accordion-buttonII {
+  display: block;
+  color: #fbf8f2;
+  background: #424242;
+  border: none;
+  text-align: left;
+  border-radius: 5px;
+}
+
+.wpst-accordion-buttonIII {
+  display: block;
+  color: #fbf8f2;
+  background: #424242;
+  border: none;
+  text-align: left;
+  border-radius: 5px;
+}
+
+.wpst-accordion-button:hover,
+.wpst-accordion-button[aria-expanded="true"] {
+  background: #F891A5;
+}
+
+.aria-expanded {
+  max-height: 500px;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.wpst-accordion-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 0 1rem;
+  display: block;
+}
+
+.wpst-accordion-panel p {
+  margin: 1rem 0;
+  font-size: .98rem;
+  color: #160e2f;
+}
+
+.wpst-accordion-panel.open {
+  max-height: 500px; /* Adjust depending on the panel content height */
+}
+
+/* defaults */
+#wpst-template-holder {
+  max-width: 100%;
+  width: auto;
+  min-width: 180px; 
+}
+
+.wpst-form-selector {
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+}
+
+.wpst-form-selector-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  padding: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  margin-left: 3px;
+  margin-right: 3px; 
+}
+
+.wpst-form-selector-icon svg {
+  width: auto;
+  height: 100%; 
+}
+
+/* REQUIRED */
+.wpst-template .wpst-required {
+  margin-top: 5px;
+  margin-bottom: -5px;
+}
+
+.wpst-template .wpst-label-container .wpst-required {
+  padding-right: 5px; 
+}
+
+.wpst-template div[data-wps-form-editable] {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-y: auto; 
+}
+
+.wpst-wrapper-padding {
+  padding:25px;
+}
+
+.wpst-two-column {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.wpst-one-column-predict {
+  position: relative;
+  justify-content: flex-start;
+  align-items: left;
+  flex-direction: column; 
+}
+
+.wpst-two-column > div {
+  width:50%;
+}
+
+.wpst-text-container {
+  padding:20px 10px;
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  align-content:center;
+}
+
+.wpst-text-container form {
+  padding:0;
+  margin:auto 0;
+  font-size:0;
+}
+
+/* LINKS */
+.wpst-template a {
+  text-decoration: none; 
+}
+
+.wpst-template .wpst-paragraph a,
+.wpst-template .wpst-asterisk-text a, 
+.wpst-template .wpst-paragraph a:link,
+.wpst-template .wpst-asterisk-text a:link,  
+.wpst-template .wpst-paragraph a:visited,
+.wpst-template .wpst-asterisk-text a:visited,
+.wpst-template .wpst-paragraph a:hover,
+.wpst-template .wpst-asterisk-text a:hover, 
+.wpst-template .wpst-paragraph a:active,
+.wpst-template .wpst-asterisk-text a:active {
+  font: inherit;
+  color:inherit;
+  text-decoration: underline; 
+}
+
+/* Images */
+.wpst-image {
+  width: 100%;
+  height: auto; 
+}
+
+.wpst-image[data-image-cover="true"] {
+  object-fit: cover;
+}
+
+.wpst-image[data-image-cover="false"] {
+  object-fit: contain;
+}
+
+.wpst-hero-image {
+  width: 100%;
+  height: auto;
+}
+
+.wpst-template .wpst-label-container[visibility="false"] {
+  display: none; 
+}
+
+.wpst-template select[name="inp_46"] {
+  width:auto;
+}
+
+/* INLINE FORM */
+
+.ems-inapp-button:not([contenteditable]) {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
+/* MOBILE*/
+
+/* *********** MEDIA QUERIES ************ */
+@media only screen and (min-width: 1200px) {
+  #wpst-template-holder {
+    max-width: 900px;
+  }
+}
+
+@media only screen and (max-width: 480px) and (orientation: portrait), screen and (min-width: 768px) and (max-width: 768px) and (orientation:portrait) {
+  .wpst-template-overlay {
+    width:100% !important; 
+  }  
+  .wpst-two-column {
+    flex-direction: column;
+  }
+
+  .wpst-two-column > div {
+    width:100%;
+    border-top-left-radius:inherit; 
+    border-top-right-radius:inherit; 
+    border-bottom-left-radius:0;
+  }
+
+  .wpst-flag {
+    width:100%;
+    padding: 25px; 
+  }
+
+  .wpst-text-container {
+    padding: 20px; 
+  }
+
+  .wpst-image-mobileHidden {
+    display:none !important;
+  }
+
+  .wpst-logo {
+    width: 75%;
+  }
+
+  .wpst-template input[type="checkbox"] + .wpst-paragraph {
+    margin-right: 10px;
+  }
+
+  .wpst-template .wpst-input-group {
+    flex-direction:column;
+  }
+
+  .wpst-template .wpst-input-group input:nth-child(1), 
+  .wpst-template .wpst-input-group select:nth-child(1) {
+    margin: 0;
+    margin-bottom:10px;
+    width: 60%;
+  }
+
+  .wpst-template .wpst-input-group input:nth-child(2), 
+  .wpst-template .wpst-input-group select:nth-child(2) {
+    margin: 0;
+    margin-bottom:10px;
+    width: 60%;
+  }
+
+  .wpst-template .wpst-input-group input:nth-child(3), 
+  .wpst-template .wpst-input-group select:nth-child(3) {
+    margin: 0;
+    width:60%; 
+    margin-bottom:10px;
+  }
+  .wpst-template input[type="text"], 
+  .wpst-template input[type="number"], 
+  .wpst-template select {
+    width: 100%;
+  }
+  #predict-content .scarab-itemlist {
+    flex-direction: column;
+  }
+  #predict-content .scarab-item {
+    width:auto;
+    margin:10px auto;
+  }
+  #wpst-preview .wpst-template .wpst-column-withimage {
+    display: inline-block; }
+  #wpst-preview .wpst-template .wpst-column-withtext {
+    width: 50%;}
+}
+
+/*MQ FOR LANDSCAPE */
+@media only screen and (max-width: 896px) and (max-device-width: 896px) and (orientation: landscape), screen and (max-device-width: 1279px) and (orientation:landscape) {
+  .wpst-template-overlay {
+    width:100%; 
+  } 
+  .wpst-two-column {
+    flex-direction: row;
+  }
+  .wpst-two-column > div {
+    width:50%;
+  }
+  .wpst-flag {
+    width:100%;
+    padding: 25px; 
+  }
+  .wpst-text-container {
+    padding: 20px; 
+  }
+  .wpst-background-image {
+    padding:20px;
+  }
+  .wpst-image-mobileHidden {
+    display:none !important;
+  }
+  .wpst-image-top {
+    max-height: 30vh;
+    object-fit: cover;
+  }
+}
+</style>
+
+
+<html>
+<head><link rel="stylesheet" href="https://use.typekit.net/uxw3lja.css"></head>
+<div class="wpst-overlay">
+<div class="wpst-container">
+  <div me-close e-editable="buttonClose">
+    <a href="" class="close ems-inapp-close" me-close>&times;</a>
+  </div>
+  <div class="wpst-header">
+    <h1 e-editable="title">DP World Tour</h1>
+    <p e-editable="body">Lorem ipsum dolor sit amet</p>
+  </div>
+  <div class="wpst-accordion">
+    <button e-editable="button1" class="wpst-accordion-buttonI" aria-expanded="false">
+      <span e-editable="button1-text">Lorem Ipsum</span>
+    </button>
+    <div class="wpst-accordion-panel" e-editable="Accordion1">
+      <p e-editable="Accordion1">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+    <button e-editable="button2" class="wpst-accordion-buttonII" aria-expanded="false">
+      <span e-editable="button2-text">Lorem Ipsum</span>
+    </button>
+    <div class="wpst-accordion-panel">
+      <p e-editable="Accordion2">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+    <button e-editable="button3" class="wpst-accordion-buttonIII" aria-expanded="false">
+      <span e-editable="button3-text">Lorem Ipsum</span>
+    </button>
+    <div class="wpst-accordion-panel">
+      <p e-editable="Accordion3">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+  </div>
+</div>
+</div>
+</html>
+
+<script>
+// Get all accordion buttons
+const accordionButtons = document.querySelectorAll('.wpst-accordion-buttonI, .wpst-accordion-buttonII, .wpst-accordion-buttonIII');
+
+// accordion panel
+// buttons associated with panel
+accordionButtons.forEach(button => {
+  button.addEventListener('click', () => {
+      // Check current state of the panel
+    const panel = button.nextElementSibling; 
+    const expanded = button.getAttribute('aria-expanded') === 'true'; 
+  
+    button.setAttribute('aria-expanded', !expanded);
+
+    // open and close panels
+    if (expanded) {
+      panel.classList.remove('open');
+    } else {
+      panel.classList.add('open'); 
+    }
+  });
+});
+</script>

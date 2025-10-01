@@ -1,0 +1,202 @@
+<style>
+@import url("https://use.typekit.net/uxw3lja.css");
+@font-face {
+  font-family: brown-pro, sans-serif;
+  font-weight: 200;
+  font-style: normal;
+  font-family: brown-pro, sans-serif;
+  font-weight: 200;
+  font-style: italic;
+  font-family: brown-pro, sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-family: brown-pro, sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  font-family: brown-pro, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-family: brown-pro, sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+#carousel {
+  width: 95%;
+  max-width: 600px;
+  aspect-ratio: 3 / 2;
+  border: 0px solid black;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  user-select: none;
+  margin: 0;
+}
+
+.close {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  padding: 10px;
+  font-family: brown-pro, sans-serif;
+}
+
+#prev-btn,
+#next-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 5px 10px;
+  z-index: 10;
+  user-select: none;
+  color: #000000;
+}
+
+#prev-btn {
+  left: 10px;
+  display: none;
+}
+
+#next-btn {
+  right: 10px;
+  display: none;
+}
+
+#image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  position: relative;
+}
+
+#dots-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 100%;
+  pointer-events: auto;
+  bottom: 4px;
+}
+
+#dots-container.bottom {
+  bottom: 10px;
+}
+
+.dot {
+  width: 15px;
+  height: 15px;
+  border: 1px solid black;
+  border-radius: 50%;
+  margin: 0 5px;
+  background-color: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: inline-block;
+  user-select: none;
+}
+
+.dot.active {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+</style>
+<html>
+<head><link rel="stylesheet" href="https://use.typekit.net/uxw3lja.css"></head>
+  <div id="closebutton" class="close ems-inapp-close" aria-labelledby="closebutton" e-editable="buttonClose" me-close>close</div>
+<div id="carousel">
+  <button id="prev-btn">&lt;</button>
+  <img id="image" />
+  <button id="next-btn">&gt;</button>
+  <div id="dots-container"></div>
+</div>
+
+</html>
+<script>
+const image = document.getElementById("image");
+const prevButton = document.getElementById('prev-btn');
+const nextButton = document.getElementById('next-btn');
+const dotsContainer = document.getElementById('dots-container');
+
+// close button
+const closebutton = document.getElementById('closebutton');
+
+closebutton.addEventListener('click', () => {
+  carousel.style.display = 'none';
+  closebutton.style.display = 'none';
+});
+
+const imageList = [
+  '{variables.imgI}',
+  '{variables.imgII}',
+  '{variables.imgIII}',
+  '{variables.imgIV}',
+  '{variables.imgV}'
+];
+
+// current image display
+// autoplay display
+let curIndex = 0;
+let intervalId;
+
+// display image based on its index
+const showImage = (index) => {
+  // Remove active from all dots
+  Array.from(dotsContainer.children).forEach(dot => dot.classList.remove('active'));
+  curIndex = index;
+  image.src = imageList[curIndex];
+  dotsContainer.children[curIndex].classList.add('active');
+};
+
+// reset loop starting at the first image
+const showNextImage = () => {
+  const nextIndex = (curIndex + 1) % imageList.length;
+  showImage(nextIndex);
+  resetInterval();
+};
+
+const showPrevImage = () => {
+  const prevIndex = (curIndex - 1 + imageList.length) % imageList.length;
+  showImage(prevIndex);
+  resetInterval();
+};
+
+const resetInterval = () => {
+  clearInterval(intervalId);
+  intervalId = setInterval(showNextImage, 3000);
+};
+
+// Create dots
+const initialize = () => {
+  imageList.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.classList.add('dot');
+    dot.addEventListener('click', () => {
+      showImage(i);
+      resetInterval();
+    });
+    dotsContainer.appendChild(dot);
+  });
+
+  // Show first image and activate first dot
+  showImage(0);
+
+  // Start autoplay
+  intervalId = setInterval(showNextImage, {variables.cspeed});
+};
+
+initialize();
+
+prevButton.addEventListener('click', showPrevImage);
+nextButton.addEventListener('click', showNextImage);
+</script>
