@@ -47,15 +47,16 @@
   background: #1e1450;
   color: #fff;
 }
- body {
-      background: linear-gradient(to bottom, #117c13, #0b5209);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      font-family: brown-pro, sans-serif;
-    }
+body {
+  background: linear-gradient(to bottom, #117c13, #0b5209);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+  margin: 0;
+  font-family: brown-pro, sans-serif;
+}
 
 .golf-dice-container {
   position: fixed;
@@ -328,40 +329,29 @@
 </head>
 <div id="overlay">
   <div id="wpst-container" class="golf-dice-container">
-    <div id="closegame" class="close">✕</div>
-
-<div id="header" class="roll-instructions" e-editable="Headline">Click the golf ball to shoot a hole in one!</div>
-
-<div id="congrats" e-editable="Game Message: Congrats" class="congrats hidden">Way to go! A hole in 1!</div>
-<button id="claimDiscount" e-editable="CTA"class="claim-discount hidden">
- Claim Your Discount!
-</button>
-  <div class="discount-wrapper">
-<div id="discountDetails" e-editable="Message: Winner" class="discount-details hidden">Congrats! Use code <span style="color:#000"><strong>XXXX20 </strong></span> for <span style="color: #000">20%</span> off your next purchase!</div>
- </div>   
-  <div class="golf-dice" id="golfDice">
+    <div id="closegame" class="close" aria-labelledby="closebutton">✕</div>
+    <div id="header" class="roll-instructions">Click the golf ball to shoot a hole in one!</div>
+    <div id="congrats" class="congrats hidden">Way to go! A hole in 1!</div>
+    <button id="claimDiscount" class="claim-discount hidden">Claim Your Discount!</button>
+    <div class="discount-wrapper">
+      <div id="discountDetails" class="discount-details hidden">
+        Congrats! Use code <span style="color:#000"><strong>XXXX20 </strong></span> for <span style="color: #000">20%</span> off your next purchase!
+      </div>
+    </div>
+    <div class="golf-dice" id="golfDice">
       <span class="golf-dice-number" id="golfDiceNumber">7</span>
       <div class="golf-ball-shadow"></div>
-    
-        <!--flag --> 
-        <span class="golf-flag">
+      <span class="golf-flag">
         <svg viewBox="0 0 24 24">
           <rect x="12" y="11" width="3" height="10" fill="#1e1450"/>
           <polygon points="12,13 20,10 12,7" fill="#fa709a"/>
         </svg>
       </span>
     </div>
-  <div id="tryagain" e-editable="Game Message: Try Again " class="tryagain hidden">Nice try! Give it another shot?</div>
+    <div id="tryagain" class="tryagain hidden">Nice try! Give it another shot?</div>
   </div>
 </div>
-</html>
-
-
 <script>
-// Dice game
-// randomize #s up to 10
-// 1 is the lucky number or hole in one
-
 document.addEventListener('DOMContentLoaded', () => {
   const closeBtn = document.getElementById('closegame');
   const golfDice = document.getElementById('golfDice');
@@ -373,72 +363,62 @@ document.addEventListener('DOMContentLoaded', () => {
   const discountDetails = document.getElementById('discountDetails');
   const overlay = document.getElementById('overlay');
   const header = document.getElementById('header');
-  
+
   closeBtn.addEventListener('click', () => {
-  overlay.style.display = 'none';
-  container.style.display = 'none';
-});
+    overlay.style.display = 'none';
+    container.style.display = 'none';
+    document.body.style.display = 'none';
+  });
 
-  
   let rolling = false;
-  let hasWon = false; // Track if user has already won
-  let tryAgainTimer = null; // Store timeout for "try again" message
+  let hasWon = false;
+  let tryAgainTimer = null;
 
-  // Dice click handler
   function handleDiceClick() {
-    if (rolling || hasWon) return; // Block play if rolling or after win
+    if (rolling || hasWon) return;
     rolling = true;
 
-    // Restart animation
-    // golfDice.classList.remove('rotate-90-horizontal-fwd');
-    // void golfDice.offsetWidth; // force reflow
-    // golfDice.classList.add('rotate-90-horizontal-fwd');
-
     golfDice.classList.remove('bounce-in-top');
-    void golfDice.offsetWidth; // force reflow
-   golfDice.classList.add('bounce-in-top');
-    
-    // Roll 1-10
+    void golfDice.offsetWidth;
+    golfDice.classList.add('bounce-in-top');
+
+    // Change these values to adjust behavior
+    const MAX_NUM = 10;
+    const TRY_AGAIN_DURATION = 2000;
+    const ANIMATION_DURATION = 800;
+
     setTimeout(() => {
-      const roll = Math.floor(Math.random() * 10) + 1;
+      const roll = Math.floor(Math.random() * MAX_NUM) + 1;
       golfDiceNumber.textContent = roll;
 
-      // Hide all messages before showing result
       message.classList.add('hidden');
       congrats.classList.add('hidden');
       claimBtn.classList.add('hidden');
       discountDetails.classList.add('hidden');
 
       if (roll === 1) {
-        // on win show congrats
-        // hide header and disable click
         congrats.classList.remove('hidden');
         claimBtn.classList.remove('hidden');
         header.style.display = 'none';
         hasWon = true;
-        golfDice.removeEventListener('click', handleDiceClick); // Prevent further play
+        golfDice.removeEventListener('click', handleDiceClick);
       } else {
-        // Show "try again" message 
         message.classList.remove('hidden');
         if (tryAgainTimer) clearTimeout(tryAgainTimer);
-        tryAgainTimer = setTimeout(() => message.classList.add('hidden'), 2000);
+        tryAgainTimer = setTimeout(() => message.classList.add('hidden'), TRY_AGAIN_DURATION);
       }
 
       golfDice.classList.remove('bounce-in-top');
       rolling = false;
-    }, 800);
+    }, ANIMATION_DURATION);
   }
 
-  // Attach dice click event
   golfDice.addEventListener('click', handleDiceClick);
 
-  // Claim reward button
   claimBtn.addEventListener('click', () => {
     claimBtn.classList.add('hidden');
     congrats.classList.add('hidden');
     discountDetails.classList.remove('hidden');
-
-    // Hide all after 5 seconds
     setTimeout(() => {
       discountDetails.classList.add('hidden');
       overlay.style.display = 'none';
@@ -448,3 +428,5 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
+</body>
+</html>
