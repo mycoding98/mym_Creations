@@ -47,16 +47,15 @@
   background: #1e1450;
   color: #fff;
 }
-body {
-  background: linear-gradient(to bottom, #117c13, #0b5209);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 90vh;
-  margin: 0;
-  font-family: brown-pro, sans-serif;
-}
+ body {
+      background: linear-gradient(to bottom, #117c13, #0b5209);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: brown-pro, sans-serif;
+    }
 
 .golf-dice-container {
   position: fixed;
@@ -327,8 +326,9 @@ body {
 <head> 
 <link rel="stylesheet" href="https://use.typekit.net/uxw3lja.css">
 </head>
-<div id="overlay"><div id="wpst-container" class="golf-dice-container">
-<div id="closegame" class="close ems-inapp-close" aria-labelledby="closebutton" e-editable="buttonClose" me-close e-editable="Close Button">close</div>
+<div id="overlay">
+  <div id="wpst-container" class="golf-dice-container">
+    <div id="closegame" class="close">✕</div>
 
 <div id="header" class="roll-instructions" e-editable="Headline">Click the golf ball to shoot a hole in one!</div>
 
@@ -344,14 +344,12 @@ body {
       <div class="golf-ball-shadow"></div>
     
         <!--flag --> 
-     <e-optionl name="Flag">
         <span class="golf-flag">
         <svg viewBox="0 0 24 24">
           <rect x="12" y="11" width="3" height="10" fill="#1e1450"/>
           <polygon points="12,13 20,10 12,7" fill="#fa709a"/>
         </svg>
       </span>
-     </e-optionl>
     </div>
   <div id="tryagain" e-editable="Game Message: Try Again " class="tryagain hidden">Nice try! Give it another shot?</div>
   </div>
@@ -377,10 +375,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const header = document.getElementById('header');
   
   closeBtn.addEventListener('click', () => {
-    overlay.style.display = 'none';
-    container.style.display = 'none';
-    document.body.style.display = 'none';
-  });
+  overlay.style.display = 'none';
+  container.style.display = 'none';
+});
+
   
   let rolling = false;
   let hasWon = false; // Track if user has already won
@@ -402,7 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Roll 1-10
     setTimeout(() => {
-      const roll = Math.floor(Math.random() * {variables.maxnum}) + 1;
+      const roll = Math.floor(Math.random() * 10) + 1;
       golfDiceNumber.textContent = roll;
 
       // Hide all messages before showing result
@@ -423,12 +421,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show "try again" message 
         message.classList.remove('hidden');
         if (tryAgainTimer) clearTimeout(tryAgainTimer);
-        tryAgainTimer = setTimeout(() => message.classList.add('hidden'), {variables.tryagains});
+        tryAgainTimer = setTimeout(() => message.classList.add('hidden'), 2000);
       }
 
       golfDice.classList.remove('bounce-in-top');
       rolling = false;
-    }, {variables.flips});
+    }, 800);
   }
 
   // Attach dice click event
@@ -446,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
       overlay.style.display = 'none';
       container.style.display = 'none';
       document.body.style.display = 'none';
-    }, {variables.wins});
+    }, 5000);
   });
 });
 </script>
