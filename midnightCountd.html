@@ -1,362 +1,160 @@
-<style>
-@import url("https://use.typekit.net/uxw3lja.css");
-@font-face {
-  font-family: brown-pro, sans-serif;
-  font-weight: 200;
-  font-style: normal;
-  font-family: brown-pro, sans-serif;
-  font-weight: 200;
-  font-style: italic;
-  font-family: brown-pro, sans-serif;
-  font-weight: 300;
-  font-style: normal;
-  font-family: brown-pro, sans-serif;
-  font-weight: 300;
-  font-style: italic;
-  font-family: brown-pro, sans-serif;
-  font-weight: 600;
-  font-style: normal;
-  font-family: brown-pro, sans-serif;
-  font-weight: 600;
-  font-style: italic;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Countdown Timer</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 90vh;
+      background-color: transparent;
+    }
 
-/* temporary css */
-/* 99 - EMS - Placeholder Desktop (do not change) */
+    .countdown-overlay {
+      box-sizing: border-box;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      z-index: 999999;
+      width: 100%;
+    }
 
-.wpst-template-overlay {
-  box-sizing: border-box;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 999999;
-}
+    .countdown-container {
+      text-align: center;
+      color: #ffffff;
+      background: linear-gradient(to bottom, #120C30 5.73%, #5154B6 103.34%);
+      padding: 2rem;
+      border-radius: 10px 10px 0 0;
+      width: 100%;
+      position: relative;
+    }
 
-.wpst-template * {
-  box-sizing: border-box;
-}
+    .countdown-title {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 1.2rem;
+      display: block;
+      color: #ffffff;
+    }
 
-.wpst-cta-container,
-.wpst-action-btn {
-  width: 100%;
-}
+    .countdown-timer {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      font-size: 2rem;
+      font-weight: bold;
+      padding: 8px;
+    }
 
-/* LINKS */
-.wpst-template a {
-  text-decoration: none;
-}
+    .time-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      padding: 14px;
+      min-width: 60px;
+    }
 
-.wpst-template .wpst-paragraph a,
-.wpst-template .wpst-asterisk-text a, 
-.wpst-template .wpst-paragraph a:link,
-.wpst-template .wpst-asterisk-text a:link,  
-.wpst-template .wpst-paragraph a:visited,
-.wpst-template .wpst-asterisk-text a:visited,
-.wpst-template .wpst-paragraph a:hover,
-.wpst-template .wpst-asterisk-text a:hover, 
-.wpst-template .wpst-paragraph a:active,
-.wpst-template .wpst-asterisk-text a:active {
-  font: inherit;
-  color: inherit;
-  text-decoration: underline;
-}
+    .time-box span {
+      font-size: 14px;
+      margin-top: 6px;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
 
-.wpst-submit a,
-.wpst-submit a:link,
-.wpst-submit a:visited,
-.wpst-submit a:hover,
-.wpst-submit a:active {
-  font-size: 16px;
-  font-weight: inherit;
-}
+    .cta-button {
+      display: block;
+      margin-top: 2rem;
+      padding: 15px 20px;
+      background-color: #3a2db8;
+      border: none;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
 
-/* IMAGES */
-.wpst-image {
-  width: 10px;
-  height: auto;
-}
+    .cta-button:hover {
+      background-color: #1e1450;
+    }
 
-.wpst-image[data-image-cover="true"] {
-  object-fit: cover;
-}
-
-.wpst-image[data-image-cover="false"] {
-  object-fit: contain;
-}
-
-.wpst-hero-image {
-  width: 10px;
-  height: auto;
-  border: none;
-}
-
-.wpst-logo {
-  max-width: 100px;
-  width: 40%;
-  margin-top: 40px;
-  border: none;
-}
-
-/* MOBILE */
-
-/* *********** MEDIA QUERIES ************ */
-@media only screen and (min-width: 1200px) {
-  #wpst-template-holder {
-    max-width: 900px;
-  }
-}
-
-/* MQ FOR PORTRAIT */
-@media only screen and (max-width: 480px) and (orientation: portrait), screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-  /* TEMPLATE */
-
-  /* 99 - EMS - Placeholder Mobile (do not change) */
-  
-  .wpst-template-overlay {
-    width: 100% !important;
-  }
-  .wpst-two-column {
-    flex-direction: column;
-  }
-  .wpst-two-column > div {
-    width: 100%;
-    border-top-left-radius: inherit;
-    border-top-right-radius: inherit;
-    border-bottom-left-radius: 0;
-  }
-  .wpst-flag {
-    width: 100%;
-    padding: 25px;
-  }
-  .wpst-text-container {
-    padding: 20px;
-  }
-
-  /* TITLE and PARAGRAPHES */
-  .wpst-title {
-    font-size: 6vw !important;
-    margin-bottom: 10px !important;
-  }
-  .wpst-subtitle {
-    font-size: 5vw !important;
-  }
-  .wpst-basetext {
-    font-size: 6vw !important;
-  }
-  .wpst-template .wpst-title-huge {
-    font-size: 11vw !important;
-  }
-  .wpst-paragraph  { 
-    padding: 0;
-    margin-bottom: 20px !important;
-    font-size: 4.5vw !important;
-  }
-
-  /* IMAGE */
-  .wpst-background-image {
-    padding: 20px;
-  }
-
-  .wpst-hero-image {
-    width: 100% !important;
-    height: auto;
-  }
-
-  .wpst-image-mobileHidden {
-    display: none !important;
-  }
-  .logo {
-    width: 40%;
-  }
-  /* LINKS */
-  .wpst-template .wpst-submit {
-    font-size: 4vw !important;
-  }
-}
-
-/* MQ FOR LANDSCAPE */
-@media only screen and (max-width: 896px) and (max-device-width: 1024px) and (orientation: landscape), screen and (max-device-width: 1279px) and (orientation: landscape) {
-  /* TEMPLATE */
-
-  .wpst-template-overlay {
-    width: 100%;
-  }
-  .wpst-two-column {
-    flex-direction: row;
-  }
-  .wpst-two-column > div {
-    width: 50%;
-  }
-  .wpst-flag {
-    width: 100%;
-    padding: 25px;
-  }
-  .wpst-text-container {
-    padding: 20px;
-  }
-  /* IMAGES */
-  .wpst-background-image {
-    padding: 20px;
-  }
-  .wpst-image-mobileHidden {
-    display: none !important;
-  }
-  .wpst-image-top {
-    max-height: 30vh;
-    object-fit: cover;
-  }
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: brown-pro, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 90vh;
-  background-color: transparent;
-}
-
-.wpst-countdown-container {
-  text-align: center;
-  color: #ffffff;
-  border: none;
-  background: linear-gradient(to bottom, #120C30 5.73%, #5154B6 103.34%);
-  padding: 2rem;
-  border-radius: 10px 10px 0 0;
-  width: 100%;
-  position: relative;
-}
-
-.wpst-countdown-title {
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 1.2rem;
-  display: block;
-  color: #ffffff;
-}
-
-.wpst-countdown-timer {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  font-size: 2rem;
-  font-weight: bold;
-  padding: 8px;
-}
-
-.wpst-time-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-  padding: 14px;
-  min-width: 60px;
-}
-
-.wpst-time-box span {
-  font-size: 16px;
-  margin: 10px;
-  color: #ffffff;
-  text-transform: uppercase;
-}
-
-/* CTA */
-.wpst-cta-button {
-  display: block;
-  margin-top: 2rem;
-  padding: 15px 20px;
-  background-color: /* Specify desired CTA background color, e.g., #1e1450 */;
-  border: none;
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: bold;
-  text-transform: uppercase;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 100%;
-}
-
-.wpst-cta-button:hover {
-  background-color: #1e1450;
-  cursor: pointer;
-}
-
-</style>
-
-
-<html>
-<head><link rel="stylesheet" href="https://use.typekit.net/uxw3lja.css"></head>
-<div class="wpst-template-overlay" role="dialog">
-  <div class="wpst-template">
-    <div class="wpst-countdown-container">
-      <div class="wpst-countdown-title" e-editable="title">Sale Ends In</div>
-      <div class="wpst-countdown-timer">
-        <div class="wpst-time-box">
-          <div class="wpst-hours" e-editable="hours">00</div>
-          <span e-editable="hour">Hours</span>
+    .logo {
+      margin-top: 20px;
+      max-width: 100px;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="countdown-overlay" role="dialog">
+    <div class="countdown-container">
+      <div class="countdown-title">Sale Ends In</div>
+      <div class="countdown-timer">
+        <div class="time-box">
+          <div id="hours">00</div>
+          <span>Hours</span>
         </div>
-        <div class="wpst-time-box">
-          <div class="wpst-minutes" e-editable="minutes">00</div>
-          <span e-editable="minute">Minutes</span>
+        <div class="time-box">
+          <div id="minutes">00</div>
+          <span>Minutes</span>
         </div>
-        <div class="wpst-time-box">
-          <div class="wpst-seconds" e-editable="seconds">00</div>
-          <span e-editable="second">Seconds</span>
+        <div class="time-box">
+          <div id="seconds">00</div>
+          <span>Seconds</span>
         </div>
       </div>
-      <div class="wpst-cta-container">
-        <a href="https://www.europeantour.com/dpworld-tour/"><div class="wpst-cta-button" me-close e-editable="cta">Shop Now</div></a>
-      </div><br>
-      <a href="https://www.europeantour.com/dpworld-tour/"><img e-editable="image_1" class="logo" src="https://links.em.rydercupeurope.com/custloads/885528449/MobileEngage/dpwW.png" alt="DP World Tour"/></a>
+      <div>
+        <a href="#"><div class="cta-button">Shop Now</div></a>
+      </div>
+      <img class="logo" src="https://placehold.co/100x40?text=Logo" alt="Logo"/>
     </div>
   </div>
-</div>
-</html>
 
-<script>
-// Find current time
-// Subtract time from midnight
+  <script>
+    function startCountdown() {
+      const hoursElement = document.getElementById("hours");
+      const minutesElement = document.getElementById("minutes");
+      const secondsElement = document.getElementById("seconds");
+      const intervalTime = 1000;
 
-function startCountdown() {
-  const hoursElement = document.querySelector('[e-editable="hours"]');
-  const minutesElement = document.querySelector('[e-editable="minutes"]');
-  const secondsElement = document.querySelector('[e-editable="seconds"]');
-  const intervalTime = 1000;
+      function updateCountdown() {
+        const now = new Date();
+        const midnight = new Date();
+        midnight.setHours(24, 0, 0, 0); // Next midnight
 
-  if (!hoursElement || !minutesElement || !secondsElement) return;
+        const timeRemaining = midnight - now;
+        const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
+        const seconds = Math.floor((timeRemaining / 1000) % 60);
 
-  function updateCountdown() {
-    const now = new Date();
-    const midnight = new Date();
-    midnight.setHours(24, 0, 0, 0);  // Set to next midnight
+        hoursElement.textContent = hours.toString().padStart(2, "0");
+        minutesElement.textContent = minutes.toString().padStart(2, "0");
+        secondsElement.textContent = seconds.toString().padStart(2, "0");
 
-    const timeRemaining = midnight - now;
-    const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
-    const seconds = Math.floor((timeRemaining / 1000) % 60);
+        if (timeRemaining <= 0) {
+          clearInterval(interval);
+          hoursElement.textContent = "00";
+          minutesElement.textContent = "00";
+          secondsElement.textContent = "00";
+        }
+      }
 
-    // Auto-update the values - can be updated
-    hoursElement.textContent = hours.toString().padStart(2, "0");
-    minutesElement.textContent = minutes.toString().padStart(2, "0");
-    secondsElement.textContent = seconds.toString().padStart(2, "0");
-
-    if (timeRemaining <= 0) {
-      clearInterval(interval);  // Clear the interval
-      hoursElement.textContent = "00";
-      minutesElement.textContent = "00";
-      secondsElement.textContent = "00";
+      updateCountdown();
+      const interval = setInterval(updateCountdown, intervalTime);
     }
-  }
 
-  updateCountdown();  // Run immediately
-  const interval = setInterval(updateCountdown, intervalTime);
-}
-
-document.addEventListener("DOMContentLoaded", startCountdown);
-
-</script>
+    document.addEventListener("DOMContentLoaded", startCountdown);
+  </script>
+</body>
+</html>
