@@ -3,7 +3,7 @@
 Welcome to my portfolio of custom builds and utilities! This repository contains a collection of web apps and coding experiments. Enjoy!
 
 
-### &#9758;  About Me (Personal Projects)
+### &#9758;  About Me
 These projects are deeply personal—each representing a piece of my story, my values, and the people (and pets!) important to me.
 
 - [clicktoReveal.html](./clicktoReveal.html): **About Me — Click to Reveal**  
