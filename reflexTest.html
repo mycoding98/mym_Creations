@@ -1,353 +1,305 @@
 <style>
-@import url("https://use.typekit.net/uxw3lja.css");
-@font-face {
-font-family: brown-pro, sans-serif;
-font-weight: 200;
-font-style: normal;
-font-family: brown-pro, sans-serif;
-font-weight: 200;
-font-style: italic;
-font-family: brown-pro, sans-serif;
-font-weight: 300;
-font-style: normal;
-font-family: brown-pro, sans-serif;
-font-weight: 300;
-font-style: italic;
-font-family: brown-pro, sans-serif;
-font-weight: 600;
-font-style: normal;
-font-family: brown-pro, sans-serif;
-font-weight: 600;
-font-style: italic;
-}
-
-div {
-  font-family: brown-pro, sans-serif;
-}
-
-#clicktoplay {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #035f38;
-  color: #fff;
-  font-size: 20px;
-  font-weight: bold;
-  padding: 20px 20px;
-  border-radius: 30px;
-  cursor: pointer;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-  user-select: none;
-  z-index: 20;
-}
-
-
-#closegame {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 10000;
-  padding: 8px 14px;
-  font-size: 16px;
-  cursor: pointer;
-  background: #eee;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  display: inline-block; 
-}
-
-#wpst-container {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background: linear-gradient(to bottom, #117c13, #0b5209);
-  top: 0;
-  left: 0;
-  z-index: 15;
-}
-
-
-.ball {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-image: url("https://links.em.rydercupeurope.com/custloads/885528449/MobileEngage/golfball.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  position: absolute;
-  cursor: pointer;
-  touch-action: manipulation;
-  outline: none;
-  border: 4px solid transparent;
-}
-
-
-.difficultySelect {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 20%;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  z-index: 20;
-  user-select: none;
-  font-family: inherit;
-  font-size: 16px;
-  padding: 0 5px;
-}
-.difficultySelect .selected {
-  padding: 10px 10px;
-  cursor: pointer;
-  border-radius: 8px;
-}
-.difficultySelect .select-options {
-  padding: 0 5px;
-  display: none;
-  list-style: none;
-  margin: 0; padding: 0;
-  background: #fff;
-  border-top: 1px solid #eee;
-  position: absolute;
-  top: 100%; left: 0; right: 0;
-  border-radius: 0 0 8px 8px;
-  box-shadow: 0 8px 24px #4603800f;
-}
-.difficultySelect.open .select-options {
-  display: block;
-}
-.difficultySelect .select-options li {
-  padding: 10px 16px;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-.difficultySelect .select-options li:hover,
-.difficultySelect .select-options li.selected {
-  background: #f8f8ff;
-  color: #8f5afd;
-}
-</style>
-
-<html>
-<head>
-  <link rel="stylesheet" href="https://use.typekit.net/uxw3lja.css">
-</head>
-<div id="clicktoplay" class="playbutton" e-editable="CTA">Click to play!</div>
-<button id="closegame" class="close ems-inapp-close" aria-labelledby="closebutton" e-editable="Close Button" me-close e-editable="Close Button">Close</button>
-<div id="wpst-container" style="display:none;">
-  <div class="difficultySelect" tabindex="0">
-    <div class="selected">Easy</div>
-    <ul class="select-options">
-      <li e-editable="Level 1" data-value="easy" class="selected">Easy</li>
-      <li e-editable="Level 2" data-value="medium">Medium</li>
-      <li e-editable="Level 3" data-value="hard">Hard</li>
-    </ul>
+  div {
+    font-family: Helvetica, sans-serif;
+  }
+  
+  /* Main "Click to Play" button */
+  #clicktoplay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #035f38;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 20px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    user-select: none;
+    z-index: 20;
+  }
+  
+  /* Close button (top-left corner) */
+  #closegame {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 10000;
+    padding: 8px 14px;
+    font-size: 16px;
+    cursor: pointer;
+    background: #eee;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: inline-block; 
+  }
+  
+  /* Game container with green gradient background */
+  #wpst-container {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #117c13, #0b5209);
+    top: 0;
+    left: 0;
+    z-index: 15;
+  }
+  
+  /* The falling golf balls */
+  .ball {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-image: url("https://i.postimg.cc/pLHn9b7L/golfball.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    cursor: pointer;
+    touch-action: manipulation;
+    outline: none;
+    border: 4px solid transparent;
+  }
+  
+  /* Difficulty dropdown (easy / medium / hard) */
+  .difficultySelect {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20%;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    z-index: 20;
+    user-select: none;
+    font-family: inherit;
+    font-size: 16px;
+    padding: 0 5px;
+  }
+  .difficultySelect .selected {
+    padding: 10px 10px;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  .difficultySelect .select-options {
+    padding: 0 5px;
+    display: none;
+    list-style: none;
+    margin: 0; padding: 0;
+    background: #fff;
+    border-top: 1px solid #eee;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 8px 24px #4603800f;
+  }
+  .difficultySelect.open .select-options {
+    display: block;
+  }
+  .difficultySelect .select-options li {
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .difficultySelect .select-options li:hover,
+  .difficultySelect .select-options li.selected {
+    background: #f8f8ff;
+    color: #8f5afd;
+  }
+  </style>
+  
+  <html>
+  <head></head>
+  <body>
+  <div id="clicktoplay" class="playbutton">Click to play!</div>
+  <button id="closegame" aria-labelledby="closebutton">Close</button>
+  <div id="wpst-container" style="display:none;">
+    <div class="difficultySelect" tabindex="0">
+      <div class="selected">Easy</div>
+      <ul class="select-options">
+        <li data-value="easy" class="selected">Easy</li>
+        <li data-value="medium">Medium</li>
+        <li data-value="hard">Hard</li>
+      </ul>
+    </div>
+    <div id="wpst-balls" class="golf-fall"></div>
   </div>
-  <div id="wpst-balls" class="golf-fall"></div>
-</div>
-
-</html>
-
-
-<script>
-	
-	// golf balls falling
-// columns or random
-// how many can you click? remove balls when clicked
-
-const container = document.getElementById('wpst-container');
-const ballsContainer = document.getElementById('wpst-balls');
-const customSelect = document.querySelector('.difficultySelect');
-const selectedDiv = customSelect.querySelector('.selected');
-const optionsList = customSelect.querySelector('.select-options');
-let currentDifficulty = 'easy';
-const clickToPlay = document.getElementById('clicktoplay');
-const closeBtn = document.getElementById('closegame');
-
-let balls = [];
-let animationFrameId = null;
-let spawnIntervalId = null;
-let hasStarted = false;
-let clickedCount = 0;
-
-const tallyDisplay = document.createElement('div');
-tallyDisplay.style.position = 'absolute';
-tallyDisplay.style.bottom = '10px';
-tallyDisplay.style.left = '10px';
-tallyDisplay.style.color = '#fff';
-tallyDisplay.style.fontSize = '18px';
-tallyDisplay.style.fontFamily = 'Arial, sans-serif';
-tallyDisplay.style.zIndex = '100';
-tallyDisplay.textContent = `Balls clicked: 0`;
-container.appendChild(tallyDisplay);
-
-// open/close dropdown
-selectedDiv.addEventListener('click', () => {
-  customSelect.classList.toggle('open');
-});
-// select option
-optionsList.addEventListener('click', (e) => {
-  if (e.target.tagName === 'LI') {
-    optionsList.querySelectorAll('li').forEach(li => li.classList.remove('selected'));
-    e.target.classList.add('selected');
+  </body>
+  </html>
+  
+  <script>
+    // === DOM HOOKS (grab everything up front) === //
+    const container = document.getElementById('wpst-container');
+    const ballsContainer = document.getElementById('wpst-balls');
+    const customSelect = document.querySelector('.difficultySelect');
+    const selectedDiv = customSelect.querySelector('.selected');
+    const optionsList = customSelect.querySelector('.select-options');
+    const clickToPlay = document.getElementById('clicktoplay');
+    const closeBtn = document.getElementById('closegame');
     
-    selectedDiv.textContent = e.target.textContent;
+    // game state trackers
+    let currentDifficulty = 'easy'; // default mode
+    let balls = [];
+    let animationFrameId = null;
+    let spawnIntervalId = null;
+    let clickedCount = 0;
     
-    currentDifficulty = e.target.getAttribute('data-value');
-    customSelect.classList.remove('open');
-    //restart if difficulty changed and game is going
-    if (container.style.display === 'block') startGame();
-  }
-});
-window.addEventListener('click', (e) => {
-  if (!customSelect.contains(e.target)) customSelect.classList.remove('open');
-});
-
-// Difficulty easy or hard: how many balls and speed
-// spawn rate - millisec
-// speed vertical pixel per frame
-const difficulties = {
-  easy: { spawnRate: 1500, speed: 1 },
-  medium: { spawnRate: 1000, speed: 2 },
-  hard: { spawnRate: 800, speed: 3 },
-};
-
-
-function createBall() {
-  const ball = document.createElement('div');
-  ball.className = 'ball';
-
-  // random horizontal spot
-  // Use getBoundingClientRect for up-to-date sizes in case of resize
-  const containerRect = container.getBoundingClientRect();
-  const maxX = Math.max(0, containerRect.width - 40);
-  ball.style.position = 'absolute';
-  ball.style.left = Math.random() * maxX + 'px';
-  ball.style.top = '-40px'; // start outside of screen
-
-  // ball tracking from start. position and state
-  const ballObj = { element: ball, y: -40, clicked: false };
-
-  function handleClick(e) {
-    if (!ballObj.clicked) {
-      ballObj.clicked = true;
-      clickedCount++;
+    // tally scoreboard (bottom-left corner)
+    const tallyDisplay = document.createElement('div');
+    tallyDisplay.style.position = 'absolute';
+    tallyDisplay.style.bottom = '10px';
+    tallyDisplay.style.left = '10px';
+    tallyDisplay.style.color = '#fff';
+    tallyDisplay.style.fontSize = '18px';
+    tallyDisplay.style.fontFamily = 'Helvetica, sans-serif';
+    tallyDisplay.style.zIndex = '100';
+    tallyDisplay.textContent = `Balls clicked: 0`;
+    container.appendChild(tallyDisplay);
+    
+    // === WINDOW LOAD (initial state setup) === //
+    window.onload = function () {
+      container.style.display = 'none';
+      ballsContainer.style.display = 'none';
+      customSelect.style.display = 'block';
+      closeBtn.style.display = 'inline-block';
+      clickToPlay.style.display = 'block';
+    };
+    
+    // === DIFFICULTY CONFIG === //
+    // spawn rate in ms + fall speed in px per frame
+    const difficulties = {
+      easy:   { spawnRate: 1500, speed: 1 },
+      medium: { spawnRate: 1000, speed: 2 },
+      hard:   { spawnRate: 800,  speed: 3 },
+    };
+    
+    // === DROPDOWN HANDLING === //
+    // open/close difficulty dropdown
+    selectedDiv.addEventListener('click', () => {
+      customSelect.classList.toggle('open');
+    });
+    
+    // selecting a new difficulty
+    optionsList.addEventListener('click', (e) => {
+      if (e.target.tagName === 'LI') {
+        optionsList.querySelectorAll('li').forEach(li => li.classList.remove('selected'));
+        e.target.classList.add('selected');
+        selectedDiv.textContent = e.target.textContent;
+        currentDifficulty = e.target.getAttribute('data-value');
+        customSelect.classList.remove('open');
+    
+        // if the game is running, restart it with new difficulty
+        if (container.style.display === 'block') startGame();
+      }
+    });
+    
+    // close dropdown if user clicks outside
+    window.addEventListener('click', (e) => {
+      if (!customSelect.contains(e.target)) customSelect.classList.remove('open');
+    });
+    
+    // === BALL CREATION === //
+    function createBall() {
+      const ball = document.createElement('div');
+      ball.className = 'ball';
+    
+      // random horizontal placement
+      const containerRect = container.getBoundingClientRect();
+      const maxX = Math.max(0, containerRect.width - 40);
+      ball.style.left = Math.random() * maxX + 'px';
+      ball.style.top = '-40px';
+    
+      // track this ball's state
+      const ballObj = { element: ball, y: -40, clicked: false };
+    
+      // handle user click/tap
+      function handleClick(e) {
+        if (!ballObj.clicked) {
+          ballObj.clicked = true;
+          clickedCount++;
+          tallyDisplay.textContent = `Balls clicked: ${clickedCount}`;
+          ball.remove();
+          e.stopPropagation && e.stopPropagation();
+        }
+      }
+      ball.addEventListener('click', handleClick);
+      ball.addEventListener('touchstart', handleClick);
+    
+      ballsContainer.appendChild(ball);
+      balls.push(ballObj);
+    }
+    
+    // === BALL MOVEMENT === //
+    function updateBalls() {
+      const speed = difficulties[currentDifficulty]?.speed || 1;
+    
+      for (let i = balls.length - 1; i >= 0; i--) {
+        const ballObj = balls[i];
+        if (ballObj.clicked) {
+          balls.splice(i, 1);
+          continue;
+        }
+    
+        ballObj.y += speed;
+        ballObj.element.style.top = ballObj.y + 'px';
+    
+        // cleanup if ball falls past bottom
+        if (ballObj.y > container.clientHeight) {
+          ballObj.element.remove();
+          balls.splice(i, 1);
+        }
+      }
+    }
+    
+    // animation loop
+    function animate() {
+      updateBalls();
+      animationFrameId = requestAnimationFrame(animate);
+    }
+    
+    // === START / STOP === //
+    function startGame() {
+      // clear existing game state
+      balls.forEach(b => b.element?.remove());
+      balls = [];
+      clearInterval(spawnIntervalId);
+      cancelAnimationFrame(animationFrameId);
+    
+      spawnIntervalId = setInterval(createBall, difficulties[currentDifficulty].spawnRate);
+      clickedCount = 0;
       tallyDisplay.textContent = `Balls clicked: ${clickedCount}`;
-      ball.remove();
-      // Prevent bubbling in case of overlapping balls
-      e.stopPropagation && e.stopPropagation();
+    
+      // show game elements
+      container.style.display = 'block';
+      ballsContainer.style.display = 'block';
+      customSelect.style.display = 'block';
+      closeBtn.style.display = 'inline-block';
+      clickToPlay.style.display = 'none';
+    
+      animate();
     }
-  }
-  ball.addEventListener('click', handleClick);
-  ball.addEventListener('touchstart', handleClick);
-
-  ballsContainer.appendChild(ball);
-  balls.push(ballObj);
-}
-
-// function updateBalls() {
-//   const difficulty = difficultySelect.value;
-//   const speed = difficulties[difficulty]?.speed || 1;
-
-//   for (let i = balls.length - 1; i >= 0; i--) {
-//     const ballObj = balls[i];
-//     if (ballObj.clicked) {
-//       balls.splice(i, 1);
-//       continue;
-//     }
-//     ballObj.y += speed;
-//     ballObj.element.style.top = ballObj.y + 'px';
-//   }
-// }
-
-function updateBalls() {
-  const speed = difficulties[currentDifficulty]?.speed || 1;
-
-  for (let i = balls.length - 1; i >= 0; i--) {
-    const ballObj = balls[i];
-    if (ballObj.clicked) {
-      balls.splice(i, 1);
-      continue;
+    
+    function stopGame() {
+      clearInterval(spawnIntervalId);
+      cancelAnimationFrame(animationFrameId);
+    
+      balls.forEach(b => b.element?.remove());
+      balls = [];
+      clickedCount = 0;
+      tallyDisplay.textContent = `Balls clicked: 0`;
+    
+      container.style.display = 'none';
+      ballsContainer.style.display = 'none';
+      customSelect.style.display = 'none';
+      closeBtn.style.display = 'none';
+      clickToPlay.style.display = 'none';
     }
-    ballObj.y += speed;
-    ballObj.element.style.top = ballObj.y + 'px';
-
-    // Remove balls that fall below the container
-    if (ballObj.y > container.clientHeight) {
-      ballObj.element.remove();
-      balls.splice(i, 1);
-    }
-  }
-}
-
-function animate() {
-  updateBalls();
-  animationFrameId = requestAnimationFrame(animate);
-}
-
-/* on game start animation
-   show close and difficulty
-*/
-function startGame() {
-  // Remove all balls when restarting
-  balls.forEach(b => {
-    if (b.element && b.element.parentNode) b.element.remove();
-  });
-  balls = [];
-  clearInterval(spawnIntervalId);
-  cancelAnimationFrame(animationFrameId);
-
-  spawnIntervalId = setInterval(createBall, difficulties[currentDifficulty].spawnRate);
-
-  hasStarted = true;
-  clickedCount = 0;
-  tallyDisplay.textContent = `Balls clicked: ${clickedCount}`;
-
-  container.style.display = 'block';
-  ballsContainer.style.display = 'block';
-  customSelect.style.display = 'block';
-  closeBtn.style.display = 'inline-block';
-  clickToPlay.style.display = 'none';
-
-  animate();
-}
-
-function stopGame() {
-  clearInterval(spawnIntervalId);
-  cancelAnimationFrame(animationFrameId);
-
-  // Remove all balls and clear
-  balls.forEach(b => {
-    if (b.element && b.element.parentNode) {
-      b.element.remove();
-    }
-  });
-  balls = [];
-
-  // Reset the click counter and tally
-  clickedCount = 0;
-  tallyDisplay.textContent = `Balls clicked: 0`;
-
-  // Hide everything
-  container.style.display = 'none';
-  ballsContainer.style.display = 'none';
-  customSelect.style.display = 'none';
-  closeBtn.style.display = 'none';
-  clickToPlay.style.display = 'none';
-}
-
-
-clickToPlay.addEventListener('click', startGame);
-closeBtn.addEventListener('click', stopGame);
-
-// play and close buttons shown immediately
-window.onload = function () {
-  container.style.display = 'none';
-  ballsContainer.style.display = 'none';
-  customSelect.style.display = 'block';
-  closeBtn.style.display = 'inline-block';
-  clickToPlay.style.display = 'block';
-};
-</script>
+    
+    // === BUTTON HOOKS === //
+    clickToPlay.addEventListener('click', startGame);
+    closeBtn.addEventListener('click', stopGame);
+    </script>
+    
+  
