@@ -1,463 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dialog Clock</title>
+<link href="https://fonts.googleapis.com/css?family=Montserrat:300,600&display=swap" rel="stylesheet">
 <style>
-/* latin-ext */
-@font-face {
-  font-family: 'Poppins';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/poppins/v22/pxiGyp8kv8JHgFVrJJLufntAOvWDSHFF.woff2) format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Poppins';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/poppins/v22/pxiGyp8kv8JHgFVrJJLucHtAOvWDSA.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Poppins';
-  font-style: italic;
-  font-weight: 600;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/poppins/v22/pxiDyp8kv8JHgFVrJJLmr19VGdeOYktMqlap.woff2) format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Poppins';
-  font-style: italic;
-  font-weight: 600;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/poppins/v22/pxiDyp8kv8JHgFVrJJLmr19VF9eOYktMqg.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Poppins';
-  font-style: italic;
-  font-weight: 700;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/poppins/v22/pxiDyp8kv8JHgFVrJJLmy15VGdeOYktMqlap.woff2) format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Poppins';
-  font-style: italic;
-  font-weight: 700;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/poppins/v22/pxiDyp8kv8JHgFVrJJLmy15VF9eOYktMqg.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 100;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/poppins/v22/pxiGyp8kv8JHgFVrLPTufntAOvWDSHFF.woff2) format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 100;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/poppins/v22/pxiGyp8kv8JHgFVrLPTucHtAOvWDSA.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/poppins/v22/pxiEyp8kv8JHgFVrJJnecnFHGPezSQ.woff2) format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/poppins/v22/pxiEyp8kv8JHgFVrJJfecnFHGPc.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/poppins/v22/pxiByp8kv8JHgFVrLEj6Z1JlFd2JQEl8qw.woff2) format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/poppins/v22/pxiByp8kv8JHgFVrLEj6Z1xlFd2JQEk.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/poppins/v22/pxiByp8kv8JHgFVrLCz7Z1JlFd2JQEl8qw.woff2) format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url(https://fonts.gstatic.com/s/poppins/v22/pxiByp8kv8JHgFVrLCz7Z1xlFd2JQEk.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
+  body {
+    margin:0;
+    background:#000;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+  }
 
-body {
-font-size:14px;
-}
+  .showcase-title {
+    color: #fff;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+    text-align: center;
+    font-weight: 600;
+    text-shadow: 0 2px 8px #0008;
+  }
 
-.overlay {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
+  .showcase-p {
+    color: #fff;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+    text-align: center;
+    font-weight: 300;
+    text-shadow: 0 2px 8px #0008;
+  }
 
-.overlay::after {
-  content: "";
-background-color: #000;
-opacity: 1;
-position: absolute;
-top: 0;
-bottom: 0;
-left: 0;
-right: 0;
-z-index: -1;
-}
+  .clock {
+    position:relative;
+    width:320px;
+    aspect-ratio:1/1;
+  }
 
-.centerwrap {
-  width:100%;
-  height:100%;
-  display:block;
-  display:-moz-box;
-  -moz-box-pack:center;
-  -moz-box-align:center;
-  display:-webkit-box;
-  -webkit-box-pack:center;
-  -webkit-box-align:center;
-  display: box;
-  box-pack:center;
-  box-align:center;
-   margin-left: auto;
-  margin-right: auto;
-  margin-bottom:0;
-   padding-top: 10px;
-}
+  .clock-face {
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    display:block;
+  }
 
-.modal {
-  width: 100%;
-  transition: all 1s ease-in-out;
-  position:relative;
-}
-
-h1 {
-  font-size:32px;
-  margin:0;
-  color: #e03e52;
-  padding:0 20px;
-text-align: center;
-  font-family:Poppins, sans-serif;
-  margin-top:48}px;
-  display: block;
-}
-
-.subheader {
-  color: #f4f4f4;
-  font-size: 16px;
-  display:block;
-  margin:0;
-  padding:0 20px;
-text-align: center;
-  font-family:Poppins, sans-serif;
-  margin-top:10px;
-   display:  ;
-}
-.wpst-clock {
-  width: 88%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 20px;
-  display: block;
-  position: relative;
-  overflow: hidden;
-  border: 5px solid #000;
-  border-radius:50%;
-}
-
-.centerclock {
-width:30px;
-   bottom: 48%;
-  left: 46%;
-  z-index: 999999;
-  position:absolute;
-}
-
-.wpst-hands {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.wpst-hands img {
-  position: absolute;
-  width: auto;
-  transform-origin: bottom center;
-  transform: translateX(-50%) rotate(0deg);
-  transition: transform 0.5s ease-in-out;
- 
-}
-
-.wpst-minutehand {
-  bottom: 2px;
-  z-index: 99999;
-  width: 40px;
-  display: block;
-transform-origin: bottom center;
-  height: 100px;
-  will-change:transform;
-}
-
-.wpst-secondhand {
-  bottom: 8px;
-  z-index: 99;
-  display: block;
-height: 130px;
-transform-origin: bottom center;
+  .hand {
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-100%) rotate(0deg);
+    transform-origin:50% 100%; /* rotate from base */
+    pointer-events:none;
     will-change:transform;
-}
-
-.wpst-hourhand {
-  bottom: 4px;
-  z-index: 99;
-  width: 10px;
-  height: 100px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  transform: translateX(-50%) rotate(0deg); /* Ensure it's not rotated on page load */
-  will-change:transform;
-}
-
-
-
-.wpst-bottomtext {
-  font-family:Poppins, sans-serif;
-  text-align: center;
-  font-size:18px;
-  padding-bottom: 14px;
-  padding-top: 8px;
-  color: #e03e52;
-text-align: center;
-  font-family:Poppins, sans-serif;
-
-  display: block;
-}
-
-.close {
-  border-radius:25px;
-  padding:4px 7px;
-background: #000;
-position: absolute;
-top: 10px;
-right: 10px;
-font-size: 14px;
-  font-weight: ;
-line-height:16px;
-text-decoration: none;
-color: #999999;
-display: block;
-  cursor: pointer;
-  font-family:Poppins, sans-serif;
-}
-
-.content {
-  overflow: hidden;
-  height:100%;
-  margin:0;
-background: #000;
-text-align:center;
-border-radius: 0px;
-}
-
-.textwrap {
-  margin:20px;
-  margin-bottom: 0px;
-}
-
-.button-container{
-  width: 100%;
-  text-align: center;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  padding-top:12px;
- margin:0;
-  position:relative;
-line-height: 1.4rem;
-}
-
-.button-container .column{
-  padding: 0;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-   margin: auto;
-  position: relative;
-  display: block;
-  font-family:Poppins, sans-serif;
-}
-
-.ems-inapp-button {
-  padding: 12px 0px;
-  display: block;
-  color: inherit;
-  text-decoration: none;
-  margin-right:10px;
-  margin-left:10px;
-  margin-bottom:0;
-  margin-top:0;
-background: #f07aa2;
-color: #000;
-font-size:18px;
-  font-weight: bold;
-  border:solid;
-border-width: 90%;
-border-radius: 4px;
-border-color: #f07aa2;
-  cursor: pointer;
-}
-
-@media only screen and (max-width:414px), screen and (max-device-width:768px) and (orientation:portrait) {
-  
-  .cta-right > span, .cta-left > span{
-    font-size:100%;
   }
-}
 
-@media screen and (orientation: landscape) {
-  .content {
-    display: table;
-    table-layout: fixed;
-    width: 100%;
+  /* layer order + lengths */
+  .hand-hour   { width:8px; height:80px;  z-index:3; }
+  .hand-minute { width:6px; height:110px; z-index:2; }
+  .hand-second { width:2px; height:120px; z-index:1; background:#e03e52; }
+
+  /* center cap to hide joints */
+  .center-pin {
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:16px; height:16px;
+    background:#000;
+    border-radius:50%;
+    z-index:5;
   }
-}
-
-.ems-inapp-button:not([contenteditable]) {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-}
-
-.ems-inapp-button--copied-to-clipboard .ems-inapp-button__label:after {
-  white-space: nowrap;
-  content: " ✓"
-}
 </style>
-<html>
-<div class="overlay">
-  <div class="centerwrap">
-    <div class="modal">
-      <div class="content">
-        <div me-close e-editable="buttonClose">
-           <a href="" class="close ems-inapp-close" me-close>close</a>
-        </div>
-        <div class="textwrap">
-          <h1 e-editable="title">HURRY</h1>
-          <p e-editable="body" class="subheader">You don't want to miss this</p>
-        </div>
-        <div class="imagewrap">
-          <img e-editable="clockimage" class="wpst-clock" src="{variables.clock}">
-        </div>
-        <div>
-        <img e-editable="center" class="centerclock" src="{variables.centerclock}">
-        </div>
-          <div class="wpst-hands"> 
-         <img e-editable="minute" class="wpst-minutehand" id="minuteHand" src="{variables.minutehand}">
-           <img e-editable="seconds" class="wpst-secondhand" id="secondHand" src="https://email.suntancity.com/custloads/815346277/md_1480214.png">
-          <img e-editable="hour" class="wpst-hourhand" id="hourHand" src="{variables.hourhand}">
-        </div>
-        <p e-editable="body" class="wpst-bottomtext">Limited Time Offer</p>
-        <div class="button-container">
-          <div class="column">
-            <div class="ems-inapp-button" e-editable="button1" me-close="">
-              <span class="ems-inapp-button__label">SHOP NOW</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+</head>
+<body>
+  <div class="showcase-title">What time is it?</div>
+  <div class="showcase-p">Dialog Clock &nbsp;|&nbsp; JavaScript, HTML, CSS</div>
+  <div class="clock">
+    <img src="https://i.postimg.cc/y6vC2Fhk/clock.png" class="clock-face" alt="Clock face">
+
+    <!-- hands -->
+    <img id="hourHand"   src="https://i.postimg.cc/h4pRN98z/hourhand.png"   class="hand hand-hour" alt="Hour hand">
+    <img id="minuteHand" src="https://i.postimg.cc/05c1hpGK/newminute.png"  class="hand hand-minute" alt="Minute hand">
+    <img id="secondHand" src="https://i.postimg.cc/xjtVBKGb/secondhand.png" class="hand hand-second" alt="Second hand">
+
+    <div class="center-pin"></div>
   </div>
-</div>
 
-</html>
 <script>
-/*
-Get current time
-degrees for each hand
-rotate hands per degree
-repaeat per second
+  // grab hand elements
+  const hourHand   = document.getElementById("hourHand");
+  const minuteHand = document.getElementById("minuteHand");
+  const secondHand = document.getElementById("secondHand");
 
-*/
+  // rotate helper
+  function rotate(el, deg) {
+    el.style.transform = `translate(-50%,-100%) rotate(${deg}deg)`;
+  }
 
-const secondHand = document.querySelector(".wpst-secondhand");
-const minuteHand = document.querySelector(".wpst-minutehand");
-const hourHand = document.querySelector(".wpst-hourhand");
+  // main updater
+  function updateClock() {
+    const now = new Date();
+    const sec = now.getSeconds();
+    const min = now.getMinutes();
+    const hr  = now.getHours() % 12;
 
-function setClockRotation() {
-  const now = new Date(); //Current time of date
-  const seconds = now.getSeconds();
-  const minutes = now.getMinutes();
-  const hours = now.getHours() % 12; // Convert to 12-hour format
-  const secondDeg = seconds * 6; // Each second is equivalent to 6 degrees | 360 / 60 = 6degrees
-  const minuteDeg = minutes * 6 + seconds * 0.1; // Each minute is also 6 degrees, plus the gradual second
-  const hourDeg = hours * 30 + minutes * 0.5; // Each hour corresponds to 30 degrees, plus the gradual minute 
-  
-   // Smooth transition instead of snapping to reset
-  secondHand.style.transition = "transform 0.01s linear";  // Smooth transitions instead of snapping
-  
-  // Set rotation for each hand based on calculated degrees
-  secondHand.style.transform = `translateX(-50%) rotate(${secondDeg}deg)`;
-  minuteHand.style.transform = `translateX(-50%) rotate(${minuteDeg}deg)`;
-  hourHand.style.transform = `translateX(-50%) rotate(${hourDeg}deg)`;
-}
+    // calculate angles
+    const secDeg = sec * 6;
+    const minDeg = min * 6 + sec * 0.1; // smooth minute
+    const hrDeg  = hr * 30 + min * 0.5; // smooth hour
 
-function updateClock() {
-  setClockRotation(); // Set initial rotation immediately
-  setInterval(setClockRotation, 1000); // Continue updating every second
-}
+    // apply rotations
+    rotate(secondHand, secDeg);
+    rotate(minuteHand, minDeg);
+    rotate(hourHand, hrDeg);
+  }
 
-// Start clock rotation when the DOM is ready
-document.addEventListener("DOMContentLoaded", function() {
-  updateClock(); 
-});
+  // init + tick
+  updateClock();
+  setInterval(updateClock, 1000);
 
-
-
-
+  // note: could use requestAnimationFrame for smoother sweep seconds
 </script>
+</body>
+</html>
